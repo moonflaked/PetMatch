@@ -39,7 +39,7 @@ class _CategoryPageState extends State<CategoryPage> {
             onPressed: () {
 
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.notifications_sharp,
               color: Colors.black,
             )
@@ -55,19 +55,19 @@ class _CategoryPageState extends State<CategoryPage> {
               onPressed: () {
 
               },
-              icon: Icon(Icons.home_sharp)
+              icon: const Icon(Icons.home_sharp)
             ),
             IconButton(
                 onPressed: () {
 
                 },
-                icon: Icon(Icons.settings_sharp)
+                icon: const Icon(Icons.settings_sharp)
             ),
             IconButton(
                 onPressed: () {
 
                 },
-                icon: Icon(Icons.person_sharp)
+                icon: const Icon(Icons.person_sharp)
             ),
           ]
         )
