@@ -21,6 +21,7 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
+// Sets up the bottom navigation bar and the top app bar of the category page
 class CategoryPage extends StatefulWidget {
   const CategoryPage({super.key});
 
@@ -74,9 +75,181 @@ class _CategoryPageState extends State<CategoryPage> {
           ]
         )
       ),
+      body: const CategoryBody()
     );
   }
 }
+
+// Creates the body of the category page
+class CategoryBody extends StatefulWidget {
+  const CategoryBody({super.key});
+
+  @override
+  State<CategoryBody> createState() => _CategoryBodyState();
+}
+
+class _CategoryBodyState extends State<CategoryBody> {
+  @override
+  Widget build(BuildContext context) {
+    return const Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        LocationSection(),
+        CategoryScrollSection(),
+        CategoryButton(categoryName: "hello")
+      ]
+    );
+  }
+}
+
+// Creates the location section at the top of the category page
+class LocationSection extends StatefulWidget {
+  final String currentLocation = "135 Saint-Croix,Montreal,QC";
+  const LocationSection({super.key});
+
+  @override
+  State<LocationSection> createState() => _LocationSectionState();
+}
+
+class _LocationSectionState extends State<LocationSection> {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+        padding: const EdgeInsets.all(15),
+        child: Row(
+            children: [
+              Container(
+                color: Colors.grey[400],
+                padding: const EdgeInsets.symmetric(
+                  vertical: 8,
+                  horizontal: 16,
+                ),
+                child: const Icon(
+                    Icons.location_on_outlined,
+                    size: 36,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 8.0,
+                  horizontal: 16.0
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.only(
+                        left: 6.5,
+                        bottom: 4.0,
+                      ),
+                      child: const Text(
+                          "Your location",
+                          style: TextStyle(
+                            color: Colors.black54
+                          )
+                      )
+                    ),
+                    Row(
+                        children: [
+                          const Icon(Icons.location_on_sharp),
+                          Text(
+                            widget.currentLocation
+                          )
+                        ]
+                    )
+                  ]
+                ),
+              )
+            ]
+        )
+    );
+  }
+}
+
+class CategoryScrollSection extends StatefulWidget {
+  const CategoryScrollSection({super.key});
+
+  @override
+  State<CategoryScrollSection> createState() => _CategoryScrollSectionState();
+}
+
+class _CategoryScrollSectionState extends State<CategoryScrollSection> {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.only(
+              left: 14.0
+            ),
+            child: const Text(
+                "Categories",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16
+                )
+            ),
+          ),
+        ]
+    );
+  }
+}
+
+class CategoryButton extends StatefulWidget {
+  final String categoryName;
+  const CategoryButton({super.key, required this.categoryName});
+
+  @override
+  State<CategoryButton> createState() => _CategoryButtonState();
+}
+
+
+class _CategoryButtonState extends State<CategoryButton> {
+  bool buttonPressed = false;
+  @override
+  Widget build(BuildContext context) {
+    return OutlinedButton(
+      onPressed: () {
+        if(buttonPressed == false) {
+          buttonPressed = !buttonPressed;
+        }
+        setState(() {});
+      },
+      // Add a style to the button because we want to edit the border
+      // and its width
+      style: ButtonStyle(
+        // Set the minimum size of the button
+        minimumSize: MaterialStateProperty.all(
+          const Size(100, 35)
+        ),
+        backgroundColor: MaterialStateProperty.all(
+          buttonPressed ? Colors.grey[400] : Colors.white
+        ),
+        // Change the width of the border of the button
+        side: MaterialStateProperty.all(
+          const BorderSide(
+            width: 1,
+            color: Colors.black,
+          )
+        ),
+        // Add the rounded border to the button and customize its radius
+        shape: MaterialStateProperty.all(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(14.0),
+          )
+        ),
+      ),
+      child: Text(
+          widget.categoryName,
+          style: const TextStyle(
+            color: Colors.black
+          )
+      ),
+    );
+  }
+}
+
+
 
 
 
