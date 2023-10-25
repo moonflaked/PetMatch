@@ -44,15 +44,9 @@ class _LoginState extends State<Login> {
             child: Center(
               child: Column(
                 children: [
-                  SizedBox(height: 100),
-                  Container(
-                      child: Text("Login",style: TextStyle(
-                          color: Colors.orangeAccent,
-                          fontSize: 50,
-                          fontWeight: FontWeight.bold
-                      ),)
-                  ),
-                  SizedBox(height: 120),
+                  SizedBox(height: 40),
+                  Image.asset("assets/images/logo.png", width: 200,),
+                  SizedBox(height: 50),
                   TextField(
                     style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 20),
                     controller: username,
@@ -68,7 +62,7 @@ class _LoginState extends State<Login> {
                         fillColor: Colors.orangeAccent,filled: true
                     ),
                   ),
-                  SizedBox(height: 60),
+                  SizedBox(height: 40),
                   TextField(
                     style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 20),
                     controller: password,
@@ -84,7 +78,8 @@ class _LoginState extends State<Login> {
                         fillColor: Colors.orangeAccent,filled: true
                     ),
                   ),
-                  SizedBox(height: 60),
+                  SizedBox(height: 40),
+                  SizedBox(width: 150,height: 40,child:
                   ElevatedButton(onPressed: (){
 
                   }, child: Text("Login",style:TextStyle(
@@ -95,8 +90,27 @@ class _LoginState extends State<Login> {
                     style: ButtonStyle(
                       backgroundColor: MaterialStateColor.resolveWith((states) => Colors.orangeAccent),
                       elevation: MaterialStateProperty.all(10),
+
                     ),
                   ),
+                  ),
+                  SizedBox(height: 30,),
+                  SizedBox(width: 150,height: 40,child:
+                  ElevatedButton(onPressed: (){
+
+                  }, child: Text("SignUp",style:TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),),
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateColor.resolveWith((states) => Colors.orangeAccent),
+                      elevation: MaterialStateProperty.all(10),
+
+                    ),
+                  ),
+                  ),
+
                 ],
               ),
             ),

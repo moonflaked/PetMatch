@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:petmatch/category_page.dart';
+import 'package:petmatch/login_page.dart';
 
 
 void main(){
@@ -33,10 +34,12 @@ class _SplashScreenState extends State<SplashScreen> {
     // TODO: implement initState
     super.initState();
     Timer(
-        Duration(seconds: 3),
+        Duration(seconds: 5),
             () =>
             Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (BuildContext context) => CategoryPage())));
+                builder: (BuildContext context) => Login())
+            )
+    );
   }
 
   @override
