@@ -16,6 +16,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return const MaterialApp(
       home: CategoryPage(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
@@ -32,8 +33,9 @@ class _CategoryPageState extends State<CategoryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        leading: Image.asset("assets/images/logo.jpg"),
+        backgroundColor: Colors.blueGrey,
+        leading: Image.asset("assets/images/logo.png"),
+        leadingWidth: 80,
         actions: [
           IconButton(
             onPressed: () {
@@ -47,7 +49,7 @@ class _CategoryPageState extends State<CategoryPage> {
         ]
       ),
       bottomNavigationBar: BottomAppBar(
-        color: Colors.white,
+        color: Colors.blueGrey,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
