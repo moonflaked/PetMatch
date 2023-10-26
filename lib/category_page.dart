@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,6 +18,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       home: CategoryPage(),
       debugShowCheckedModeBanner: false,
+
     );
   }
 }
@@ -185,15 +187,19 @@ class _CategoryScrollSectionState extends State<CategoryScrollSection> {
       globKey.currentState?.resetButtonColor();
     }
   }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
 
-  Future<void> setFirstButtonPressed() async{
-    await Future.delayed(Duration.zero);
-    _CategoryScrollSectionState.listOfCategoryBtnKeys[0].currentState?.setButtonPressed();
   }
+
 
   @override
   Widget build(BuildContext context) {
-    setFirstButtonPressed();
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+      _CategoryButtonState.setFirstButtonPressed();
+    });
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -231,7 +237,6 @@ class _CategoryScrollSectionState extends State<CategoryScrollSection> {
                       categoryName: listOfCategories[pIndex]
                     );
 
-
                     listOfCategoryBtnKeys.add(categoryBtnGlobalKey);
                     return newCategoryButton;
                   }
@@ -254,6 +259,10 @@ class CategoryButton extends StatefulWidget {
 
 class _CategoryButtonState extends State<CategoryButton> {
   Color? buttonColor = Colors.white;
+
+  static void setFirstButtonPressed() {
+    _CategoryScrollSectionState.listOfCategoryBtnKeys[0].currentState?.setButtonPressed();
+  }
   void resetButtonColor() {
     buttonColor = Colors.white;
     setState(() {});
@@ -263,6 +272,7 @@ class _CategoryButtonState extends State<CategoryButton> {
     buttonColor = Colors.grey[400];
     setState(() {});
   }
+
   @override
   Widget build(BuildContext context) {
 
