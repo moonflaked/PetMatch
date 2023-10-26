@@ -96,7 +96,7 @@ class _CategoryBodyState extends State<CategoryBody> {
       children: [
         LocationSection(),
         CategoryScrollSection(),
-        CategoryButton(categoryName: "hello")
+        //CategoryButton(categoryName: "hello")
       ]
     );
   }
@@ -174,13 +174,16 @@ class CategoryScrollSection extends StatefulWidget {
 }
 
 class _CategoryScrollSectionState extends State<CategoryScrollSection> {
+  List<String> listOfCategories = <String>["Dogs", "Cats", "Hamsters", "Hamsters", "Hamsters", "Hamsters", "Hamsters"];
   @override
   Widget build(BuildContext context) {
     return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            padding: const EdgeInsets.only(
-              left: 14.0
+            margin: const EdgeInsets.only(
+              left: 15.0,
+              bottom: 10.0,
             ),
             child: const Text(
                 "Categories",
@@ -190,6 +193,26 @@ class _CategoryScrollSectionState extends State<CategoryScrollSection> {
                 )
             ),
           ),
+          SizedBox(
+            height: 35,
+            child: Scrollbar(
+              child: ListView.builder(
+                  padding: const EdgeInsets.only(
+                    bottom: 8.0
+                  ),
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: listOfCategories.length,
+                  itemBuilder: (BuildContext pContext, int pIndex) {
+                    return CategoryButton(categoryName: listOfCategories[pIndex]);
+                  }
+              ),
+            ),
+          )
+
+
+
+
         ]
     );
   }
@@ -208,43 +231,49 @@ class _CategoryButtonState extends State<CategoryButton> {
   bool buttonPressed = false;
   @override
   Widget build(BuildContext context) {
-    return OutlinedButton(
-      onPressed: () {
-        if(buttonPressed == false) {
-          buttonPressed = !buttonPressed;
-        }
-        setState(() {});
-      },
-      // Add a style to the button because we want to edit the border
-      // and its width
-      style: ButtonStyle(
-        // Set the minimum size of the button
-        minimumSize: MaterialStateProperty.all(
-          const Size(100, 35)
-        ),
-        backgroundColor: MaterialStateProperty.all(
-          buttonPressed ? Colors.grey[400] : Colors.white
-        ),
-        // Change the width of the border of the button
-        side: MaterialStateProperty.all(
-          const BorderSide(
-            width: 1,
-            color: Colors.black,
-          )
-        ),
-        // Add the rounded border to the button and customize its radius
-        shape: MaterialStateProperty.all(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(14.0),
-          )
-        ),
+    return Container(
+      margin: const EdgeInsets.symmetric(
+        horizontal: 4.0
       ),
-      child: Text(
-          widget.categoryName,
-          style: const TextStyle(
-            color: Colors.black
-          )
-      ),
+      height: 30,
+      child: OutlinedButton(
+        onPressed: () {
+          if(buttonPressed == false) {
+            buttonPressed = !buttonPressed;
+          }
+          setState(() {});
+        },
+        // Add a style to the button because we want to edit the border
+        // and its width
+        style: ButtonStyle(
+          // Set the minimum size of the button
+          minimumSize: MaterialStateProperty.all(
+              const Size(100, 35)
+          ),
+          backgroundColor: MaterialStateProperty.all(
+              buttonPressed ? Colors.grey[400] : Colors.white
+          ),
+          // Change the width of the border of the button
+          side: MaterialStateProperty.all(
+              const BorderSide(
+                width: 1,
+                color: Colors.black,
+              )
+          ),
+          // Add the rounded border to the button and customize its radius
+          shape: MaterialStateProperty.all(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(14.0),
+              )
+          ),
+        ),
+        child: Text(
+            widget.categoryName,
+            style: const TextStyle(
+                color: Colors.black
+            )
+        ),
+      )
     );
   }
 }

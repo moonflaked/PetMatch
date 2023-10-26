@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:petmatch/signup_page.dart';
 
 void main(){
-  runApp(Login());
+  runApp(const Login());
 }
 
 class Login extends StatefulWidget {
@@ -25,10 +25,10 @@ class _LoginState extends State<Login> {
     // TODO: implement initState
     super.initState();
     Timer(
-        Duration(seconds: 3),
+        const Duration(seconds: 3),
             () =>
             Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (BuildContext context) => SignUp())));
+                builder: (BuildContext context) => const SignUp())));
   }
 
   @override
@@ -39,75 +39,75 @@ class _LoginState extends State<Login> {
           resizeToAvoidBottomInset: true,
 
           body: Container(
-            padding: EdgeInsets.all(20),
+            padding: const EdgeInsets.all(20),
             color: Colors.blueGrey,
             child: Center(
               child: Column(
                 children: [
-                  SizedBox(height: 40),
+                  const SizedBox(height: 40),
                   Image.asset("assets/images/logo.png", width: 200,),
-                  SizedBox(height: 50),
+                  const SizedBox(height: 50),
                   TextField(
-                    style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 20),
+                    style: const TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 20),
                     controller: username,
                     decoration: InputDecoration(
-                        border: OutlineInputBorder(
+                        border: const OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(20),),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide: const BorderSide(color: Colors.white, width: 2.0),
                           borderRadius: BorderRadius.circular(25.0),
                         ),
-                        label: Text("Username"),
+                        label: const Text("Username"),
                         fillColor: Colors.orangeAccent,filled: true
                     ),
                   ),
-                  SizedBox(height: 40),
+                  const SizedBox(height: 40),
                   TextField(
-                    style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 20),
+                    style: const TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 20),
                     controller: password,
                     decoration: InputDecoration(
-                        border: OutlineInputBorder(
+                        border: const OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(20),),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide: const BorderSide(color: Colors.white, width: 2.0),
                           borderRadius: BorderRadius.circular(25.0),
                         ),
-                        label: Text("Password"),
+                        label: const Text("Password"),
                         fillColor: Colors.orangeAccent,filled: true
                     ),
                   ),
-                  SizedBox(height: 40),
+                  const SizedBox(height: 40),
                   SizedBox(width: 150,height: 40,child:
                   ElevatedButton(onPressed: (){
 
-                  }, child: Text("Login",style:TextStyle(
-                    color: Colors.black,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),),
+                  },
                     style: ButtonStyle(
                       backgroundColor: MaterialStateColor.resolveWith((states) => Colors.orangeAccent),
                       elevation: MaterialStateProperty.all(10),
 
-                    ),
-                  ),
-                  ),
-                  SizedBox(height: 30,),
-                  SizedBox(width: 150,height: 40,child:
-                  ElevatedButton(onPressed: (){
-
-                  }, child: Text("SignUp",style:TextStyle(
+                    ), child: const Text("Login",style:TextStyle(
                     color: Colors.black,
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),),
+                  ),
+                  ),
+                  const SizedBox(height: 30,),
+                  SizedBox(width: 150,height: 40,child:
+                  ElevatedButton(onPressed: (){
+
+                  },
                     style: ButtonStyle(
                       backgroundColor: MaterialStateColor.resolveWith((states) => Colors.orangeAccent),
                       elevation: MaterialStateProperty.all(10),
 
-                    ),
+                    ), child: const Text("SignUp",style:TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),),
                   ),
                   ),
 

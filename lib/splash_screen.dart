@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:petmatch/category_page.dart';
 import 'package:petmatch/login_page.dart';
 
 
@@ -13,7 +12,7 @@ class Splash extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: SplashScreen(),
       debugShowCheckedModeBanner: false,
     );
@@ -34,10 +33,10 @@ class _SplashScreenState extends State<SplashScreen> {
     // TODO: implement initState
     super.initState();
     Timer(
-        Duration(seconds: 5),
+        const Duration(seconds: 5),
             () =>
             Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (BuildContext context) => Login())
+                builder: (BuildContext context) => const Login())
             )
     );
   }
@@ -54,14 +53,14 @@ class _SplashScreenState extends State<SplashScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Image.asset("assets/images/logo.png"),
-                Text("Getting ready! Be Patient ;)",
+                const Text("Getting ready! Be Patient ;)",
                     style: TextStyle(
                       fontSize: 20,
                       color: Colors.blue,
                       fontWeight: FontWeight.bold
                     )
                 ),
-                CircularProgressIndicator(color: Colors.yellow,strokeAlign: 3,)
+                const CircularProgressIndicator(color: Colors.yellow,strokeAlign: 3,)
               ],
 
             ),
