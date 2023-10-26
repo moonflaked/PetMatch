@@ -14,7 +14,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       home: CategoryPage(),
       debugShowCheckedModeBanner: false,
     );
@@ -175,19 +175,25 @@ class CategoryScrollSection extends StatefulWidget {
 
 class _CategoryScrollSectionState extends State<CategoryScrollSection> {
   static List<String> listOfCategories = <String>["Dogs", "Cats", "Hamsters", "Hamsters", "Hamsters", "Hamsters", "Hamsters"];
-  static List<GlobalKey<_CategoryButtonState>> listOfCategoryKeys = [];
+  static List<GlobalKey<_CategoryButtonState>> listOfCategoryBtnKeys = [];
   // This scroll controller is used to control the scrollbar on the category button section
   static ScrollController categoryScrollController = ScrollController();
 
-  static void resetButtonColors() {
-    for(GlobalKey<_CategoryButtonState> globalKey in listOfCategoryKeys) {
-      // Use the global key of the category buttons to
-      // reset all buttons to have a white background color
-      globalKey.currentState?.resetButtonColor();
+  static void setButtonsUnpressed() {
+    // A function to reset the colors of all buttons to white
+    for(GlobalKey<_CategoryButtonState> globKey in listOfCategoryBtnKeys) {
+      globKey.currentState?.resetButtonColor();
     }
   }
+
+  Future<void> setFirstButtonPressed() async{
+    await Future.delayed(Duration.zero);
+    _CategoryScrollSectionState.listOfCategoryBtnKeys[0].currentState?.setButtonPressed();
+  }
+
   @override
   Widget build(BuildContext context) {
+    setFirstButtonPressed();
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -219,19 +225,19 @@ class _CategoryScrollSectionState extends State<CategoryScrollSection> {
                   scrollDirection: Axis.horizontal,
                   itemCount: listOfCategories.length,
                   itemBuilder: (BuildContext pContext, int pIndex) {
-                    // Create a new button using a global key so we can reset the colors
-                    // of the buttons by accessing their global key
-                    GlobalKey<_CategoryButtonState> categoryButtonKey = GlobalKey<_CategoryButtonState>();
+                    GlobalKey<_CategoryButtonState> categoryBtnGlobalKey = GlobalKey<_CategoryButtonState>();
                     CategoryButton newCategoryButton = CategoryButton(
-                        key: categoryButtonKey,
-                        categoryName: listOfCategories[pIndex]
+                      key: categoryBtnGlobalKey,
+                      categoryName: listOfCategories[pIndex]
                     );
-                    listOfCategoryKeys.add(categoryButtonKey);
+
+
+                    listOfCategoryBtnKeys.add(categoryBtnGlobalKey);
                     return newCategoryButton;
                   }
               ),
             ),
-          )
+          ),
         ]
     );
   }
@@ -242,7 +248,6 @@ class CategoryButton extends StatefulWidget {
   final String categoryName;
 
   const CategoryButton({super.key, required this.categoryName});
-
   @override
   State<CategoryButton> createState() => _CategoryButtonState();
 }
@@ -253,8 +258,14 @@ class _CategoryButtonState extends State<CategoryButton> {
     buttonColor = Colors.white;
     setState(() {});
   }
+  void setButtonPressed() {
+    // Change the color of the button to set the button as pressed
+    buttonColor = Colors.grey[400];
+    setState(() {});
+  }
   @override
   Widget build(BuildContext context) {
+
     return Container(
       margin: const EdgeInsets.symmetric(
         horizontal: 4.0
@@ -262,11 +273,8 @@ class _CategoryButtonState extends State<CategoryButton> {
       height: 30,
       child: OutlinedButton(
         onPressed: () {
-          // Reset all the buttons' colors before setting the current instance's background
-          // color to grey
-          _CategoryScrollSectionState.resetButtonColors();
-          buttonColor = Colors.grey[400];
-          setState(() {});
+          _CategoryScrollSectionState.setButtonsUnpressed();
+          setButtonPressed();
         },
         // Add a style to the button because we want to edit the border
         // and its width
