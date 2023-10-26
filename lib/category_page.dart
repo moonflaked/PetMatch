@@ -15,7 +15,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: CategoryPage(),
       debugShowCheckedModeBanner: false,
 
@@ -186,12 +186,6 @@ class _CategoryScrollSectionState extends State<CategoryScrollSection> {
     for(GlobalKey<_CategoryButtonState> globKey in listOfCategoryBtnKeys) {
       globKey.currentState?.resetButtonColor();
     }
-  }
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-
   }
 
 
