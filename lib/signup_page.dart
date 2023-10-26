@@ -37,7 +37,7 @@ class _SignUpState extends State<SignUp> {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         home:Scaffold(
-          resizeToAvoidBottomInset: true,
+          resizeToAvoidBottomInset: false,
 
           body: Container(
             padding: const EdgeInsets.all(20),

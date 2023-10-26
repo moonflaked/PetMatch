@@ -1,5 +1,7 @@
 
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 void main(){
@@ -22,11 +24,11 @@ class _LoginState extends State<Login> {
   void initState() {
     // TODO: implement initState
     super.initState();
-   /* Timer(
+    Timer(
         const Duration(seconds: 3),
             () =>
             Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (BuildContext context) => const SignUp())));*/
+                builder: (BuildContext context) => const SignUp())));
   }
 
   @override
@@ -34,7 +36,7 @@ class _LoginState extends State<Login> {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         home:Scaffold(
-          resizeToAvoidBottomInset: true,
+          resizeToAvoidBottomInset: false,
 
           body: Container(
             padding: const EdgeInsets.all(20),
