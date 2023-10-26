@@ -1,8 +1,6 @@
 
-import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:petmatch/signup_page.dart';
 
 void main(){
   runApp(const Login());
