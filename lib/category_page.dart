@@ -174,7 +174,18 @@ class CategoryScrollSection extends StatefulWidget {
 }
 
 class _CategoryScrollSectionState extends State<CategoryScrollSection> {
-  List<String> listOfCategories = <String>["Dogs", "Cats", "Hamsters", "Hamsters", "Hamsters", "Hamsters", "Hamsters"];
+  static List<String> listOfCategories = <String>["Dogs", "Cats", "Hamsters", "Hamsters", "Hamsters", "Hamsters", "Hamsters"];
+  static List<GlobalKey<_CategoryButtonState>> listOfCategoryKeys = [];
+  // This scroll controller is used to control the scrollbar on the category button section
+  static ScrollController categoryScrollController = ScrollController();
+
+  static void resetButtonColors() {
+    for(GlobalKey<_CategoryButtonState> globalKey in listOfCategoryKeys) {
+      // Use the global key of the category buttons to
+      // reset all buttons to have a white background color
+      globalKey.currentState?.resetButtonColor();
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -195,8 +206,12 @@ class _CategoryScrollSectionState extends State<CategoryScrollSection> {
           ),
           SizedBox(
             height: 35,
-            child: Scrollbar(
+            child: RawScrollbar(
+              controller: categoryScrollController,
+              radius: const Radius.circular(2.5),
+              thumbColor: Colors.black,
               child: ListView.builder(
+                  controller: categoryScrollController,
                   padding: const EdgeInsets.only(
                     bottom: 8.0
                   ),
@@ -204,31 +219,40 @@ class _CategoryScrollSectionState extends State<CategoryScrollSection> {
                   scrollDirection: Axis.horizontal,
                   itemCount: listOfCategories.length,
                   itemBuilder: (BuildContext pContext, int pIndex) {
-                    return CategoryButton(categoryName: listOfCategories[pIndex]);
+                    // Create a new button using a global key so we can reset the colors
+                    // of the buttons by accessing their global key
+                    GlobalKey<_CategoryButtonState> categoryButtonKey = GlobalKey<_CategoryButtonState>();
+                    CategoryButton newCategoryButton = CategoryButton(
+                        key: categoryButtonKey,
+                        categoryName: listOfCategories[pIndex]
+                    );
+                    listOfCategoryKeys.add(categoryButtonKey);
+                    return newCategoryButton;
                   }
               ),
             ),
           )
-
-
-
-
         ]
     );
   }
 }
 
+
 class CategoryButton extends StatefulWidget {
   final String categoryName;
+
   const CategoryButton({super.key, required this.categoryName});
 
   @override
   State<CategoryButton> createState() => _CategoryButtonState();
 }
 
-
 class _CategoryButtonState extends State<CategoryButton> {
-  bool buttonPressed = false;
+  Color? buttonColor = Colors.white;
+  void resetButtonColor() {
+    buttonColor = Colors.white;
+    setState(() {});
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -238,9 +262,10 @@ class _CategoryButtonState extends State<CategoryButton> {
       height: 30,
       child: OutlinedButton(
         onPressed: () {
-          if(buttonPressed == false) {
-            buttonPressed = !buttonPressed;
-          }
+          // Reset all the buttons' colors before setting the current instance's background
+          // color to grey
+          _CategoryScrollSectionState.resetButtonColors();
+          buttonColor = Colors.grey[400];
           setState(() {});
         },
         // Add a style to the button because we want to edit the border
@@ -251,7 +276,7 @@ class _CategoryButtonState extends State<CategoryButton> {
               const Size(100, 35)
           ),
           backgroundColor: MaterialStateProperty.all(
-              buttonPressed ? Colors.grey[400] : Colors.white
+              buttonColor
           ),
           // Change the width of the border of the button
           side: MaterialStateProperty.all(
