@@ -173,6 +173,7 @@ class _CategoryScrollSectionState extends State<CategoryScrollSection>
   // This scroll controller is used to control the scrollbar on the category button section
   static ScrollController categoryScrollController = ScrollController();
 
+  static ScrollController speciesScrollController = ScrollController();
   @override
   void initState() {
     // TODO: implement initState
@@ -240,7 +241,7 @@ class _CategoryScrollSectionState extends State<CategoryScrollSection>
               controller: categoryTabController,
               children: listOfCategories.map((String categoryName) {
                 return ListView(
-                  controller: categoryScrollController,
+                  controller: speciesScrollController,
                   shrinkWrap: true,
                   children: [
                     GridView.builder(
@@ -249,7 +250,7 @@ class _CategoryScrollSectionState extends State<CategoryScrollSection>
                           crossAxisSpacing: 5,
                           mainAxisSpacing: 5,
                         ),
-                        controller: categoryScrollController,
+                        controller: speciesScrollController,
                         shrinkWrap: true,
                         itemCount: mapOfSpecies[categoryName]?.length,
                         itemBuilder: (BuildContext pContext, int pIndex) {
