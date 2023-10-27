@@ -147,6 +147,9 @@ class _CategoryScrollSectionState extends State<CategoryScrollSection>
     "Dogs",
     "Cats",
     "Hamsters",
+    "Hamsters",
+    "Hamsters",
+    "Hamsters",
   ];
 
   static Map<String, List<String>> mapOfSpecies = {
@@ -167,7 +170,19 @@ class _CategoryScrollSectionState extends State<CategoryScrollSection>
       "Golden Hamster",
       "Roborovski dwarf hamster",
       "Winter white dwarf hamster"
-    ]
+    ],"Hamsters" : [
+      "Golden Hamster",
+      "Roborovski dwarf hamster",
+      "Winter white dwarf hamster"
+    ],"Hamsters" : [
+      "Golden Hamster",
+      "Roborovski dwarf hamster",
+      "Winter white dwarf hamster"
+    ],"Hamsters" : [
+      "Golden Hamster",
+      "Roborovski dwarf hamster",
+      "Winter white dwarf hamster"
+    ],
   };
 
   // This scroll controller is used to control the scrollbar on the category button section
