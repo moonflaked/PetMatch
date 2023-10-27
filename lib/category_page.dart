@@ -146,11 +146,28 @@ class _CategoryScrollSectionState extends State<CategoryScrollSection>
     "Dogs",
     "Cats",
     "Hamsters",
-    "Hamsters",
-    "Hamsters",
-    "Hamsters",
-    "Hamsters",
   ];
+
+  static Map<String, List<String>> mapOfSpecies = {
+    "Dogs" : [
+      "Golden Retriever",
+      "Beagle",
+      "Labrador Retriever",
+      "German Shepherd",
+      "Alaskan Malamute",
+      "Dachshund"
+    ],
+    "Cats" : [
+      "Siamese Cat",
+      "British Shorthair",
+      "Maine Coon",
+    ],
+    "Hamsters" : [
+      "Golden Hamster",
+      "Roborovski dwarf hamster",
+      "Winter white dwarf hamster"
+    ]
+  };
 
   // This scroll controller is used to control the scrollbar on the category button section
   static ScrollController categoryScrollController = ScrollController();
@@ -208,8 +225,88 @@ class _CategoryScrollSectionState extends State<CategoryScrollSection>
                   }).toList()
               )
           )
-      )
+      ),
+      SizedBox(
+        width: MediaQuery.of(context).size.width,
+        height: 500,
+        child: TabBarView(
+          controller: categoryTabController,
+          children: listOfCategories.map((String categoryName) {
+            return ListView(
+              shrinkWrap: true,
+              children: [
+                GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                    maxCrossAxisExtent: 200,
+                    crossAxisSpacing: 5,
+                    mainAxisSpacing: 5,
+                  ),
+                  shrinkWrap: true,
+                  itemCount: mapOfSpecies[categoryName]?.length,
+                  itemBuilder: (BuildContext pContext, int pIndex) {
+                    return SpeciesContainer(
+                      speciesName: mapOfSpecies[categoryName]![pIndex]
+                    );
+
+                  }
+                )
+              ],
+            );
+          }).toList()
+        )
+      ),
+
+
     ]);
+  }
+}
+
+class SpeciesContainer extends StatefulWidget {
+  final String speciesName;
+  const SpeciesContainer({super.key, required this.speciesName});
+
+  @override
+  State<SpeciesContainer> createState() => _SpeciesContainerState();
+}
+
+class _SpeciesContainerState extends State<SpeciesContainer> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.fromLTRB(
+          14.0,
+          20.0,
+          14.0,
+          5.0
+      ),
+      child: OutlinedButton(
+        onPressed: () {
+
+        },
+        child: Column(
+          children: [
+            Center(
+              child: Text(
+                widget.speciesName
+              )
+            )
+          ]
+        ),
+        style: ButtonStyle(
+          shape: MaterialStateProperty.all(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30)
+            )
+          ),
+          side: MaterialStateProperty.all(
+            BorderSide(
+              width: 1
+            )
+          )
+        )
+      ),
+    );
+
   }
 }
 
@@ -226,7 +323,8 @@ Widget getCategoryTab(String categoryName, bool isSelected) {
             color: Colors.black,
           )),
       child: Center(
-        child: Text(categoryName,
+        child: Text(
+            categoryName,
             textAlign: TextAlign.center,
             style: const TextStyle(color: Colors.black, fontSize: 16)),
       ),
