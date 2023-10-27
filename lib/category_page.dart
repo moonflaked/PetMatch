@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import "package:collection/collection.dart";
 
+
 void main() {
   runApp(const MyApp());
 }
@@ -185,7 +186,7 @@ class _CategoryScrollSectionState extends State<CategoryScrollSection>
 
   @override
   Widget build(BuildContext context) {
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+    return Column(crossAxisAlignment: CrossAxisAlignment.start,children: [
       Container(
         margin: const EdgeInsets.only(
           left: 15.0,
@@ -216,45 +217,55 @@ class _CategoryScrollSectionState extends State<CategoryScrollSection>
                   overlayColor: MaterialStateProperty.all(Colors.transparent),
                   // Remove the blue underline under the tabs
                   indicator: const BoxDecoration(),
-                  tabs: listOfCategories
-                      .mapIndexed((int pIndex, String pCategoryName) {
+                  tabs: listOfCategories.mapIndexed(
+                          (int pIndex, String pCategoryName) {
                     // categoryTabController.index == pIndex checks the index
                     // of the currently selected button to change their color
                     return getCategoryTab(
                         pCategoryName, categoryTabController.index == pIndex);
                   }).toList()
               )
+          ),
+
+
+      ),
+      Expanded(
+        flex: 0,
+        child:
+      Container(
+          width: MediaQuery.of(context).size.width,
+          height: 488,
+          child:
+          TabBarView(
+              controller: categoryTabController,
+              children: listOfCategories.map((String categoryName) {
+                return ListView(
+                  controller: categoryScrollController,
+                  shrinkWrap: true,
+                  children: [
+                    GridView.builder(
+                        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                          maxCrossAxisExtent: 200,
+                          crossAxisSpacing: 5,
+                          mainAxisSpacing: 5,
+                        ),
+                        controller: categoryScrollController,
+                        shrinkWrap: true,
+                        itemCount: mapOfSpecies[categoryName]?.length,
+                        itemBuilder: (BuildContext pContext, int pIndex) {
+                          return SpeciesContainer(
+                              speciesName: mapOfSpecies[categoryName]![pIndex]
+                          );
+
+                        }
+                    )
+                  ],
+                );
+              }).toList()
           )
       ),
-      SizedBox(
-        width: MediaQuery.of(context).size.width,
-        height: 500,
-        child: TabBarView(
-          controller: categoryTabController,
-          children: listOfCategories.map((String categoryName) {
-            return ListView(
-              shrinkWrap: true,
-              children: [
-                GridView.builder(
-                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                    maxCrossAxisExtent: 200,
-                    crossAxisSpacing: 5,
-                    mainAxisSpacing: 5,
-                  ),
-                  shrinkWrap: true,
-                  itemCount: mapOfSpecies[categoryName]?.length,
-                  itemBuilder: (BuildContext pContext, int pIndex) {
-                    return SpeciesContainer(
-                      speciesName: mapOfSpecies[categoryName]![pIndex]
-                    );
+      )
 
-                  }
-                )
-              ],
-            );
-          }).toList()
-        )
-      ),
 
 
     ]);
@@ -283,6 +294,18 @@ class _SpeciesContainerState extends State<SpeciesContainer> {
         onPressed: () {
 
         },
+        style: ButtonStyle(
+          shape: MaterialStateProperty.all(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30)
+            )
+          ),
+          side: MaterialStateProperty.all(
+            const BorderSide(
+              width: 1
+            )
+          )
+        ),
         child: Column(
           children: [
             Center(
@@ -291,18 +314,6 @@ class _SpeciesContainerState extends State<SpeciesContainer> {
               )
             )
           ]
-        ),
-        style: ButtonStyle(
-          shape: MaterialStateProperty.all(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30)
-            )
-          ),
-          side: MaterialStateProperty.all(
-            BorderSide(
-              width: 1
-            )
-          )
         )
       ),
     );
@@ -321,7 +332,7 @@ Widget getCategoryTab(String categoryName, bool isSelected) {
           border: Border.all(
             width: 1,
             color: Colors.black,
-          )),
+          ),),
       child: Center(
         child: Text(
             categoryName,
