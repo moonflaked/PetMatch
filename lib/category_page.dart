@@ -315,7 +315,7 @@ class _SpeciesContainerState extends State<SpeciesContainer> {
           decoration: BoxDecoration(
               border: Border.all(
                 color: Colors.black,
-                width: 1,
+                width: 1.4,
               ),
               borderRadius: BorderRadius.circular(30.5)
           ),
@@ -323,7 +323,7 @@ class _SpeciesContainerState extends State<SpeciesContainer> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Container(
-                  height: 129.2,
+                  height: 128.5,
                   // Decoration borderRadius is used here for limiting the container so the
                   // black border of the container has space to display
                   decoration: const BoxDecoration(
