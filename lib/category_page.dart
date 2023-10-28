@@ -245,10 +245,8 @@ class _CategoryScrollSectionState extends State<CategoryScrollSection>
 
 
       ),
-      Expanded(
-        flex: 0,
-        child:
-      Container(
+
+      SizedBox(
           width: MediaQuery.of(context).size.width,
           height: 488,
           child:
@@ -280,7 +278,7 @@ class _CategoryScrollSectionState extends State<CategoryScrollSection>
               }).toList()
           )
       ),
-      )
+
 
 
 
