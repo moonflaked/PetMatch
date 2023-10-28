@@ -32,6 +32,7 @@ class CategoryPage extends StatefulWidget {
 }
 
 class _CategoryPageState extends State<CategoryPage> {
+  int currentDestinationIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,18 +48,40 @@ class _CategoryPageState extends State<CategoryPage> {
                     color: Colors.black,
                   ))
             ]),
-        bottomNavigationBar: BottomAppBar(
-            color: Colors.blueGrey,
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  IconButton(
-                      onPressed: () {}, icon: const Icon(Icons.home_sharp)),
-                  IconButton(
-                      onPressed: () {}, icon: const Icon(Icons.settings_sharp)),
-                  IconButton(
-                      onPressed: () {}, icon: const Icon(Icons.person_sharp)),
-                ])),
+        bottomNavigationBar: NavigationBar(
+          animationDuration: const Duration(
+            milliseconds: 1000
+          ),
+          backgroundColor: Colors.blueGrey,
+          indicatorColor: Colors.orangeAccent,
+          selectedIndex: currentDestinationIndex,
+          onDestinationSelected: (int pIndex) {
+            setState(() {
+              currentDestinationIndex = pIndex;
+            });
+          },
+          height: 56,
+          destinations: const [
+            NavigationDestination(
+              icon: Icon(
+                Icons.home_sharp,
+                size: 20
+              ),
+              label: "Home"
+            ),
+            NavigationDestination(
+                icon: Icon(Icons.settings_sharp,
+                    size: 20),
+                label: "Settings"
+            ),
+            NavigationDestination(
+                icon: Icon(Icons.person_sharp,
+                    size: 20),
+                label: "Profile"
+            ),
+
+          ],
+        ),
         body: const CategoryBody());
   }
 }
@@ -98,38 +121,39 @@ class _LocationSectionState extends State<LocationSection> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.all(15),
-        child: Row(children: [
-          Container(
-            color: Colors.grey[400],
-            padding: const EdgeInsets.symmetric(
-              vertical: 8,
-              horizontal: 16,
+          padding: const EdgeInsets.all(15),
+          child: Row(children: [
+            Container(
+              color: Colors.grey[400],
+              padding: const EdgeInsets.symmetric(
+                vertical: 8,
+                horizontal: 16,
+              ),
+              child: const Icon(
+                Icons.location_on_outlined,
+                size: 36,
+              ),
             ),
-            child: const Icon(
-              Icons.location_on_outlined,
-              size: 36,
-            ),
-          ),
-          Padding(
-            padding:
-                const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Container(
-                  padding: const EdgeInsets.only(
-                    left: 6.5,
-                    bottom: 4.0,
-                  ),
-                  child: const Text("Your location",
-                      style: TextStyle(color: Colors.black54))),
-              Row(children: [
-                const Icon(Icons.location_on_sharp),
-                Text(widget.currentLocation)
-              ])
-            ]),
-          )
-        ]));
+            Padding(
+              padding:
+              const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+              child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Container(
+                    padding: const EdgeInsets.only(
+                      left: 6.5,
+                      bottom: 4.0,
+                    ),
+                    child: const Text("Your location",
+                        style: TextStyle(color: Colors.black54))),
+                Row(children: [
+                  const Icon(Icons.location_on_sharp),
+                  Text(widget.currentLocation)
+                ])
+              ]),
+            )
+          ])
+    );
   }
 }
 
@@ -147,9 +171,7 @@ class _CategoryScrollSectionState extends State<CategoryScrollSection>
     "Dogs",
     "Cats",
     "Hamsters",
-    "Hamsters",
-    "Hamsters",
-    "Hamsters",
+
   ];
 
   static Map<String, List<String>> mapOfSpecies = {
@@ -170,19 +192,7 @@ class _CategoryScrollSectionState extends State<CategoryScrollSection>
       "Golden Hamster",
       "Roborovski dwarf hamster",
       "Winter white dwarf hamster"
-    ],"Hamsters" : [
-      "Golden Hamster",
-      "Roborovski dwarf hamster",
-      "Winter white dwarf hamster"
-    ],"Hamsters" : [
-      "Golden Hamster",
-      "Roborovski dwarf hamster",
-      "Winter white dwarf hamster"
-    ],"Hamsters" : [
-      "Golden Hamster",
-      "Roborovski dwarf hamster",
-      "Winter white dwarf hamster"
-    ],
+    ]
   };
 
   // This scroll controller is used to control the scrollbar on the category button section
@@ -202,12 +212,11 @@ class _CategoryScrollSectionState extends State<CategoryScrollSection>
   static const double speciesContainerHeight = 200.0;
   @override
   Widget build(BuildContext context) {
-
     return Column(crossAxisAlignment: CrossAxisAlignment.start,children: [
       Container(
         margin: const EdgeInsets.only(
           left: 15.0,
-          bottom: 10.0,
+          bottom: 2.0,
         ),
         child: const Text("Categories",
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
@@ -252,7 +261,7 @@ class _CategoryScrollSectionState extends State<CategoryScrollSection>
               controller: categoryTabController,
               children: listOfCategories.map((String categoryName) {
                 return Container(
-                  padding: const EdgeInsets.all(15),
+                  padding: const EdgeInsets.all(10),
                   child: ListView(
                     controller: speciesScrollController,
                     shrinkWrap: true,
@@ -330,12 +339,12 @@ class _SpeciesContainerState extends State<SpeciesContainer> {
                 // Bottom part of the container
                 Container(
                   width: MediaQuery.of(context).size.width,
-                  height: 40,
+                  height: 45,
                   decoration: const BoxDecoration(
                       color: Colors.purple,
                       borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(28),
-                          bottomRight: Radius.circular(28)
+                          bottomLeft: Radius.circular(29),
+                          bottomRight: Radius.circular(29)
                       )
                   ),
                   child: Center(
