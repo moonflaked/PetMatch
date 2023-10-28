@@ -12,7 +12,11 @@ class AdoptionForm extends StatefulWidget {
   State<AdoptionForm> createState() => _AdoptionFormState();
 }
 
+enum Answers { yes, no, own, rent }
 class _AdoptionFormState extends State<AdoptionForm> {
+  Answers? _question1 = Answers.no;
+  Answers? _question2 = Answers.own;
+  Answers? _question3 = Answers.yes;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -118,7 +122,33 @@ class _AdoptionFormState extends State<AdoptionForm> {
                         child: Row(
                           children: [
                             Text("Do you own any pets?",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17),),
-
+                            SizedBox(width: 10,),
+                            Text("yes", style: TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.bold
+                            ),),
+                            Radio<Answers>(
+                              value: Answers.yes,
+                              groupValue: _question1,
+                              onChanged: (Answers? value) {
+                                setState(() {
+                                  _question1 = value;
+                                });
+                              },
+                            ),
+                            Text("no", style: TextStyle(
+                                fontSize: 17,
+                                fontWeight: FontWeight.bold
+                            ),),
+                            Radio<Answers>(
+                              value: Answers.no,
+                              groupValue: _question1,
+                              onChanged: (Answers? value) {
+                                setState(() {
+                                  _question1 = value;
+                                });
+                              },
+                            ),
                           ],
                         ),
                       ),
@@ -130,12 +160,37 @@ class _AdoptionFormState extends State<AdoptionForm> {
                         margin: EdgeInsets.only(top: 10, left: 10),
                         child: Row(
                           children: [
-                            Column(
-                              children: [
-                                Text("Do you own or rent your home?",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17),),
-
-                              ],
-                            )
+                                Container(
+                                  child: Text("Do you own or rent your home?",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17)),
+                                  width: 180,
+                                ),
+                            SizedBox(width: 10,),
+                            Text("own", style: TextStyle(
+                                fontSize: 17,
+                                fontWeight: FontWeight.bold
+                            ),),
+                            Radio<Answers>(
+                              value: Answers.own,
+                              groupValue: _question2,
+                              onChanged: (Answers? value) {
+                                setState(() {
+                                  _question2 = value;
+                                });
+                              },
+                            ),
+                            Text("rent", style: TextStyle(
+                                fontSize: 17,
+                                fontWeight: FontWeight.bold
+                            ),),
+                            Radio<Answers>(
+                              value: Answers.rent,
+                              groupValue: _question2,
+                              onChanged: (Answers? value) {
+                                setState(() {
+                                  _question2 = value;
+                                });
+                              },
+                            ),
                           ],
                         ),
                       ),
@@ -146,7 +201,34 @@ class _AdoptionFormState extends State<AdoptionForm> {
                         margin: EdgeInsets.only(top: 10, left: 10),
                         child: Row(
                           children: [
-                            Text("Do you own any pets?",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17),),
+                            Text("Do you have a yard?",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17),),
+                            SizedBox(width: 10,),
+                            Text("yes", style: TextStyle(
+                                fontSize: 17,
+                                fontWeight: FontWeight.bold
+                            ),),
+                            Radio<Answers>(
+                              value: Answers.yes,
+                              groupValue: _question3,
+                              onChanged: (Answers? value) {
+                                setState(() {
+                                  _question3 = value;
+                                });
+                              },
+                            ),
+                            Text("no", style: TextStyle(
+                                fontSize: 17,
+                                fontWeight: FontWeight.bold
+                            ),),
+                            Radio<Answers>(
+                              value: Answers.no,
+                              groupValue: _question3,
+                              onChanged: (Answers? value) {
+                                setState(() {
+                                  _question3 = value;
+                                });
+                              },
+                            ),
 
                           ],
                         ),
