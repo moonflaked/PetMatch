@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 
 void main(){
-    runApp( AdoptionForm());
+    runApp( const AdoptionForm());
 }
 
 class AdoptionForm extends StatefulWidget {
@@ -63,7 +63,7 @@ class _AdoptionFormState extends State<AdoptionForm> {
 
                 Container(
                   // decoration: BoxDecoration(border: Border.all(color: Colors.black)),
-                  child: Text("Adoption Application, Contract",
+                  child: const Text("Adoption Application, Contract",
                   style: TextStyle(
                     color: Colors.deepOrange,
                     fontSize: 20,
@@ -74,33 +74,33 @@ class _AdoptionFormState extends State<AdoptionForm> {
                 //Info section
                 Container(
                   // decoration: BoxDecoration(border: Border.all(color: Colors.black)),
-                  margin: EdgeInsets.only(top: 20,left: 10),
+                  margin: const EdgeInsets.only(top: 20,left: 10),
                   child: Column(
                     children: [
-                      Text("Info:",style: TextStyle(color: Colors.blue,fontWeight: FontWeight.bold,fontSize: 20),),
+                      const Text("Info:",style: TextStyle(color: Colors.blue,fontWeight: FontWeight.bold,fontSize: 20),),
 
                       //Name
                       Container(
                         width: MediaQuery.of(context).size.width,
                         // decoration: BoxDecoration(border: Border.all(color: Colors.black)),
-                        margin: EdgeInsets.only(top: 10, left: 10),
-                        child: Text("Name: Rocco",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17),),
+                        margin: const EdgeInsets.only(top: 10, left: 10),
+                        child: const Text("Name: Rocco",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17),),
                       ),
 
                       //Age
                       Container(
                         width: MediaQuery.of(context).size.width,
                         // decoration: BoxDecoration(border: Border.all(color: Colors.black)),
-                        margin: EdgeInsets.only(top: 10, left: 10),
-                        child: Text("Age: 23",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17),),
+                        margin: const EdgeInsets.only(top: 10, left: 10),
+                        child: const Text("Age: 23",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17),),
                       ),
 
                       // Weight
                       Container(
                         width: MediaQuery.of(context).size.width,
                         // decoration: BoxDecoration(border: Border.all(color: Colors.black)),
-                        margin: EdgeInsets.only(top: 10, left: 10),
-                        child: Text("Weight(kg): 5",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17),),
+                        margin: const EdgeInsets.only(top: 10, left: 10),
+                        child: const Text("Weight(kg): 5",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17),),
                       ),
                     ],
                   ),
@@ -109,17 +109,17 @@ class _AdoptionFormState extends State<AdoptionForm> {
                 //required section
                 Container(
                   // decoration: BoxDecoration(border: Border.all(color: Colors.black)),
-                  margin: EdgeInsets.only(top: 20,left: 10),
+                  margin: const EdgeInsets.only(top: 20,left: 10),
                   child: Column(
                     children: [
-                      Text("Required:",style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold,fontSize: 20),),
+                      const Text("Required:",style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold,fontSize: 20),),
 
 
                       Container(
                         width: MediaQuery.of(context).size.width,
                         // decoration: BoxDecoration(border: Border.all(color: Colors.black)),
-                        margin: EdgeInsets.only(top: 10, left: 10),
-                        child: Row(
+                        margin: const EdgeInsets.only(top: 10, left: 10),
+                        child: const Row(
                           children: [
                             Text("Do you own any pets?",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17),),
                             SizedBox(width: 10,),
@@ -157,8 +157,8 @@ class _AdoptionFormState extends State<AdoptionForm> {
                       Container(
                         width: MediaQuery.of(context).size.width,
                         // decoration: BoxDecoration(border: Border.all(color: Colors.black)),
-                        margin: EdgeInsets.only(top: 10, left: 10),
-                        child: Row(
+                        margin: const EdgeInsets.only(top: 10, left: 10),
+                        child: const Row(
                           children: [
                                 Container(
                                   child: Text("Do you own or rent your home?",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17)),
@@ -198,8 +198,8 @@ class _AdoptionFormState extends State<AdoptionForm> {
                       Container(
                         width: MediaQuery.of(context).size.width,
                         // decoration: BoxDecoration(border: Border.all(color: Colors.black)),
-                        margin: EdgeInsets.only(top: 10, left: 10),
-                        child: Row(
+                        margin: const EdgeInsets.only(top: 10, left: 10),
+                        child: const Row(
                           children: [
                             Text("Do you have a yard?",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17),),
                             SizedBox(width: 10,),
@@ -238,17 +238,17 @@ class _AdoptionFormState extends State<AdoptionForm> {
                 ),
 
                 Container(
-                  margin: EdgeInsets.only(left: 200,top: 20),
+                  margin: const EdgeInsets.only(left: 200,top: 20),
                   width: 150,
                   child:
                   ElevatedButton(onPressed: (){
 
                   }
-                    ,child: const Text("Submit",style: TextStyle(
+                    ,
+                    style: ElevatedButton.styleFrom(backgroundColor: Colors.pink),child: const Text("Submit",style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
                     ),),
-                    style: ElevatedButton.styleFrom(backgroundColor: Colors.pink),
                   ),
                 )
 

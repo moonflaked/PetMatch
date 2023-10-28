@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import "package:collection/collection.dart";
+import 'package:petmatch/profile_page.dart';
 
 
 void main() {
@@ -17,21 +18,32 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: CategoryPage(),
+      home: PetMatchPageSelector(),
       debugShowCheckedModeBanner: false,
     );
   }
 }
 
 // Sets up the bottom navigation bar and the top app bar of the category page
-class CategoryPage extends StatefulWidget {
-  const CategoryPage({super.key});
+class PetMatchPageSelector extends StatefulWidget {
+  const PetMatchPageSelector({super.key});
 
   @override
-  State<CategoryPage> createState() => _CategoryPageState();
+  State<PetMatchPageSelector> createState() => _PetMatchPageSelectorState();
 }
 
-class _CategoryPageState extends State<CategoryPage> {
+class _PetMatchPageSelectorState extends State<PetMatchPageSelector> {
+  PageController petMatchPageViewController = PageController(
+      initialPage: _PetMatchPageSelectorState.currentDestinationIndex,
+      keepPage: true
+  );
+  static int currentDestinationIndex = 0;
+
+  void petMatchPageChanged(int pIndex) {
+    setState(() {
+      _PetMatchPageSelectorState.currentDestinationIndex = pIndex;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,22 +58,61 @@ class _CategoryPageState extends State<CategoryPage> {
                     Icons.notifications_sharp,
                     color: Colors.black,
                   ))
-            ]),
-        bottomNavigationBar: BottomAppBar(
-            color: Colors.blueGrey,
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  IconButton(
-                      onPressed: () {}, icon: const Icon(Icons.home_sharp)),
-                  IconButton(
-                      onPressed: () {}, icon: const Icon(Icons.settings_sharp)),
-                  IconButton(
-                      onPressed: () {}, icon: const Icon(Icons.person_sharp)),
-                ])),
-        body: const CategoryBody());
+            ]
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: Colors.blueGrey,
+          selectedItemColor: Colors.orangeAccent,
+          currentIndex: currentDestinationIndex,
+          onTap: (int pIndex) {
+            setState(() {
+              currentDestinationIndex = pIndex;
+              petMatchPageViewController.animateToPage(
+                currentDestinationIndex,
+                duration: const Duration(
+                    milliseconds: 300
+                ),
+                curve: Curves.easeIn);
+            });
+          },
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.home_sharp,
+                size: 20
+              ),
+              label: "Home"
+            ),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.settings_sharp,
+                    size: 20),
+                label: "Settings"
+            ),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.person_sharp,
+                    size: 20),
+                label: "Profile"
+            ),
+          ],
+        ),
+        body: PageView(
+          controller: petMatchPageViewController,
+          children: const [
+            CategoryBody(),
+            Center(
+              child: Text(
+                "Test"
+              ),
+            ),
+            ProfilePage()
+          ]
+        )
+    );
   }
 }
+
+
+
 
 // Creates the body of the category page
 class CategoryBody extends StatefulWidget {
@@ -98,38 +149,39 @@ class _LocationSectionState extends State<LocationSection> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.all(15),
-        child: Row(children: [
-          Container(
-            color: Colors.grey[400],
-            padding: const EdgeInsets.symmetric(
-              vertical: 8,
-              horizontal: 16,
+          padding: const EdgeInsets.all(15),
+          child: Row(children: [
+            Container(
+              color: Colors.grey[400],
+              padding: const EdgeInsets.symmetric(
+                vertical: 8,
+                horizontal: 16,
+              ),
+              child: const Icon(
+                Icons.location_on_outlined,
+                size: 36,
+              ),
             ),
-            child: const Icon(
-              Icons.location_on_outlined,
-              size: 36,
-            ),
-          ),
-          Padding(
-            padding:
-                const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Container(
-                  padding: const EdgeInsets.only(
-                    left: 6.5,
-                    bottom: 4.0,
-                  ),
-                  child: const Text("Your location",
-                      style: TextStyle(color: Colors.black54))),
-              Row(children: [
-                const Icon(Icons.location_on_sharp),
-                Text(widget.currentLocation)
-              ])
-            ]),
-          )
-        ]));
+            Padding(
+              padding:
+              const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+              child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Container(
+                    padding: const EdgeInsets.only(
+                      left: 6.5,
+                      bottom: 4.0,
+                    ),
+                    child: const Text("Your location",
+                        style: TextStyle(color: Colors.black54))),
+                Row(children: [
+                  const Icon(Icons.location_on_sharp),
+                  Text(widget.currentLocation)
+                ])
+              ]),
+            )
+          ])
+    );
   }
 }
 
@@ -147,9 +199,7 @@ class _CategoryScrollSectionState extends State<CategoryScrollSection>
     "Dogs",
     "Cats",
     "Hamsters",
-    "Hamsters",
-    "Hamsters",
-    "Hamsters",
+
   ];
 
   static Map<String, List<String>> mapOfSpecies = {
@@ -170,19 +220,7 @@ class _CategoryScrollSectionState extends State<CategoryScrollSection>
       "Golden Hamster",
       "Roborovski dwarf hamster",
       "Winter white dwarf hamster"
-    ],"Hamsters" : [
-      "Golden Hamster",
-      "Roborovski dwarf hamster",
-      "Winter white dwarf hamster"
-    ],"Hamsters" : [
-      "Golden Hamster",
-      "Roborovski dwarf hamster",
-      "Winter white dwarf hamster"
-    ],"Hamsters" : [
-      "Golden Hamster",
-      "Roborovski dwarf hamster",
-      "Winter white dwarf hamster"
-    ],
+    ]
   };
 
   // This scroll controller is used to control the scrollbar on the category button section
@@ -202,12 +240,11 @@ class _CategoryScrollSectionState extends State<CategoryScrollSection>
   static const double speciesContainerHeight = 200.0;
   @override
   Widget build(BuildContext context) {
-
     return Column(crossAxisAlignment: CrossAxisAlignment.start,children: [
       Container(
         margin: const EdgeInsets.only(
           left: 15.0,
-          bottom: 10.0,
+          bottom: 2.0,
         ),
         child: const Text("Categories",
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
@@ -243,10 +280,7 @@ class _CategoryScrollSectionState extends State<CategoryScrollSection>
                   }).toList()
               )
           ),
-
-
       ),
-
       SizedBox(
           width: MediaQuery.of(context).size.width,
           height: 488,
@@ -255,7 +289,7 @@ class _CategoryScrollSectionState extends State<CategoryScrollSection>
               controller: categoryTabController,
               children: listOfCategories.map((String categoryName) {
                 return Container(
-                  padding: const EdgeInsets.all(15),
+                  padding: const EdgeInsets.all(10),
                   child: ListView(
                     controller: speciesScrollController,
                     shrinkWrap: true,
@@ -298,13 +332,7 @@ class _SpeciesContainerState extends State<SpeciesContainer> {
   @override
   Widget build(BuildContext context) {
     // Clip the Container to this border radius
-    return ClipPath(
-      clipper: const ShapeBorderClipper(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(30.5))
-        )
-      ),
-      child: InkWell(
+    return InkWell(
         // Indicate the border radius of the InkWell
         borderRadius: BorderRadius.circular(30.5),
         onTap: () {
@@ -317,7 +345,7 @@ class _SpeciesContainerState extends State<SpeciesContainer> {
                 color: Colors.black,
                 width: 1.4,
               ),
-              borderRadius: BorderRadius.circular(30.5)
+              borderRadius: BorderRadius.circular(30.5),
           ),
           child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -339,12 +367,12 @@ class _SpeciesContainerState extends State<SpeciesContainer> {
                 // Bottom part of the container
                 Container(
                   width: MediaQuery.of(context).size.width,
-                  height: 40,
+                  height: 45,
                   decoration: const BoxDecoration(
                       color: Colors.purple,
                       borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(28),
-                          bottomRight: Radius.circular(28)
+                          bottomLeft: Radius.circular(29),
+                          bottomRight: Radius.circular(29)
                       )
                   ),
                   child: Center(
@@ -357,7 +385,6 @@ class _SpeciesContainerState extends State<SpeciesContainer> {
               ]
           ),
         ),
-      )
     );
 
   }
