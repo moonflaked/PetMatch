@@ -8,32 +8,48 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  TextEditingController usernameController = TextEditingController();
+
+  bool usernameFieldEnabled = false;
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        ProfilePicture(),
+        const ProfilePicture(),
+
+
         Container(
-          margin: const EdgeInsets.only(
-            top: 40,
-            left: 20,
-          ),
-          child: InkWell(
-            onTap: () {
+          width: 350,
+          child: TextFormField(
+            decoration: InputDecoration(
+              suffixIcon: InkWell(
+                onTap: () {
+
+                },
+                child: Icon(
+                  Icons.edit_sharp,
+                )
+              ),
+              label: Text(
+                  "Username",
+                style: TextStyle(
+                  color: Colors.black,
+                )
+              ),
+            ),
+
+            enabled: usernameFieldEnabled,
+            controller: usernameController,
+            validator: (String? value) {
 
             },
-            child: Container(
-                  child: Text(
-                    "Username:",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    )
-                  ),
-            )
           ),
         )
+
+
+
+
       ]
     );
   }
@@ -59,7 +75,6 @@ class _ProfilePictureState extends State<ProfilePicture> {
             child: Container(
               width: 150,
               height: 150,
-              child: Image.asset("assets/images/landingImage.png"),
               decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(
@@ -67,6 +82,7 @@ class _ProfilePictureState extends State<ProfilePicture> {
                     width: 1,
                   )
               ),
+              child: Image.asset("assets/images/landingImage.png"),
             )
         ),
       ),
