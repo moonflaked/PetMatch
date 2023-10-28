@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import "package:collection/collection.dart";
+import 'package:petmatch/profile_page.dart';
 
 
 void main() {
@@ -17,22 +18,32 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: CategoryPage(),
+      home: PetMatchPageSelector(),
       debugShowCheckedModeBanner: false,
     );
   }
 }
 
 // Sets up the bottom navigation bar and the top app bar of the category page
-class CategoryPage extends StatefulWidget {
-  const CategoryPage({super.key});
+class PetMatchPageSelector extends StatefulWidget {
+  const PetMatchPageSelector({super.key});
 
   @override
-  State<CategoryPage> createState() => _CategoryPageState();
+  State<PetMatchPageSelector> createState() => _PetMatchPageSelectorState();
 }
 
-class _CategoryPageState extends State<CategoryPage> {
-  int currentDestinationIndex = 0;
+class _PetMatchPageSelectorState extends State<PetMatchPageSelector> {
+  PageController petMatchPageViewController = PageController(
+      initialPage: _PetMatchPageSelectorState.currentDestinationIndex,
+      keepPage: true
+  );
+  static int currentDestinationIndex = 0;
+
+  void petMatchPageChanged(int pIndex) {
+    setState(() {
+      _PetMatchPageSelectorState.currentDestinationIndex = pIndex;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,44 +58,61 @@ class _CategoryPageState extends State<CategoryPage> {
                     Icons.notifications_sharp,
                     color: Colors.black,
                   ))
-            ]),
-        bottomNavigationBar: NavigationBar(
-          animationDuration: const Duration(
-            milliseconds: 1000
-          ),
+            ]
+        ),
+        bottomNavigationBar: BottomNavigationBar(
           backgroundColor: Colors.blueGrey,
-          indicatorColor: Colors.orangeAccent,
-          selectedIndex: currentDestinationIndex,
-          onDestinationSelected: (int pIndex) {
+          selectedItemColor: Colors.orangeAccent,
+          currentIndex: currentDestinationIndex,
+          onTap: (int pIndex) {
             setState(() {
               currentDestinationIndex = pIndex;
+              petMatchPageViewController.animateToPage(
+                currentDestinationIndex,
+                duration: const Duration(
+                    milliseconds: 300
+                ),
+                curve: Curves.easeIn);
             });
           },
-          height: 56,
-          destinations: const [
-            NavigationDestination(
+          items: const [
+            BottomNavigationBarItem(
               icon: Icon(
                 Icons.home_sharp,
                 size: 20
               ),
               label: "Home"
             ),
-            NavigationDestination(
+            BottomNavigationBarItem(
                 icon: Icon(Icons.settings_sharp,
                     size: 20),
                 label: "Settings"
             ),
-            NavigationDestination(
+            BottomNavigationBarItem(
                 icon: Icon(Icons.person_sharp,
                     size: 20),
                 label: "Profile"
             ),
-
           ],
         ),
-        body: const CategoryBody());
+        body: PageView(
+          controller: petMatchPageViewController,
+          children: const [
+            CategoryBody(),
+            Center(
+              child: Text(
+                "Test"
+              ),
+            ),
+            ProfilePage()
+          ]
+        )
+    );
   }
 }
+
+
+
 
 // Creates the body of the category page
 class CategoryBody extends StatefulWidget {
