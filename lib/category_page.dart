@@ -199,9 +199,10 @@ class _CategoryScrollSectionState extends State<CategoryScrollSection>
       setState(() {});
     });
   }
-
+  static const double speciesContainerHeight = 200.0;
   @override
   Widget build(BuildContext context) {
+
     return Column(crossAxisAlignment: CrossAxisAlignment.start,children: [
       Container(
         margin: const EdgeInsets.only(
@@ -253,35 +254,34 @@ class _CategoryScrollSectionState extends State<CategoryScrollSection>
           TabBarView(
               controller: categoryTabController,
               children: listOfCategories.map((String categoryName) {
-                return ListView(
-                  controller: speciesScrollController,
-                  shrinkWrap: true,
-                  children: [
-                    GridView.builder(
-                        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                          maxCrossAxisExtent: 200,
-                          crossAxisSpacing: 5,
-                          mainAxisSpacing: 5,
-                        ),
-                        controller: speciesScrollController,
-                        shrinkWrap: true,
-                        itemCount: mapOfSpecies[categoryName]?.length,
-                        itemBuilder: (BuildContext pContext, int pIndex) {
-                          return SpeciesContainer(
-                              speciesName: mapOfSpecies[categoryName]![pIndex]
-                          );
+                return Container(
+                  padding: const EdgeInsets.all(15),
+                  child: ListView(
+                    controller: speciesScrollController,
+                    shrinkWrap: true,
+                    children: [
+                      GridView.builder(
+                          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                            maxCrossAxisExtent: speciesContainerHeight,
+                            crossAxisSpacing: 20,
+                            mainAxisSpacing: 20,
+                          ),
+                          controller: speciesScrollController,
+                          shrinkWrap: true,
+                          itemCount: mapOfSpecies[categoryName]?.length,
+                          itemBuilder: (BuildContext pContext, int pIndex) {
+                            return SpeciesContainer(
+                                speciesName: mapOfSpecies[categoryName]![pIndex]
+                            );
 
-                        }
-                    )
-                  ],
+                          }
+                      )
+                    ],
+                  ),
                 );
               }).toList()
           )
       ),
-
-
-
-
     ]);
   }
 }
@@ -297,39 +297,65 @@ class SpeciesContainer extends StatefulWidget {
 class _SpeciesContainerState extends State<SpeciesContainer> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.fromLTRB(
-          14.0,
-          20.0,
-          14.0,
-          5.0
-      ),
-      child: OutlinedButton(
-        onPressed: () {
-
-        },
-        style: ButtonStyle(
-          shape: MaterialStateProperty.all(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30)
-            )
-          ),
-          side: MaterialStateProperty.all(
-            const BorderSide(
-              width: 1
-            )
-          )
-        ),
-        child: Column(
-          children: [
-            Center(
-              child: Text(
-                widget.speciesName
-              )
-            )
-          ]
+    // Clip the Container to this border radius
+    return ClipPath(
+      clipper: ShapeBorderClipper(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(30.5))
         )
       ),
+      child: InkWell(
+        // Indicate the border radius of the InkWell
+        borderRadius: BorderRadius.circular(30.5),
+        onTap: () {
+
+        },
+        child: Container(
+          decoration: BoxDecoration(
+              border: Border.all(
+                color: Colors.black,
+                width: 1,
+              ),
+              borderRadius: BorderRadius.circular(30.5)
+          ),
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  height: 129.2,
+                  // Decoration borderRadius is used here for limiting the container so the
+                  // black border of the container has space to display
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(29),
+                          topRight: Radius.circular(29)
+                      )
+                  ),
+                  child: Center(
+
+                  )
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 40,
+                  decoration: BoxDecoration(
+                      color: Colors.purple,
+                      borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(28),
+                          bottomRight: Radius.circular(28)
+                      )
+                  ),
+                  child: Center(
+                    child: Text(
+                        widget.speciesName,
+                        textAlign: TextAlign.center,
+                    ),
+                  )
+                )
+              ]
+          ),
+        ),
+      )
     );
 
   }
