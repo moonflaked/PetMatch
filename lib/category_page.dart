@@ -299,7 +299,7 @@ class _SpeciesContainerState extends State<SpeciesContainer> {
   Widget build(BuildContext context) {
     // Clip the Container to this border radius
     return ClipPath(
-      clipper: ShapeBorderClipper(
+      clipper: const ShapeBorderClipper(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(30.5))
         )
@@ -310,6 +310,7 @@ class _SpeciesContainerState extends State<SpeciesContainer> {
         onTap: () {
 
         },
+        // Whole grid container with black border
         child: Container(
           decoration: BoxDecoration(
               border: Border.all(
@@ -325,20 +326,21 @@ class _SpeciesContainerState extends State<SpeciesContainer> {
                   height: 129.2,
                   // Decoration borderRadius is used here for limiting the container so the
                   // black border of the container has space to display
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(29),
                           topRight: Radius.circular(29)
                       )
                   ),
-                  child: Center(
+                  child: const Center(
 
                   )
                 ),
+                // Bottom part of the container
                 Container(
                   width: MediaQuery.of(context).size.width,
                   height: 40,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       color: Colors.purple,
                       borderRadius: BorderRadius.only(
                           bottomLeft: Radius.circular(28),
