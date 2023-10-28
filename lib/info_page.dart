@@ -38,7 +38,7 @@ class _InfoPageState extends State<InfoPage> {
                     child: IconButton(
                       onPressed: () {
                         // Button click action
-                        print("1 2 test test perfectoo");
+                        // print("1 2 test test perfectoo");
                       },
                       icon: const Icon(Icons.arrow_back_ios_new_outlined,
                         shadows: [
@@ -78,13 +78,13 @@ class _InfoPageState extends State<InfoPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Container(
-                    margin: EdgeInsets.symmetric(vertical: 25 ),
-                    padding: EdgeInsets.symmetric(vertical: 10,horizontal: 30),
+                    margin: const EdgeInsets.symmetric(vertical: 25 ),
+                    padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 30),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                       color: Colors.orangeAccent[100],
                     ),
-                    child: Column(
+                    child: const Column(
                       children: [
                         Text("Male",style: TextStyle(
                           fontSize: 25,
@@ -100,13 +100,13 @@ class _InfoPageState extends State<InfoPage> {
                   ),
 
                   Container(
-                    margin: EdgeInsets.symmetric(vertical: 25 ),
-                    padding: EdgeInsets.symmetric(vertical: 10,horizontal: 30),
+                    margin: const EdgeInsets.symmetric(vertical: 25 ),
+                    padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 30),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                       color: Colors.orangeAccent[100],
                     ),
-                    child: Column(
+                    child: const Column(
                       children: [
                         Text("23",style: TextStyle(
                             fontSize: 25,
@@ -123,12 +123,12 @@ class _InfoPageState extends State<InfoPage> {
 
                   Container(
                     // margin: EdgeInsets.symmetric(vertical: 10 ),
-                    padding: EdgeInsets.symmetric(vertical: 10,horizontal: 30),
+                    padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 30),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                       color: Colors.orangeAccent[100],
                     ),
-                    child: Column(
+                    child: const Column(
                       children: [
                         Text("5",style: TextStyle(
                             fontSize: 25,
@@ -149,8 +149,8 @@ class _InfoPageState extends State<InfoPage> {
               Container(
                 width: MediaQuery.of(context).size.width,
                 height: 170,
-                padding: EdgeInsets.all(15),
-                child: Text("It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.",
+                padding: const EdgeInsets.all(15),
+                child: const Text("It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.",
                     style:TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
@@ -160,13 +160,13 @@ class _InfoPageState extends State<InfoPage> {
               ),
 
 
-              Container(
+              SizedBox(
                 width: 250,
                 child:
               ElevatedButton(onPressed: (){
 
                   }
-                  ,child: Text("Adopt",style: TextStyle(
+                  ,child: const Text("Adopt",style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
                     ),),
