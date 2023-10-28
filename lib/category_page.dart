@@ -243,10 +243,7 @@ class _CategoryScrollSectionState extends State<CategoryScrollSection>
                   }).toList()
               )
           ),
-
-
       ),
-
       SizedBox(
           width: MediaQuery.of(context).size.width,
           height: 488,
@@ -298,13 +295,7 @@ class _SpeciesContainerState extends State<SpeciesContainer> {
   @override
   Widget build(BuildContext context) {
     // Clip the Container to this border radius
-    return ClipPath(
-      clipper: const ShapeBorderClipper(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(30.5))
-        )
-      ),
-      child: InkWell(
+    return InkWell(
         // Indicate the border radius of the InkWell
         borderRadius: BorderRadius.circular(30.5),
         onTap: () {
@@ -317,7 +308,7 @@ class _SpeciesContainerState extends State<SpeciesContainer> {
                 color: Colors.black,
                 width: 1.4,
               ),
-              borderRadius: BorderRadius.circular(30.5)
+              borderRadius: BorderRadius.circular(30.5),
           ),
           child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -357,7 +348,6 @@ class _SpeciesContainerState extends State<SpeciesContainer> {
               ]
           ),
         ),
-      )
     );
 
   }
