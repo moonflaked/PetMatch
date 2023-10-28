@@ -118,8 +118,8 @@ class _AdoptionFormState extends State<AdoptionForm> {
                       Container(
                         width: MediaQuery.of(context).size.width,
                         // decoration: BoxDecoration(border: Border.all(color: Colors.black)),
-                        margin: const EdgeInsets.only(top: 10, left: 10),
-                        child: const Row(
+                        margin:  EdgeInsets.only(top: 10, left: 10),
+                        child:  Row(
                           children: [
                             Text("Do you own any pets?",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17),),
                             SizedBox(width: 10,),
@@ -157,12 +157,12 @@ class _AdoptionFormState extends State<AdoptionForm> {
                       Container(
                         width: MediaQuery.of(context).size.width,
                         // decoration: BoxDecoration(border: Border.all(color: Colors.black)),
-                        margin: const EdgeInsets.only(top: 10, left: 10),
-                        child: const Row(
+                        margin:  EdgeInsets.only(top: 10, left: 10),
+                        child:  Row(
                           children: [
-                                Container(
-                                  child: Text("Do you own or rent your home?",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17)),
+                                SizedBox(
                                   width: 180,
+                                  child: Text("Do you own or rent your home?",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17)),
                                 ),
                             SizedBox(width: 10,),
                             Text("own", style: TextStyle(
@@ -198,8 +198,8 @@ class _AdoptionFormState extends State<AdoptionForm> {
                       Container(
                         width: MediaQuery.of(context).size.width,
                         // decoration: BoxDecoration(border: Border.all(color: Colors.black)),
-                        margin: const EdgeInsets.only(top: 10, left: 10),
-                        child: const Row(
+                        margin:  EdgeInsets.only(top: 10, left: 10),
+                        child:  Row(
                           children: [
                             Text("Do you have a yard?",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17),),
                             SizedBox(width: 10,),

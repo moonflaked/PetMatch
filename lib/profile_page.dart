@@ -19,7 +19,7 @@ class _ProfilePageState extends State<ProfilePage> {
         const ProfilePicture(),
 
 
-        Container(
+        SizedBox(
           width: 350,
           child: TextFormField(
             decoration: InputDecoration(
@@ -27,11 +27,11 @@ class _ProfilePageState extends State<ProfilePage> {
                 onTap: () {
 
                 },
-                child: Icon(
+                child: const Icon(
                   Icons.edit_sharp,
                 )
               ),
-              label: Text(
+              label: const Text(
                   "Username",
                 style: TextStyle(
                   color: Colors.black,
@@ -42,6 +42,8 @@ class _ProfilePageState extends State<ProfilePage> {
             enabled: usernameFieldEnabled,
             controller: usernameController,
             validator: (String? value) {
+              return null;
+            
 
             },
           ),
