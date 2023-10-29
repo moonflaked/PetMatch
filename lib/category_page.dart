@@ -67,12 +67,9 @@ class _PetMatchPageSelectorState extends State<PetMatchPageSelector> {
           onTap: (int pIndex) {
             setState(() {
               currentDestinationIndex = pIndex;
-              petMatchPageViewController.animateToPage(
+              petMatchPageViewController.jumpToPage(
                 currentDestinationIndex,
-                duration: const Duration(
-                    milliseconds: 300
-                ),
-                curve: Curves.easeIn);
+              );
             });
           },
           items: const [
@@ -105,7 +102,8 @@ class _PetMatchPageSelectorState extends State<PetMatchPageSelector> {
               ),
             ),
             ProfilePage()
-          ]
+          ],
+          physics: const NeverScrollableScrollPhysics()
         )
     );
   }
@@ -237,7 +235,7 @@ class _CategoryScrollSectionState extends State<CategoryScrollSection>
       setState(() {});
     });
   }
-  static const double speciesContainerHeight = 200.0;
+
   @override
   Widget build(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start,children: [
@@ -296,7 +294,7 @@ class _CategoryScrollSectionState extends State<CategoryScrollSection>
                     children: [
                       GridView.builder(
                           gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                            maxCrossAxisExtent: speciesContainerHeight,
+                            maxCrossAxisExtent: 200,
                             crossAxisSpacing: 20,
                             mainAxisSpacing: 20,
                           ),
