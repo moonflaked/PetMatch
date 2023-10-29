@@ -47,6 +47,7 @@ class _PetMatchPageSelectorState extends State<PetMatchPageSelector> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
             backgroundColor: Colors.blueGrey,
             leading: Image.asset("assets/images/logo.png"),
@@ -310,7 +311,6 @@ class _CategoryScrollSectionState extends State<CategoryScrollSection>
                             return SpeciesContainer(
                                 speciesName: mapOfSpecies[categoryName]![pIndex]
                             );
-
                           }
                       )
                     ],

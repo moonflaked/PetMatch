@@ -11,7 +11,11 @@ class _ProfilePageState extends State<ProfilePage> {
   TextEditingController usernameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
 
-
+  Map<String, String> mapOfPets = {
+    "Angel" : "Golden Retriever",
+    "Bella" : "Labrador Retriever",
+    "Daisy" : "Beagle",
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +24,8 @@ class _ProfilePageState extends State<ProfilePage> {
 
     String emailFieldTitle = "Email";
     FocusNode emailFocusNode = FocusNode();
+
+    ScrollController adoptedPetScrollController = ScrollController();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -48,8 +54,94 @@ class _ProfilePageState extends State<ProfilePage> {
               textFieldTitle: emailFieldTitle,
             )
         ),
+        Container(
+          alignment: Alignment.center,
+          margin: const EdgeInsets.only(
+            top: 20,
+          ),
 
+          child: ElevatedButton(
+            onPressed: () {
+
+            },
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(
+                Colors.orangeAccent
+              ),
+              minimumSize: MaterialStateProperty.all(
+                const Size(150, 40)
+              ),
+
+            ),
+            child: const Text(
+              "Save Changes",
+              style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              )
+            )
+          )
+        ),
+        Container(
+          margin: const EdgeInsets.only(
+            left: 10,
+            top: 30,
+          ),
+          width: 350,
+          alignment: Alignment.centerLeft,
+          child: const Text(
+            "Adopted pets",
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            )
+          )
+        ),
+        Container(
+          margin: const EdgeInsets.only(
+            top: 10,
+          ),
+          width: 350,
+          height: 181.2,
+          alignment: Alignment.centerLeft,
+          child: ListView.builder(
+                scrollDirection: Axis.vertical,
+                controller: adoptedPetScrollController,
+                shrinkWrap: true,
+                itemCount: mapOfPets.length,
+                itemBuilder: (BuildContext pContext, int pIndex) {
+                  return AdoptedPetCard(
+                      petName: mapOfPets.keys.elementAt(pIndex),
+                      speciesName: mapOfPets.values.elementAt(pIndex)
+                  );
+                },
+              ),
+            )
       ]
+    );
+  }
+}
+
+class AdoptedPetCard extends StatefulWidget {
+  final String petName;
+  final String speciesName;
+  const AdoptedPetCard({super.key, required this.petName, required this.speciesName});
+
+  @override
+  State<AdoptedPetCard> createState() => _AdoptedPetCardState();
+}
+
+class _AdoptedPetCardState extends State<AdoptedPetCard> {
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      color: Colors.orangeAccent,
+      child: ListTile(
+        leading: const Icon(Icons.pets_sharp),
+        title: Text(widget.petName),
+        subtitle: Text(widget.speciesName),
+      )
     );
   }
 }
@@ -169,27 +261,21 @@ class ProfilePicture extends StatefulWidget {
 class _ProfilePictureState extends State<ProfilePicture> {
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return const Center(
       child: Padding(
-        padding: const EdgeInsets.only(
+        padding: EdgeInsets.only(
           top: 30,
         ),
-        child: ClipRRect(
-            borderRadius: BorderRadius.circular(300),
-            child: Container(
-              width: 150,
-              height: 150,
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: Colors.black,
-                    width: 1,
-                  )
-              ),
-              child: Image.asset("assets/images/landingImage.png"),
-            )
+        child: CircleAvatar(
+          backgroundColor: Colors.black,
+          radius: 70,
+          child: CircleAvatar(
+            backgroundImage: AssetImage("assets/images/landingImage.png"),
+            radius: 69,
+            backgroundColor: Colors.orangeAccent,
+          )
+        )
         ),
-      ),
     );
   }
 }
