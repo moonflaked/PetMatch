@@ -62,13 +62,18 @@ class _PetMatchPageSelectorState extends State<PetMatchPageSelector> {
         ),
         bottomNavigationBar: BottomNavigationBar(
           backgroundColor: Colors.blueGrey,
+          unselectedItemColor: Colors.black,
           selectedItemColor: Colors.orangeAccent,
           currentIndex: currentDestinationIndex,
           onTap: (int pIndex) {
             setState(() {
               currentDestinationIndex = pIndex;
-              petMatchPageViewController.jumpToPage(
+              petMatchPageViewController.animateToPage(
                 currentDestinationIndex,
+                duration: const Duration(
+                  milliseconds: 300
+                ),
+                curve: Curves.ease
               );
             });
           },
@@ -94,16 +99,16 @@ class _PetMatchPageSelectorState extends State<PetMatchPageSelector> {
         ),
         body: PageView(
           controller: petMatchPageViewController,
+          physics: const NeverScrollableScrollPhysics(),
           children: const [
             CategoryBody(),
             Center(
               child: Text(
-                "Test"
+                  "Test"
               ),
             ),
             ProfilePage()
           ],
-          physics: const NeverScrollableScrollPhysics()
         )
     );
   }
