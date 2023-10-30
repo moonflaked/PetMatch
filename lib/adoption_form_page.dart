@@ -106,139 +106,166 @@ class _AdoptionFormState extends State<AdoptionForm> {
                   ),
                 ),
 
+                SizedBox(height: 20,),
+
+                Text("Required:",style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold,fontSize: 20),),
+
                 //required section
                 Container(
                   // decoration: BoxDecoration(border: Border.all(color: Colors.black)),
                   margin: const EdgeInsets.only(top: 20,left: 10),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text("Required:",style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold,fontSize: 20),),
-
-
                       Container(
-                        width: MediaQuery.of(context).size.width,
-                        // decoration: BoxDecoration(border: Border.all(color: Colors.black)),
-                        margin:  EdgeInsets.only(top: 10, left: 10),
-                        child:  Row(
-                          children: [
-                            Text("Do you own any pets?",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17),),
-                            SizedBox(width: 10,),
-                            Text("yes", style: TextStyle(
-                              fontSize: 17,
-                              fontWeight: FontWeight.bold
-                            ),),
-                            Radio<Answers>(
-                              value: Answers.yes,
-                              groupValue: _question1,
-                              onChanged: (Answers? value) {
-                                setState(() {
-                                  _question1 = value;
-                                });
-                              },
-                            ),
-                            Text("no", style: TextStyle(
-                                fontSize: 17,
-                                fontWeight: FontWeight.bold
-                            ),),
-                            Radio<Answers>(
-                              value: Answers.no,
-                              groupValue: _question1,
-                              onChanged: (Answers? value) {
-                                setState(() {
-                                  _question1 = value;
-                                });
-                              },
-                            ),
-                          ],
+                        child:Text("Signature of Potential Pet Parent (Initials e.g. YA)",
+                          style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17),
                         ),
                       ),
 
-
                       Container(
-                        width: MediaQuery.of(context).size.width,
-                        // decoration: BoxDecoration(border: Border.all(color: Colors.black)),
-                        margin:  EdgeInsets.only(top: 10, left: 10),
-                        child:  Row(
-                          children: [
-                                SizedBox(
-                                  width: 180,
-                                  child: Text("Do you own or rent your home?",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17)),
+                        margin: EdgeInsets.only(left: 140,top: 10),
+                        width: 100,
+                      child: TextField(
+                        decoration: InputDecoration(border: OutlineInputBorder(borderSide: BorderSide(width: 34))),
+                        textAlign: TextAlign.center,
+                        maxLength: 2,
+                      ),
+                      ),
+
+                            Text("Do you own any pets?",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17),),
+
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: RadioListTile<Answers>(
+                                    value: Answers.yes,
+                                    groupValue: _question1,
+                                    title: Text("yes", style: TextStyle(
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.bold
+                                    ),),
+                                    onChanged: (Answers? value) {
+                                      setState(() {
+                                        _question1 = value;
+                                      });
+                                    },
+                                  ),
                                 ),
-                            SizedBox(width: 10,),
-                            Text("own", style: TextStyle(
-                                fontSize: 17,
-                                fontWeight: FontWeight.bold
-                            ),),
-                            Radio<Answers>(
+
+
+                                Expanded(
+                                child: RadioListTile<Answers>(
+                                  value: Answers.no,
+                                  groupValue: _question1,
+                                  title : Text("no", style: TextStyle(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold
+                                  ),),
+                                  onChanged: (Answers? value) {
+                                    setState(() {
+                                      _question1 = value;
+                                    });
+                                  },
+                                ),
+                              )
+                    ],
+                  ),
+
+
+                      SizedBox(
+                        child: Text("Do you own or rent your home?",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17)),
+                      ),
+                        Row(
+                          children: [
+                            Expanded(child:
+                            RadioListTile<Answers>(
                               value: Answers.own,
                               groupValue: _question2,
+                              title: Text("own", style: TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.bold
+                              ),),
+                              dense: false,
                               onChanged: (Answers? value) {
                                 setState(() {
                                   _question2 = value;
                                 });
                               },
                             ),
-                            Text("rent", style: TextStyle(
-                                fontSize: 17,
-                                fontWeight: FontWeight.bold
-                            ),),
-                            Radio<Answers>(
+                            ),
+
+                            Expanded(child:
+                            RadioListTile<Answers>(
                               value: Answers.rent,
                               groupValue: _question2,
+                              title: Text("rent", style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold
+                              ),),
                               onChanged: (Answers? value) {
                                 setState(() {
                                   _question2 = value;
                                 });
                               },
                             ),
+                            )
+
                           ],
                         ),
-                      ),
 
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        // decoration: BoxDecoration(border: Border.all(color: Colors.black)),
-                        margin:  EdgeInsets.only(top: 10, left: 10),
-                        child:  Row(
+                      Text("Do you have a yard?",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17),),
+
+
+                         Row(
                           children: [
-                            Text("Do you have a yard?",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17),),
-                            SizedBox(width: 10,),
-                            Text("yes", style: TextStyle(
-                                fontSize: 17,
-                                fontWeight: FontWeight.bold
-                            ),),
-                            Radio<Answers>(
+                            Expanded(child:
+                            RadioListTile<Answers>(
                               value: Answers.yes,
                               groupValue: _question3,
+                              dense: false,
+                              title: Text("yes", style: TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.bold
+                              ),),
                               onChanged: (Answers? value) {
                                 setState(() {
                                   _question3 = value;
                                 });
                               },
+                              // tileColor: Colors.orangeAccent,
                             ),
-                            Text("no", style: TextStyle(
-                                fontSize: 17,
-                                fontWeight: FontWeight.bold
-                            ),),
-                            Radio<Answers>(
-                              value: Answers.no,
-                              groupValue: _question3,
-                              onChanged: (Answers? value) {
-                                setState(() {
-                                  _question3 = value;
-                                });
-                              },
                             ),
 
+
+                            Expanded(child:
+                            RadioListTile<Answers>(
+                              value: Answers.no,
+                              groupValue: _question3,
+                              title: Text("no", style: TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.bold
+                              ),),
+                              onChanged: (Answers? value) {
+                                setState(() {
+                                  _question3 = value;
+                                });
+                              },
+                            ),
+                            ),
                           ],
                         ),
-                      ),
+
+
+
                     ],
                   ),
                 ),
 
+
+
                 Container(
-                  margin: const EdgeInsets.only(left: 200,top: 20),
+                  margin: const EdgeInsets.only(left: 200,),
                   width: 150,
                   child:
                   ElevatedButton(onPressed: (){
@@ -250,7 +277,9 @@ class _AdoptionFormState extends State<AdoptionForm> {
                       fontSize: 20,
                     ),),
                   ),
-                )
+                ),
+
+
 
               ],
             ),
