@@ -47,6 +47,7 @@ class _PetMatchPageSelectorState extends State<PetMatchPageSelector> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
             backgroundColor: Colors.blueGrey,
             leading: Image.asset("assets/images/logo.png"),
@@ -62,6 +63,7 @@ class _PetMatchPageSelectorState extends State<PetMatchPageSelector> {
         ),
         bottomNavigationBar: BottomNavigationBar(
           backgroundColor: Colors.blueGrey,
+          unselectedItemColor: Colors.black,
           selectedItemColor: Colors.orangeAccent,
           currentIndex: currentDestinationIndex,
           onTap: (int pIndex) {
@@ -70,9 +72,10 @@ class _PetMatchPageSelectorState extends State<PetMatchPageSelector> {
               petMatchPageViewController.animateToPage(
                 currentDestinationIndex,
                 duration: const Duration(
-                    milliseconds: 300
+                  milliseconds: 300
                 ),
-                curve: Curves.easeIn);
+                curve: Curves.ease
+              );
             });
           },
           items: const [
@@ -97,15 +100,16 @@ class _PetMatchPageSelectorState extends State<PetMatchPageSelector> {
         ),
         body: PageView(
           controller: petMatchPageViewController,
+          physics: const NeverScrollableScrollPhysics(),
           children: const [
             CategoryBody(),
             Center(
               child: Text(
-                "Test"
+                  "Test"
               ),
             ),
             ProfilePage()
-          ]
+          ],
         )
     );
   }
@@ -237,7 +241,7 @@ class _CategoryScrollSectionState extends State<CategoryScrollSection>
       setState(() {});
     });
   }
-  static const double speciesContainerHeight = 200.0;
+
   @override
   Widget build(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start,children: [
@@ -296,7 +300,7 @@ class _CategoryScrollSectionState extends State<CategoryScrollSection>
                     children: [
                       GridView.builder(
                           gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                            maxCrossAxisExtent: speciesContainerHeight,
+                            maxCrossAxisExtent: 200,
                             crossAxisSpacing: 20,
                             mainAxisSpacing: 20,
                           ),
@@ -307,7 +311,6 @@ class _CategoryScrollSectionState extends State<CategoryScrollSection>
                             return SpeciesContainer(
                                 speciesName: mapOfSpecies[categoryName]![pIndex]
                             );
-
                           }
                       )
                     ],
