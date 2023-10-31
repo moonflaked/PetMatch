@@ -133,7 +133,7 @@ class _AdoptionFormState extends State<AdoptionForm> {
                       ),
                       ),
 
-                            Text("Do you own any pets?",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17),),
+                            Text("Does everybody in your household agree with this adoption?",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17),),
 
                             Row(
                               children: [
