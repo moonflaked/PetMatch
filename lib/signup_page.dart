@@ -182,9 +182,7 @@ class _SignupState extends State<Signup> {
                   else if(password.text.trim().isEmpty){
                     _dialogBuilderPassword(context);
                   }
-                  else if(.text.trim().isEmpty){
-                    _dialogBuilderPassword(context);
-                  }
+                  
 
                 }
               },
