@@ -172,25 +172,20 @@ class _SignupState extends State<Signup> {
                       MaterialPageRoute(builder: (context) => Login(),));
                 }
                 else{
-                  if(email.text.isEmpty) {
-                    AlertDialog(
-                      content: Text("Email field is EMPTY!"),
-                      actions: <Widget>[
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: Text("Close"),
-                          style: TextButton.styleFrom(
-                            textStyle: Theme
-                                .of(context)
-                                .textTheme
-                                .labelLarge,
-                          ),
-                        )
-                      ],
-                    );
+                  if(email.text.trim().isEmpty) {
+                    // print("hello inside ");
+                    _dialogBuilderEmail(context);
                   }
+                  else if(username.text.trim().isEmpty){
+                    _dialogBuilderUsername(context);
+                  }
+                  else if(password.text.trim().isEmpty){
+                    _dialogBuilderPassword(context);
+                  }
+                  else if(.text.trim().isEmpty){
+                    _dialogBuilderPassword(context);
+                  }
+
                 }
               },
                 style: ButtonStyle(
@@ -210,6 +205,80 @@ class _SignupState extends State<Signup> {
           ),
         ),
       ),
+    );
+  }
+  Future<void> _dialogBuilderEmail(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Email field is EMPTY!"),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text("Close"),
+                style: TextButton.styleFrom(
+                  textStyle: Theme
+                      .of(context)
+                      .textTheme
+                      .labelLarge,
+                ),
+              )
+            ],
+          );
+        }
+    );
+  }
+
+  Future<void> _dialogBuilderUsername(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Username field is EMPTY!"),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text("Close"),
+                style: TextButton.styleFrom(
+                  textStyle: Theme
+                      .of(context)
+                      .textTheme
+                      .labelLarge,
+                ),
+              )
+            ],
+          );
+        }
+    );
+  }
+
+  Future<void> _dialogBuilderPassword(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Password field is EMPTY!"),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text("Close"),
+                style: TextButton.styleFrom(
+                  textStyle: Theme
+                      .of(context)
+                      .textTheme
+                      .labelLarge,
+                ),
+              )
+            ],
+          );
+        }
     );
   }
 }
