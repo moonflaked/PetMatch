@@ -8,13 +8,13 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  TextEditingController themeController = TextEditingController();
+  // TextEditingController themeController = TextEditingController();
   String? chosenTheme;
   List<String> listOfThemes = <String>[
     "Default",
     "Dark"
   ];
-  String? selectedString;
+  // String? selectedString;
   @override
   Widget build(BuildContext context) {
 
