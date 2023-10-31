@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import "package:collection/collection.dart";
 import 'package:petmatch/profile_page.dart';
+import 'package:petmatch/settings.dart';
 
 
 void main() {
@@ -103,11 +104,7 @@ class _PetMatchPageSelectorState extends State<PetMatchPageSelector> {
           physics: const NeverScrollableScrollPhysics(),
           children: const [
             CategoryBody(),
-            Center(
-              child: Text(
-                  "Test"
-              ),
-            ),
+            SettingsPage(),
             ProfilePage()
           ],
         )
