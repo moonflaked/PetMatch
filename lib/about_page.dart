@@ -26,12 +26,14 @@ class MyApp extends StatelessWidget {
               )
               ),
 
-
               Text("Contact Info:",style: GoogleFonts.eduTasBeginner(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               )
               ),
+              SizedBox(height: 15,),
+              Info(),
+
               FAQ(),
             ],
           ),
@@ -41,16 +43,63 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class Info extends StatelessWidget {
+
+class Info extends StatefulWidget {
   const Info({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
+  State<Info> createState() => _InfoState();
+}
 
+class _InfoState extends State<Info> {
+  @override
+  void setState(VoidCallback fn) {
+    // TODO: implement setState
+    super.setState(fn);
+  }
+  @override
+  Widget build(BuildContext context) {
+    return OutlinedButton(
+        onPressed: () => _dialogBuilder(context),
+        child: Text("Contact Info",style: TextStyle(color: Colors.red),),
+      style: ButtonStyle(
+        backgroundColor: MaterialStateColor.resolveWith((states) => Colors.blueGrey)
+      ),
+    );
+  }
+
+  Future<void> _dialogBuilder(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("We Are Always Ready To Help"),
+            content: Text(
+                "Phone Number: (514) 599-1234\n"
+                    "Email: petmatch@gmail.com\n"
+                    "Feel free to contact us anytime \u2665, our response rate: 1h MAX"
+            ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text("Close"),
+                style: TextButton.styleFrom(
+                    textStyle: Theme
+                        .of(context)
+                        .textTheme
+                        .labelLarge,
+                ),
+
+              )
+            ],
+          );
+        }
     );
   }
 }
+
 
 
 
@@ -95,48 +144,56 @@ class Logo extends StatelessWidget {
   }
 }
 
+class FAQ extends StatefulWidget {
+  const FAQ({super.key});
 
+  @override
+  State<FAQ> createState() => _FAQState();
+}
 
-class FAQ extends StatelessWidget {
-   FAQ({super.key});
+class _FAQState extends State<FAQ> {
 
   Map<String,String> questAns = {
-    "Q1:" : "How Will I Know If I’ve Been Approved to Adopt a Pet?",
-    "A1:" : "After submitting an adoption inquiry, the shelter or rescue group with the pet you’re interested in will contact you.",
-    "Q2:" : "How Long Will It Take to Hear Back from the Adoption Group?",
-    "A2:" : "PetMatch is a community and, like all communities, each individual or organization is a little bit different. Some days you might send in an inquiry and get a response within a few minutes and other groups may take a few days or a week. ",
-    "Q3:" : "How Often is PetMatch Updated?",
-    "A3:" : "Because each shelter and rescue group is responsible for keeping its adoptable pet listings current, PetMatch is continuously updated.",
-    "Q4:" : "Does Contacting the Shelter or Rescue Group Reserve the Pet I’m Interested In?",
-    "A4:" : "Submitting an adoption inquiry does not guarantee that the pet you’ve inquired about will still be available. For more information regarding the status of your inquiry, or the pet you’ve applied for, please contact us.",
-    "Q5:" : "Does Contacting the Adoption Group Put The Pet on Hold?",
-    "A5:" : "Submitting an adoption inquiry does not guarantee the pet you’ve applied for, nor does it place a pet “on hold”.  For more information regarding the status of your application, or the pet you’ve applied for, please contact the shelter or rescue group listing the pet directly. ",
-  };
+  "Q1:" : "How Will I Know If I’ve Been Approved to Adopt a Pet?",
+  "A1:" : "After submitting an adoption inquiry, the shelter or rescue group with the pet you’re interested in will contact you.",
+  "Q2:" : "How Long Will It Take to Hear Back from the Adoption Group?",
+  "A2:" : "PetMatch is a community and, like all communities, each individual or organization is a little bit different. Some days you might send in an inquiry and get a response within a few minutes and other groups may take a few days or a week. ",
+  "Q3:" : "How Often is PetMatch Updated?",
+  "A3:" : "Because each shelter and rescue group is responsible for keeping its adoptable pet listings current, PetMatch is continuously updated.",
+  "Q4:" : "Does Contacting the Shelter or Rescue Group Reserve the Pet I’m Interested In?",
+  "A4:" : "Submitting an adoption inquiry does not guarantee that the pet you’ve inquired about will still be available. For more information regarding the status of your inquiry, or the pet you’ve applied for, please contact us.",
+  "Q5:" : "Does Contacting the Adoption Group Put The Pet on Hold?",
+  "A5:" : "Submitting an adoption inquiry does not guarantee the pet you’ve applied for, nor does it place a pet “on hold”.  For more information regarding the status of your application, or the pet you’ve applied for, please contact the shelter or rescue group listing the pet directly. ",
+};
 
-  ScrollController scrollController = ScrollController();
-
+ScrollController scrollController = ScrollController();
   @override
   Widget build(BuildContext context) {
     return Container(
+        margin: EdgeInsets.only(
+          top: 10,
+        ),
         width: 350,
         height: 500,
         alignment: Alignment.centerLeft,
-      child: ListView.builder(
-            controller: scrollController,
-            scrollDirection: Axis.vertical,
-            shrinkWrap: true,
-            itemCount: questAns.length,
-            itemBuilder: (context, index) {
-              return FreqAskedQuest(
-                  type: questAns.keys.elementAt(index),
-                  response: questAns.values.elementAt(index),
-              );
-            },
-          )
+        child: ListView.builder(
+          controller: scrollController,
+          scrollDirection: Axis.vertical,
+          // shrinkWrap: true,
+          itemCount: questAns.length,
+          itemBuilder: (context, index) {
+            return FreqAskedQuest(
+              type: questAns.keys.elementAt(index),
+              response: questAns.values.elementAt(index),
+            );
+          },
+        )
 
     );
+
   }
 }
+
 
 
 class FreqAskedQuest extends StatefulWidget {
