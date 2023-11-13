@@ -18,7 +18,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       home: PetMatchPageSelector(),
       debugShowCheckedModeBanner: false,
     );
@@ -200,7 +200,6 @@ class _CategoryScrollSectionState extends State<CategoryScrollSection>
     "Dogs",
     "Cats",
     "Hamsters",
-
   ];
 
   static Map<String, List<String>> mapOfSpecies = {
