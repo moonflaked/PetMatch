@@ -20,6 +20,8 @@ class _SettingsPageState extends State<SettingsPage> {
 
 
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+
       children: [
         Center(
           child: Container(
@@ -29,11 +31,16 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
           )
         ),
-        Center(
-          child: Row(
+         Row(
+           mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                "Theme",
+              Padding(
+                padding: const EdgeInsets.only(
+                  right: 60
+                ),
+                child: Text(
+                  "Theme",
+                ),
               ),
               DropdownButton(
                 hint: Text("Select theme"),
@@ -56,7 +63,6 @@ class _SettingsPageState extends State<SettingsPage> {
               )
             ]
           )
-        )
 
       ]
     );
