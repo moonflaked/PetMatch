@@ -19,9 +19,7 @@ class _SettingsPageState extends State<SettingsPage> {
   // String? selectedString;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-
-      body: Column(
+    return Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Center(
@@ -142,7 +140,6 @@ class _SettingsPageState extends State<SettingsPage> {
                 )
             )
           ]
-      )
-    );
+      );
   }
 }
