@@ -26,86 +26,87 @@ class _ProfilePageState extends State<ProfilePage> {
     FocusNode emailFocusNode = FocusNode();
 
     ScrollController adoptedPetScrollController = ScrollController();
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        const ProfilePicture(),
-        Container(
-          margin: const EdgeInsets.only(
-            left: 10,
-            top: 30,
-          ),
-          width: 350,
-          child: SettingsFormField(
-            fieldFocusNode: usernameFocusNode,
-            textFieldController: usernameController,
-            textFieldTitle: usernameFieldTitle,
-          )
-        ),
-        Container(
-            margin: const EdgeInsets.only(
-              left: 10,
-              top: 10,
+    return SingleChildScrollView(
+      child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const ProfilePicture(),
+            Container(
+                margin: const EdgeInsets.only(
+                  left: 10,
+                  top: 30,
+                ),
+                width: 350,
+                child: SettingsFormField(
+                  fieldFocusNode: usernameFocusNode,
+                  textFieldController: usernameController,
+                  textFieldTitle: usernameFieldTitle,
+                )
             ),
-            width: 350,
-            child: SettingsFormField(
-              fieldFocusNode: emailFocusNode,
-              textFieldController: emailController,
-              textFieldTitle: emailFieldTitle,
-            )
-        ),
-        Container(
-          alignment: Alignment.center,
-          margin: const EdgeInsets.only(
-            top: 20,
-          ),
-
-          child: ElevatedButton(
-            onPressed: () {
-
-            },
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(
-                Colors.orangeAccent
-              ),
-              minimumSize: MaterialStateProperty.all(
-                const Size(150, 40)
-              ),
-
+            Container(
+                margin: const EdgeInsets.only(
+                  left: 10,
+                  top: 10,
+                ),
+                width: 350,
+                child: SettingsFormField(
+                  fieldFocusNode: emailFocusNode,
+                  textFieldController: emailController,
+                  textFieldTitle: emailFieldTitle,
+                )
             ),
-            child: const Text(
-              "Save Changes",
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
-              )
-            )
-          )
-        ),
-        Container(
-          margin: const EdgeInsets.only(
-            left: 10,
-            top: 30,
-          ),
-          width: 350,
-          alignment: Alignment.centerLeft,
-          child: const Text(
-            "Adopted pets",
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            )
-          )
-        ),
-        Container(
-          margin: const EdgeInsets.only(
-            top: 10,
-          ),
-          width: 350,
-          height: 181.2,
-          alignment: Alignment.centerLeft,
-          child: ListView.builder(
+            Container(
+                alignment: Alignment.center,
+                margin: const EdgeInsets.only(
+                  top: 20,
+                ),
+
+                child: ElevatedButton(
+                    onPressed: () {
+
+                    },
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(
+                          Colors.orangeAccent
+                      ),
+                      minimumSize: MaterialStateProperty.all(
+                          const Size(150, 40)
+                      ),
+
+                    ),
+                    child: const Text(
+                        "Save Changes",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        )
+                    )
+                )
+            ),
+            Container(
+                margin: const EdgeInsets.only(
+                  left: 10,
+                  top: 30,
+                ),
+                width: 350,
+                alignment: Alignment.centerLeft,
+                child: const Text(
+                    "Adopted pets",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    )
+                )
+            ),
+            Container(
+              margin: const EdgeInsets.only(
+                top: 10,
+              ),
+              width: 350,
+              height: 181.2,
+              alignment: Alignment.centerLeft,
+              child: ListView.builder(
                 scrollDirection: Axis.vertical,
                 controller: adoptedPetScrollController,
                 shrinkWrap: true,
@@ -118,7 +119,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 },
               ),
             )
-      ]
+          ]
+      )
     );
   }
 }

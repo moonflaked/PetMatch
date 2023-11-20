@@ -346,9 +346,9 @@ class _SpeciesContainerState extends State<SpeciesContainer> {
               borderRadius: BorderRadius.circular(30.5),
           ),
           child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Container(
+                /*Container(
                   height: 128.5,
                   // Decoration borderRadius is used here for limiting the container so the
                   // black border of the container has space to display
@@ -361,7 +361,7 @@ class _SpeciesContainerState extends State<SpeciesContainer> {
                   child: const Center(
 
                   )
-                ),
+                ),*/
                 // Bottom part of the container
                 Container(
                   width: MediaQuery.of(context).size.width,
