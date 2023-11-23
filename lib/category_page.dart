@@ -232,6 +232,8 @@ class _CategoryScrollSectionState extends State<CategoryScrollSection>
     super.initState();
     categoryTabController = TabController(
         length: listOfCategories.length, vsync: this, initialIndex: 0);
+    // Add a listener to the tab controller so that it listens for when the user
+    // Scrolls from page to page
     categoryTabController.addListener(() {
       setState(() {});
     });
