@@ -4,16 +4,17 @@ import 'package:petmatch/category_page.dart';
 import 'package:petmatch/settings.dart';
 
 
-class MyApp extends StatelessWidget {
+class AboutPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.orange[300],
         body: Container(
           child: Column(
             children: [
               Logo(),
+
               Text("This application allows you to adopt pets.",style: GoogleFonts.roboto(
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
             ],
           ),
         ),
+
     );
   }
 }
@@ -75,7 +77,7 @@ class _InfoState extends State<Info> {
             actions: <Widget>[
               TextButton(
                 onPressed: () {
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MyApp())
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => AboutPage())
                   );
                 },
                 child: Text("Close"),
@@ -113,6 +115,7 @@ class Logo extends StatelessWidget {
           // Display the image
 
           // Positioned button at the top left
+
           Positioned(
             top: 22.0, // Adjust the top position as needed
             left: 16.0, // Adjust the left position as needed
@@ -122,7 +125,7 @@ class Logo extends StatelessWidget {
                 print("1 2 test test perfectoo");
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => SettingsPage()
+                  MaterialPageRoute(builder: (context) => CategoryStart()
                   )
                 );
               },
@@ -137,6 +140,7 @@ class Logo extends StatelessWidget {
               ),
             ),
           ),
+
         ],
       );
   }

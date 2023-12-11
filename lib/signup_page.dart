@@ -182,7 +182,9 @@ class _SignupState extends State<Signup> {
                   else if(password.text.trim().isEmpty){
                     _dialogBuilderPassword(context);
                   }
-                  
+                  else if(chosenPet!.isEmpty){
+                    _dialogBuilderPet(context);
+                  }
 
                 }
               },
@@ -261,6 +263,31 @@ class _SignupState extends State<Signup> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text("Password field is EMPTY!"),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text("Close"),
+                style: TextButton.styleFrom(
+                  textStyle: Theme
+                      .of(context)
+                      .textTheme
+                      .labelLarge,
+                ),
+              )
+            ],
+          );
+        }
+    );
+  }
+
+  Future<void> _dialogBuilderPet(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("You didn't choose a PET!! ~(>_<。)＼ "),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
