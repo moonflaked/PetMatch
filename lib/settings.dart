@@ -34,6 +34,9 @@ class _SettingsPageState extends State<SettingsPage> {
             children: [
               Text(
                 "Theme",
+                style: TextStyle(
+                   fontSize: 25,
+                )
               ),
               DropdownButton(
                 hint: Text("Select theme"),

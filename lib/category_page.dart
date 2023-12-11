@@ -59,7 +59,8 @@ class _PetMatchPageSelectorState extends State<PetMatchPageSelector> {
                   icon: const Icon(
                     Icons.notifications_sharp,
                     color: Colors.black,
-                  ))
+                  )
+              )
             ]
         ),
         bottomNavigationBar: BottomNavigationBar(
