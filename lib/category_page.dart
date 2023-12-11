@@ -5,17 +5,17 @@ import 'package:petmatch/settings.dart';
 
 
 void main() {
-  runApp(const MyApp());
+  runApp(const CategoryStart());
 }
 
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+class CategoryStart extends StatefulWidget {
+  const CategoryStart({super.key});
 
   @override
-  State<MyApp> createState() => _MyAppState();
+  State<CategoryStart> createState() => _CategoryStartState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _CategoryStartState extends State<CategoryStart> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

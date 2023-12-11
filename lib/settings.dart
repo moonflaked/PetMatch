@@ -102,7 +102,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         onPressed: () {
                           Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => MyApp())
+                              MaterialPageRoute(builder: (context) => AboutPage())
                           );
                         },
                         style: ButtonStyle(
@@ -140,6 +140,6 @@ class _SettingsPageState extends State<SettingsPage> {
                 )
             )
           ]
-      );
+    );
   }
 }
