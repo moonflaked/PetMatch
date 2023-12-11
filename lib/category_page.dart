@@ -234,6 +234,7 @@ class _CategoryScrollSectionState extends State<CategoryScrollSection>
         length: listOfCategories.length, vsync: this, initialIndex: 0);
     // Add a listener to the tab controller so that it listens for when the user
     // Scrolls from page to page
+    // When it listens for an event, it changes the color of the tab
     categoryTabController.addListener(() {
       setState(() {});
     });
