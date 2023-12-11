@@ -1,19 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:petmatch/category_page.dart';
+import 'package:petmatch/settings.dart';
 
-
-void main() {
-  runApp(
-    MyApp(),
-  );
-}
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
+    return  Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.orange[300],
         body: Container(
@@ -38,7 +32,6 @@ class MyApp extends StatelessWidget {
             ],
           ),
         ),
-      ),
     );
   }
 }
@@ -82,7 +75,8 @@ class _InfoState extends State<Info> {
             actions: <Widget>[
               TextButton(
                 onPressed: () {
-                  Navigator.pop(context);
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MyApp())
+                  );
                 },
                 child: Text("Close"),
                 style: TextButton.styleFrom(
@@ -126,6 +120,11 @@ class Logo extends StatelessWidget {
               onPressed: () {
                 // Button click action
                 print("1 2 test test perfectoo");
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => SettingsPage()
+                  )
+                );
               },
               icon: const Icon(Icons.arrow_back_ios_new_outlined,
                 shadows: [

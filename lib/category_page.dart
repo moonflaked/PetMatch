@@ -18,7 +18,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       home: PetMatchPageSelector(),
       debugShowCheckedModeBanner: false,
     );
@@ -48,7 +48,6 @@ class _PetMatchPageSelectorState extends State<PetMatchPageSelector> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomInset: false,
         appBar: AppBar(
             backgroundColor: Colors.blueGrey,
             leading: Image.asset("assets/images/logo.png"),
@@ -201,7 +200,6 @@ class _CategoryScrollSectionState extends State<CategoryScrollSection>
     "Dogs",
     "Cats",
     "Hamsters",
-
   ];
 
   static Map<String, List<String>> mapOfSpecies = {
@@ -235,6 +233,8 @@ class _CategoryScrollSectionState extends State<CategoryScrollSection>
     super.initState();
     categoryTabController = TabController(
         length: listOfCategories.length, vsync: this, initialIndex: 0);
+    // Add a listener to the tab controller so that it listens for when the user
+    // Scrolls from page to page
     categoryTabController.addListener(() {
       setState(() {});
     });
@@ -349,9 +349,9 @@ class _SpeciesContainerState extends State<SpeciesContainer> {
               borderRadius: BorderRadius.circular(30.5),
           ),
           child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Container(
+                /*Container(
                   height: 128.5,
                   // Decoration borderRadius is used here for limiting the container so the
                   // black border of the container has space to display
@@ -364,7 +364,7 @@ class _SpeciesContainerState extends State<SpeciesContainer> {
                   child: const Center(
 
                   )
-                ),
+                ),*/
                 // Bottom part of the container
                 Container(
                   width: MediaQuery.of(context).size.width,

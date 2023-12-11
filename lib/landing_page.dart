@@ -1,5 +1,7 @@
 
 import 'package:flutter/material.dart';
+import 'package:petmatch/category_page.dart';
+import 'package:petmatch/signup_page.dart';
 
 void main(){
   runApp(const LandingPage());
@@ -55,7 +57,7 @@ class _LandingPageState extends State<LandingPage> {
 
                 SizedBox(width: 150,height: 40,child:
                 ElevatedButton(onPressed: (){
-
+                  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => PetMatchPageSelector()));
                 },
                   style: ButtonStyle(
                     backgroundColor: MaterialStateColor.resolveWith((states) => Colors.orangeAccent),
