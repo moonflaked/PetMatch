@@ -3,6 +3,8 @@ import "package:collection/collection.dart";
 import 'package:petmatch/profile_page.dart';
 import 'package:petmatch/settings.dart';
 
+import 'add_a_pet_page.dart';
+
 
 void main() {
   runApp(const CategoryStart());
@@ -20,6 +22,9 @@ class _CategoryStartState extends State<CategoryStart> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: PetMatchPageSelector(),
+      theme: ThemeData(
+        useMaterial3: false
+      ),
       debugShowCheckedModeBanner: false,
     );
   }
@@ -107,6 +112,19 @@ class _PetMatchPageSelectorState extends State<PetMatchPageSelector> {
             SettingsPage(),
             ProfilePage()
           ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => AddAPet())
+            );
+          },
+          backgroundColor: Colors.blueGrey,
+          child: Icon(
+            Icons.add_sharp,
+            color: Colors.black
+          )
         )
     );
   }
