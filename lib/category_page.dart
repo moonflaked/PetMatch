@@ -20,6 +20,9 @@ class _CategoryStartState extends State<CategoryStart> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: PetMatchPageSelector(),
+      theme: ThemeData(
+        useMaterial3: false
+      ),
       debugShowCheckedModeBanner: false,
     );
   }

@@ -21,6 +21,9 @@ class _AdoptionFormState extends State<AdoptionForm> {
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          useMaterial3: false
+        ),
         home:  Scaffold(
           resizeToAvoidBottomInset: false,
           // backgroundColor: Colors.blueGrey,
