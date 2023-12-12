@@ -3,6 +3,8 @@ import "package:collection/collection.dart";
 import 'package:petmatch/profile_page.dart';
 import 'package:petmatch/settings.dart';
 
+import 'add_a_pet.dart';
+
 
 void main() {
   runApp(const CategoryStart());
@@ -110,6 +112,19 @@ class _PetMatchPageSelectorState extends State<PetMatchPageSelector> {
             SettingsPage(),
             ProfilePage()
           ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => MyApp())
+            );
+          },
+          backgroundColor: Colors.blueGrey,
+          child: Icon(
+            Icons.add_sharp,
+            color: Colors.black
+          )
         )
     );
   }
