@@ -24,11 +24,12 @@ class _LoginState extends State<Login> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Timer(
-        const Duration(seconds: 3),
-            () =>
-            Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (BuildContext context) => const SignUp())));
+    // Timer(
+    //     const Duration(seconds: 3),
+    //         () =>
+    //         Navigator.of(context).pushReplacement(MaterialPageRoute(
+    //             builder: (BuildContext context) => const SignUp()))
+    // );
   }
 
   @override

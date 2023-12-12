@@ -1,7 +1,8 @@
 import "package:sqflite/sqflite.dart";
 import "package:path/path.dart";
+
 class PetMatchDatabase {
-  static late Database? _database;
+  static Database? _database;
 
   static Future<Database?> getInstance() async
   {
@@ -57,6 +58,8 @@ class PetMatchDatabase {
                 CONSTRAINT ADOPTED_PET_USER_ID_FK FOREIGN KEY (user_id) REFERENCES USER
               );
               
+              INSERT INTO USER (email,username,password) VALUES ('conan@gmail.com','conan','conan');
+              INSERT INTO USER (email,username,password) VALUES ('logan@gmail.com','logan','logan');
               INSERT INTO CATEGORY (category_name) VALUES ('Dog'), ('Cat');
         ''');
       }

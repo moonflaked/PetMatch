@@ -4,6 +4,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:petmatch/landing_page.dart';
 import 'package:petmatch/login_page.dart';
+import 'package:petmatch/database.dart';
+import 'package:petmatch/user_model.dart';
 
 void main(){
   runApp(const SignUp());
@@ -24,11 +26,12 @@ class _SignUpState extends State<SignUp> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Timer(
-        const Duration(seconds: 3),
-            () =>
-            Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (BuildContext context) => const LandingPage())));
+    // Timer(
+    //     const Duration(seconds: 3),
+    //         () =>
+    //         Navigator.of(context).pushReplacement(MaterialPageRoute(
+    //             builder: (BuildContext context) => const LandingPage()))
+    // );
    }
 
   @override
@@ -52,22 +55,56 @@ class Signup extends StatefulWidget {
   State<Signup> createState() => _SignupState();
 }
 
-class _SignupState extends State<Signup> {
+class _SignupState extends State<Signup>{
 
   TextEditingController email = TextEditingController();
   TextEditingController username = TextEditingController();
   TextEditingController password = TextEditingController();
 
-  String? chosenPet;
-  List<String> listOfPet = <String>[
-    "Dog",
-    "Cat"
-  ];
-
+  // String? chosenPet;
+  // List<String> listOfPet = <String>[
+  //   "Dog",
+  //   "Cat"
+  // ];
   @override
-  void setState(VoidCallback fn) {
+  void setState(VoidCallback fn) async{
     // TODO: implement setState
     super.setState(fn);
+    await PetMatchDatabase.getInstance();
+  }
+
+  late User user;
+  @override
+  void initState(){
+    // TODO: implement initState
+    super.initState();
+
+  }
+  final petMatchDatabase = PetMatchDatabase.getInstance();
+
+  void showSnackBar(String? snackBarText)
+  {
+    ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          duration: Duration(
+              seconds: 2
+          ),
+          behavior: SnackBarBehavior.floating,
+          elevation: 0,
+          backgroundColor: Colors.grey.shade600,
+          content: Text(
+            snackBarText ?? "",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 18,
+            ),
+          ),
+          width: 200,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20)
+          ),
+        )
+    );
   }
 
   @override
@@ -133,34 +170,34 @@ class _SignupState extends State<Signup> {
               SizedBox(height: 40),
 
 
-                    Text("Choose a Pet",style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.orangeAccent,
-                      fontWeight: FontWeight.bold
-                    )
-                    ),
-                    DropdownButton(
-                        hint: Text("Select Pet",style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.red,
-                            fontWeight: FontWeight.bold
-                        )),
-                        value: chosenPet,
-                        elevation: 4,
-                        icon: Icon(Icons.pets,color: Colors.orangeAccent,),
-                        onChanged: (newPet){
-                      setState(() {
-                        chosenPet = newPet;
-                      });
-                    },
-                        items: listOfPet.map((petElement){
-                          return DropdownMenuItem(
-                              value: petElement,
-                              child: Text(petElement,style: TextStyle(fontWeight: FontWeight.bold,color: Colors.orangeAccent,),)
-                          );
-                        }).toList(),
-
-                    ),
+                    // Text("Choose a Pet",style: TextStyle(
+                    //   fontSize: 20,
+                    //   color: Colors.orangeAccent,
+                    //   fontWeight: FontWeight.bold
+                    // )
+                    // ),
+                    // DropdownButton(
+                    //     hint: Text("Select Pet",style: TextStyle(
+                    //         fontSize: 20,
+                    //         color: Colors.red,
+                    //         fontWeight: FontWeight.bold
+                    //     )),
+                    //     value: chosenPet,
+                    //     elevation: 4,
+                    //     icon: Icon(Icons.pets,color: Colors.orangeAccent,),
+                    //     onChanged: (newPet){
+                    //   setState(() {
+                    //     chosenPet = newPet;
+                    //   });
+                    // },
+                    //     items: listOfPet.map((petElement){
+                    //       return DropdownMenuItem(
+                    //           value: petElement,
+                    //           child: Text(petElement,style: TextStyle(fontWeight: FontWeight.bold,color: Colors.orangeAccent,),)
+                    //       );
+                    //     }).toList(),
+                    //
+                    // ),
 
 
 
@@ -168,6 +205,7 @@ class _SignupState extends State<Signup> {
               SizedBox(width: 150,height: 40,child:
               ElevatedButton(onPressed: (){
                 if(email.text.isNotEmpty && username.text.isNotEmpty &&  password.text.isNotEmpty) {
+                  _insert(email.text, username.text, password.text);
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => Login(),));
                 }
@@ -182,9 +220,7 @@ class _SignupState extends State<Signup> {
                   else if(password.text.trim().isEmpty){
                     _dialogBuilderPassword(context);
                   }
-                  else if(chosenPet!.isEmpty){
-                    _dialogBuilderPet(context);
-                  }
+
 
                 }
               },
@@ -200,7 +236,7 @@ class _SignupState extends State<Signup> {
                 ),
               ),
               ),
-              const SizedBox(height: 100),
+              const SizedBox(height: 110),
             ],
           ),
         ),
@@ -305,6 +341,16 @@ class _SignupState extends State<Signup> {
           );
         }
     );
+  }
+  void _insert(email, username, password) async{
+    Map<String,dynamic> row = {
+       "email": email,
+       "username" : username,
+      "password" : password
+    };
+    User user = User.fromMap(row);
+    final id = await User.insert(user);
+    showSnackBar("Welcome to PetMatch!");
   }
 }
 
