@@ -31,7 +31,7 @@ dependencies:
   google_fonts: ^4.0.3
   flutter:
     sdk: flutter
-
+  carousel_slider: ^4.2.1
   # Import dart functions to make working with different collections easier
   collection: ^1.17.2
   # The following adds the Cupertino Icons font to your application.
@@ -39,6 +39,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   sqflite: ^2.3.0
   path: ^1.8.3
+  http: any
 
 dev_dependencies:
 
