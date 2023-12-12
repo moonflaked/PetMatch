@@ -42,6 +42,7 @@ class PetMatchDatabase {
                 age int NOT NULL,
                 species varchar(32) NOT NULL,
                 weight decimal(7,2) NOT NULL,
+                pet_image_link varchar(255),
                 category_id int,
                 user_id int,
                 CONSTRAINT PET_PET_ID_PK PRIMARY KEY (pet_id),
