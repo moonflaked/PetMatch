@@ -5,11 +5,14 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-void main() => runApp(const APICall());
+import 'add_a_pet_page.dart';
+
+void main() => runApp(APICall(selectedAnimalLabel: AnimalLabel.dog));
 
 
 class APICall extends StatefulWidget {
-  const APICall({super.key});
+  final AnimalLabel selectedAnimalLabel;
+  const APICall({super.key, required this.selectedAnimalLabel});
 
   @override
   State<APICall> createState() => _APICallState();
@@ -20,7 +23,11 @@ class _APICallState extends State<APICall> {
 
   Future<List> futurePet() async {
     http.Response response;
-    response = await http.get(Uri.parse("https://api.thecatapi.com/v1/images/search?limit=20&api_key=live_ybBUs2S26sju97kKaTDAtVRnOdBs7ftDbcie6NtcNAWHdBFWj5mC8j17PaWnitFj"));
+    response = await http.get(
+        widget.selectedAnimalLabel == AnimalLabel.cat ?
+          Uri.parse("https://api.thecatapi.com/v1/images/search?limit=20&api_key=live_ybBUs2S26sju97kKaTDAtVRnOdBs7ftDbcie6NtcNAWHdBFWj5mC8j17PaWnitFj") :
+          Uri.parse("https://api.thedogapi.com/v1/images/search?limit=50")
+    );
     // ignore: unnecessary_null_comparison
 
     List mapResponse = jsonDecode(response.body);
@@ -34,14 +41,19 @@ class _APICallState extends State<APICall> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Fetch Data Example',
-      theme: ThemeData(
-        primarySwatch: Colors.blueGrey,
-      ),
-      home: Scaffold(
+    return Scaffold(
         appBar: AppBar(
-          title: const Text('Fetch Data Example'),
+          iconTheme: IconThemeData(
+            color: Colors.black,
+          ),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          title: const Text(
+            'Choose a picture...',
+            style: TextStyle(
+              color: Colors.black
+            ),
+          ),
         ),
         body:Center(
           child: FutureBuilder(
@@ -63,10 +75,6 @@ class _APICallState extends State<APICall> {
                     } else {
                       List data = snapshot.data ?? [];
 
-                      if(data.isNotEmpty)
-                      {
-                        animalImageUrl = data[0]["url"];
-                      }
                       return CarouselSlider(
                           options: CarouselOptions(
                               // autoPlayAnimationDuration: const Duration(milliseconds: 99999),
@@ -74,15 +82,13 @@ class _APICallState extends State<APICall> {
                               enlargeCenterPage: true,
                               height: 300,
 
-                              onPageChanged: (index, reason) {
-                                animalImageUrl = data[index]["url"];
-                              },
                           ),
                           items: data.map(
                                 (e) => Container(
                                   child: InkWell(
                                       child: Image.network(e["url"], fit: BoxFit.contain,),
                                       onTap: () {
+                                        animalImageUrl = e["url"];
                                           showDialog(
                                               context: context,
                                               builder: (BuildContext context) {
@@ -110,6 +116,9 @@ class _APICallState extends State<APICall> {
                                                         */
                                                         Navigator.of(context).pop();
                                                         Navigator.of(context).pop(animalImageUrl);
+                                                        setState(() {
+
+                                                        });
                                                       },
                                                       child: Text("YESS!!"),
                                                       style: TextButton.styleFrom(
@@ -123,9 +132,6 @@ class _APICallState extends State<APICall> {
                                                 );
                                               }
                                           );
-
-
-
                                     },
                                     )
                                  ),
@@ -133,9 +139,7 @@ class _APICallState extends State<APICall> {
                     }
                 }
               }),
-        ),
-
-      ),
+        )
     );
   }
 }

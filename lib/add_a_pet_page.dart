@@ -7,7 +7,6 @@ void main() {
 }
 
 enum AnimalLabel {
-  noLabelChosen("Choose an animal"),
   dog("Dog"),
   cat("Cat");
   const AnimalLabel(this.petLabel);
@@ -49,9 +48,8 @@ class _AddAPetBodyState extends State<AddAPetBody> {
   TextEditingController weightController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   AnimalLabel? selectedAnimalLabel;
-  String selectedAnimal = "";
 
-  late String animalImageUrl = "https://archive.org/download/no-photo-available/no-photo-available.png";
+  late String animalImageUrl = "";
 
   void showSnackBar(String? snackBarText)
   {
@@ -101,8 +99,10 @@ class _AddAPetBodyState extends State<AddAPetBody> {
   }
   @override
   Widget build(BuildContext context) {
-    double columnLeftMargin = 20.0;
-    double textLabelBottomMargin = 15.0;
+    const double columnLeftMargin = 20.0;
+    const double columnRightMargin = 24.0;
+    const double textLabelBottomMargin = 15.0;
+    const double textFieldFontSize = 21.0;
     return Stack(
       children: [
         ListView(
@@ -138,9 +138,7 @@ class _AddAPetBodyState extends State<AddAPetBody> {
                           ),
                           image: DecorationImage(
                             fit: BoxFit.fitHeight,
-                            image: NetworkImage(
-                                animalImageUrl
-                            ),
+                            image: animalImageUrl.isEmpty ? const AssetImage("assets/images/no-image.png") : NetworkImage(animalImageUrl) as ImageProvider
                           )
                       ),
                     )
@@ -160,12 +158,17 @@ class _AddAPetBodyState extends State<AddAPetBody> {
               ),
               child: DropdownMenu<AnimalLabel>(
                   width: 350,
-                  initialSelection: AnimalLabel.noLabelChosen,
                   controller: animalController,
-                  label: const Text("Animal"),
+                  label: const Text(
+                    "Choose an animal",
+                    style: TextStyle(
+                      fontSize: 16
+                    ),
+                  ),
                   onSelected: (AnimalLabel? animalLabel) {
                     setState(() {
                       selectedAnimalLabel = animalLabel;
+                      animalImageUrl = "";
                     });
                   },
                   dropdownMenuEntries: AnimalLabel.values.map<DropdownMenuEntry<AnimalLabel>>(
@@ -173,7 +176,7 @@ class _AddAPetBodyState extends State<AddAPetBody> {
                         return DropdownMenuEntry(
                             value: animalLabel,
                             label: animalLabel.petLabel,
-                            enabled: animalLabel != AnimalLabel.noLabelChosen ? true : false
+                            enabled: true
                         );
                       }
                   ).toList()
@@ -183,15 +186,18 @@ class _AddAPetBodyState extends State<AddAPetBody> {
             Container(
               margin: EdgeInsets.only(
                   left: columnLeftMargin,
-                  right: columnLeftMargin
+                  right: columnRightMargin
               ),
               child: TextField(
                 controller: speciesController,
                 style: TextStyle(
-                    fontSize: 13
+                    fontSize: textFieldFontSize
                 ),
                 decoration: InputDecoration(
-                    contentPadding: EdgeInsets.all(10),
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 15
+                    ),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5)
                     )
@@ -202,15 +208,18 @@ class _AddAPetBodyState extends State<AddAPetBody> {
             Container(
               margin: EdgeInsets.only(
                   left: columnLeftMargin,
-                  right: columnLeftMargin
+                  right: columnRightMargin
               ),
               child: TextField(
                 controller: nameController,
                 style: TextStyle(
-                    fontSize: 13
+                    fontSize: textFieldFontSize
                 ),
                 decoration: InputDecoration(
-                    contentPadding: EdgeInsets.all(10),
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 15
+                    ),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5)
                     )
@@ -221,15 +230,18 @@ class _AddAPetBodyState extends State<AddAPetBody> {
             Container(
               margin: EdgeInsets.only(
                   left: columnLeftMargin,
-                  right: columnLeftMargin
+                  right: columnRightMargin
               ),
               child: TextField(
                 controller: genderController,
                 style: TextStyle(
-                    fontSize: 13
+                    fontSize: textFieldFontSize
                 ),
                 decoration: InputDecoration(
-                    contentPadding: EdgeInsets.all(10),
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 15
+                    ),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5)
                     )
@@ -240,15 +252,18 @@ class _AddAPetBodyState extends State<AddAPetBody> {
             Container(
               margin: EdgeInsets.only(
                   left: columnLeftMargin,
-                  right: columnLeftMargin
+                  right: columnRightMargin
               ),
               child: TextField(
                 controller: ageController,
                 style: TextStyle(
-                    fontSize: 13
+                    fontSize: textFieldFontSize
                 ),
                 decoration: InputDecoration(
-                    contentPadding: EdgeInsets.all(10),
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 15
+                    ),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5)
                     )
@@ -259,15 +274,18 @@ class _AddAPetBodyState extends State<AddAPetBody> {
             Container(
               margin: EdgeInsets.only(
                   left: columnLeftMargin,
-                  right: columnLeftMargin
+                  right: columnRightMargin
               ),
               child: TextField(
                 controller: weightController,
                 style: TextStyle(
-                    fontSize: 13
+                    fontSize: textFieldFontSize
                 ),
                 decoration: InputDecoration(
-                    contentPadding: EdgeInsets.all(10),
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 15
+                    ),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5)
                     )
@@ -278,16 +296,19 @@ class _AddAPetBodyState extends State<AddAPetBody> {
             Container(
               margin: EdgeInsets.only(
                   left: columnLeftMargin,
-                  right: columnLeftMargin
+                  right: columnRightMargin
               ),
               child: TextField(
                 controller: descriptionController,
                 maxLines: 10,
                 style: TextStyle(
-                    fontSize: 13
+                    fontSize: textFieldFontSize
                 ),
                 decoration: InputDecoration(
-                    contentPadding: EdgeInsets.all(10),
+                    contentPadding: EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 15
+                    ),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5)
                     )
@@ -304,22 +325,23 @@ class _AddAPetBodyState extends State<AddAPetBody> {
                 bottom: 60
               ),
               child: ElevatedButton(
-                  onPressed: () async {
+                  onPressed: selectedAnimalLabel == null? null : () async {
                     animalImageUrl = await Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => APICall())
+                      MaterialPageRoute(builder: (context) => APICall(selectedAnimalLabel: selectedAnimalLabel!,))
                     );
-
                     setState(() {});
                   },
                   style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(
+                      backgroundColor: selectedAnimalLabel == null? MaterialStateProperty.all(
+                        Colors.grey.shade300
+                      ) : MaterialStateProperty.all(
                           Colors.orangeAccent
                       )
                   ),
                   child: Text(
-                    "Choose a picture...",
+                    selectedAnimalLabel == null? "Choose an animal to access this option" : "Choose a picture...",
                     style: TextStyle(
-                      color: Colors.black,
+                      color: selectedAnimalLabel == null? Colors.grey.shade600 : Colors.black,
                     ),
                   )
               ),
