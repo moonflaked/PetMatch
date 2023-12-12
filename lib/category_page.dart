@@ -3,7 +3,7 @@ import "package:collection/collection.dart";
 import 'package:petmatch/profile_page.dart';
 import 'package:petmatch/settings.dart';
 
-import 'add_a_pet.dart';
+import 'add_a_pet_page.dart';
 
 
 void main() {
@@ -117,7 +117,7 @@ class _PetMatchPageSelectorState extends State<PetMatchPageSelector> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => MyApp())
+              MaterialPageRoute(builder: (context) => AddAPet())
             );
           },
           backgroundColor: Colors.blueGrey,

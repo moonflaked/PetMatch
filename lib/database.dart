@@ -56,6 +56,8 @@ class PetMatchDatabase {
                 CONSTRAINT ADOPTED_PET_PET_ID_FK FOREIGN KEY (pet_id) REFERENCES PET,
                 CONSTRAINT ADOPTED_PET_USER_ID_FK FOREIGN KEY (user_id) REFERENCES USER
               );
+              
+              INSERT INTO CATEGORY (category_name) VALUES ('Dog'), ('Cat');
         ''');
       }
     );
