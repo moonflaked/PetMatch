@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:petmatch/apiCall.dart";
 
 
 void main() {
@@ -6,6 +7,7 @@ void main() {
 }
 
 enum AnimalLabel {
+  noLabelChosen("Choose an animal"),
   dog("Dog"),
   cat("Cat");
   const AnimalLabel(this.petLabel);
@@ -40,13 +42,67 @@ class AddAPetBody extends StatefulWidget {
 
 class _AddAPetBodyState extends State<AddAPetBody> {
   TextEditingController animalController = TextEditingController();
+  TextEditingController speciesController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController genderController = TextEditingController();
+  TextEditingController ageController = TextEditingController();
+  TextEditingController weightController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
   AnimalLabel? selectedAnimalLabel;
   String selectedAnimal = "";
 
+  late String animalImageUrl = "https://archive.org/download/no-photo-available/no-photo-available.png";
+
+  void showSnackBar(String? snackBarText)
+  {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        duration: Duration(
+          seconds: 2
+        ),
+        behavior: SnackBarBehavior.floating,
+        elevation: 0,
+        backgroundColor: Colors.grey.shade600,
+        content: Text(
+          snackBarText ?? "",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 18,
+          ),
+        ),
+        width: 200,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20)
+        ),
+      )
+    );
+  }
+
+  bool isTextEditingControllerEmpty(TextEditingController textEditingController, {String snackBarText = ""})
+  {
+    bool textEditingControllerIsEmpty = false;
+    if(textEditingController.text.length <= 0)
+    {
+        textEditingControllerIsEmpty = true;
+        showSnackBar(snackBarText);
+    }
+    return textEditingControllerIsEmpty;
+  }
+
+  bool isAnimalLabelEmpty(AnimalLabel? animalLabel, {String snackBarText = ""})
+  {
+    bool selectedAnimalLabelIsEmpty = false;
+    if(animalLabel == null)
+    {
+      selectedAnimalLabelIsEmpty = true;
+      showSnackBar(snackBarText);
+    }
+    return selectedAnimalLabelIsEmpty;
+  }
   @override
   Widget build(BuildContext context) {
     double columnLeftMargin = 20.0;
-
+    double textLabelBottomMargin = 15.0;
     return Stack(
       children: [
         ListView(
@@ -81,28 +137,22 @@ class _AddAPetBodyState extends State<AddAPetBody> {
                             width: 1,
                           ),
                           image: DecorationImage(
-                            image: AssetImage(""),
+                            fit: BoxFit.fitHeight,
+                            image: NetworkImage(
+                                animalImageUrl
+                            ),
                           )
                       ),
                     )
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 50,
             ),
-            Padding(
-              padding: EdgeInsets.only(
-                top: 20,
-                left: columnLeftMargin,
-                bottom: 20,
-              ),
-              child: Text(
-                "Choose an animal:",
-                style: TextStyle(
-                    fontSize: 16
-                ),
-              ),
+            TextLabel(
+              labelText: "Choose an animal",
+              textFieldRequired: true,
             ),
             Container(
               margin: EdgeInsets.only(
@@ -110,7 +160,7 @@ class _AddAPetBodyState extends State<AddAPetBody> {
               ),
               child: DropdownMenu<AnimalLabel>(
                   width: 350,
-                  initialSelection: AnimalLabel.dog,
+                  initialSelection: AnimalLabel.noLabelChosen,
                   controller: animalController,
                   label: const Text("Animal"),
                   onSelected: (AnimalLabel? animalLabel) {
@@ -123,31 +173,20 @@ class _AddAPetBodyState extends State<AddAPetBody> {
                         return DropdownMenuEntry(
                             value: animalLabel,
                             label: animalLabel.petLabel,
-                            enabled: true
+                            enabled: animalLabel != AnimalLabel.noLabelChosen ? true : false
                         );
                       }
                   ).toList()
               ),
             ),
-            Padding(
-              padding: EdgeInsets.only(
-                top: 20,
-                left: columnLeftMargin,
-                bottom: 20,
-              ),
-              child: Text(
-                "Type the name of the animal:",
-                style: TextStyle(
-                    fontSize: 16
-                ),
-              ),
-            ),
+            TextLabel(labelText: "Species", textFieldRequired: true,),
             Container(
               margin: EdgeInsets.only(
                   left: columnLeftMargin,
                   right: columnLeftMargin
               ),
               child: TextField(
+                controller: speciesController,
                 style: TextStyle(
                     fontSize: 13
                 ),
@@ -159,25 +198,14 @@ class _AddAPetBodyState extends State<AddAPetBody> {
                 ),
               ),
             ),
-            Padding(
-              padding: EdgeInsets.only(
-                top: 20,
-                left: columnLeftMargin,
-                bottom: 20,
-              ),
-              child: Text(
-                "Type the name of the animal:",
-                style: TextStyle(
-                    fontSize: 16
-                ),
-              ),
-            ),
+            TextLabel(labelText: "Name", textFieldRequired: true,),
             Container(
               margin: EdgeInsets.only(
                   left: columnLeftMargin,
                   right: columnLeftMargin
               ),
               child: TextField(
+                controller: nameController,
                 style: TextStyle(
                     fontSize: 13
                 ),
@@ -189,25 +217,14 @@ class _AddAPetBodyState extends State<AddAPetBody> {
                 ),
               ),
             ),
-            Padding(
-              padding: EdgeInsets.only(
-                top: 20,
-                left: columnLeftMargin,
-                bottom: 20,
-              ),
-              child: Text(
-                "Type the name of the animal:",
-                style: TextStyle(
-                    fontSize: 16
-                ),
-              ),
-            ),
+            TextLabel(labelText: "Gender", textFieldRequired: true,),
             Container(
               margin: EdgeInsets.only(
                   left: columnLeftMargin,
                   right: columnLeftMargin
               ),
               child: TextField(
+                controller: genderController,
                 style: TextStyle(
                     fontSize: 13
                 ),
@@ -219,25 +236,14 @@ class _AddAPetBodyState extends State<AddAPetBody> {
                 ),
               ),
             ),
-            Padding(
-              padding: EdgeInsets.only(
-                top: 20,
-                left: columnLeftMargin,
-                bottom: 20,
-              ),
-              child: Text(
-                "Type the name of the animal:",
-                style: TextStyle(
-                    fontSize: 16
-                ),
-              ),
-            ),
+            TextLabel(labelText: "Age", textFieldRequired: true,),
             Container(
               margin: EdgeInsets.only(
                   left: columnLeftMargin,
                   right: columnLeftMargin
               ),
               child: TextField(
+                controller: ageController,
                 style: TextStyle(
                     fontSize: 13
                 ),
@@ -249,8 +255,75 @@ class _AddAPetBodyState extends State<AddAPetBody> {
                 ),
               ),
             ),
+            TextLabel(labelText: "Weight", textFieldRequired: true,),
+            Container(
+              margin: EdgeInsets.only(
+                  left: columnLeftMargin,
+                  right: columnLeftMargin
+              ),
+              child: TextField(
+                controller: weightController,
+                style: TextStyle(
+                    fontSize: 13
+                ),
+                decoration: InputDecoration(
+                    contentPadding: EdgeInsets.all(10),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5)
+                    )
+                ),
+              ),
+            ),
+            TextLabel(labelText: "Description", textFieldRequired: false),
+            Container(
+              margin: EdgeInsets.only(
+                  left: columnLeftMargin,
+                  right: columnLeftMargin
+              ),
+              child: TextField(
+                controller: descriptionController,
+                maxLines: 10,
+                style: TextStyle(
+                    fontSize: 13
+                ),
+                decoration: InputDecoration(
+                    contentPadding: EdgeInsets.all(10),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5)
+                    )
+                ),
+              ),
+            ),
+            TextLabel(
+              labelText: "Choose a picture"
+            ),
+            Container(
+              margin: const EdgeInsets.only(
+                left: 20,
+                right: 20,
+                bottom: 60
+              ),
+              child: ElevatedButton(
+                  onPressed: () async {
+                    animalImageUrl = await Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => APICall())
+                    );
 
-
+                    setState(() {});
+                  },
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(
+                          Colors.orangeAccent
+                      )
+                  ),
+                  child: Text(
+                    "Choose a picture...",
+                    style: TextStyle(
+                      color: Colors.black,
+                    ),
+                  )
+              ),
+            ),
           ],
         ),
         Positioned(
@@ -259,7 +332,13 @@ class _AddAPetBodyState extends State<AddAPetBody> {
           right: 10,
           child: ElevatedButton(
             onPressed: () {
-
+              ScaffoldMessenger.of(context).clearSnackBars();
+              bool animalLabelIsEmpty = isAnimalLabelEmpty(selectedAnimalLabel, snackBarText: "Choose an animal");
+              isTextEditingControllerEmpty(speciesController, snackBarText: "Species is empty");
+              isTextEditingControllerEmpty(nameController, snackBarText: "Name is empty");
+              isTextEditingControllerEmpty(genderController, snackBarText: "Gender is empty");
+              isTextEditingControllerEmpty(ageController, snackBarText: "Age is empty");
+              isTextEditingControllerEmpty(weightController, snackBarText: "Weight is empty");
             },
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(
@@ -278,3 +357,45 @@ class _AddAPetBodyState extends State<AddAPetBody> {
     );
   }
 }
+
+class TextLabel extends StatefulWidget {
+  const TextLabel({super.key, required this.labelText, this.textFieldRequired});
+  final String labelText;
+  final bool? textFieldRequired;
+  @override
+  State<TextLabel> createState() => _TextLabelState();
+}
+
+class _TextLabelState extends State<TextLabel> {
+  @override
+  Widget build(BuildContext context) {
+    double columnLeftMargin = 20.0;
+    double textLabelBottomMargin = 15.0;
+    return Padding(
+        padding: EdgeInsets.only(
+          top: 20,
+          left: columnLeftMargin,
+          bottom: textLabelBottomMargin,
+        ),
+        child: Text.rich(
+          TextSpan(
+              style: TextStyle(
+                  fontSize: 16
+              ),
+              text: widget.labelText,
+              children: [
+                TextSpan(
+                    text: widget.textFieldRequired ?? false? " *" : "",
+                    style: TextStyle(
+                      color: Colors.red,
+                    )
+                )
+              ]
+          ),
+        )
+    );
+  }
+}
+
+
+

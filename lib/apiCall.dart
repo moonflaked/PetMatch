@@ -16,6 +16,7 @@ class APICall extends StatefulWidget {
 }
 
 class _APICallState extends State<APICall> {
+  late String animalImageUrl;
 
   Future<List> futurePet() async {
     http.Response response;
@@ -62,12 +63,20 @@ class _APICallState extends State<APICall> {
                     } else {
                       List data = snapshot.data ?? [];
 
+                      if(data.isNotEmpty)
+                      {
+                        animalImageUrl = data[0]["url"];
+                      }
                       return CarouselSlider(
                           options: CarouselOptions(
                               // autoPlayAnimationDuration: const Duration(milliseconds: 99999),
                               autoPlay: false,
                               enlargeCenterPage: true,
-                              height: 300
+                              height: 300,
+
+                              onPageChanged: (index, reason) {
+                                animalImageUrl = data[index]["url"];
+                              },
                           ),
                           items: data.map(
                                 (e) => Container(
@@ -93,10 +102,14 @@ class _APICallState extends State<APICall> {
                                                             .labelLarge,
                                                       ),
                                                     ),
-
                                                     TextButton(
                                                       onPressed: () {
+                                                        /*
+                                                          Get out of the alert dialog, then pop the current page with the animal's
+                                                          url
+                                                        */
                                                         Navigator.of(context).pop();
+                                                        Navigator.of(context).pop(animalImageUrl);
                                                       },
                                                       child: Text("YESS!!"),
                                                       style: TextButton.styleFrom(
