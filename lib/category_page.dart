@@ -42,7 +42,7 @@ class _CategoryStartState extends State<CategoryStart> {
       home: PetMatchPageSelector(),
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
-      themeMode: themeSwitchState? ThemeMode.dark : ThemeMode.light ,
+      themeMode: themeSwitchState?  ThemeMode.light:ThemeMode.dark  ,
 
       // ThemeData(
       //   useMaterial3: false

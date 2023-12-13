@@ -19,22 +19,33 @@ class _ProfilePageState extends State<ProfilePage> {
     "Daisy" : "Beagle",
   };
 
+  late Future<List> userInfo;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+  }
+
   @override
   Widget build(BuildContext context) {
 
-    // List info = [];
-    //  getUserInfo() async{
+    List info = [];
+     getUserInfo() async{
       int id = Session.getUser();
       print(id);
 
-    //   final data = await User.retrieveUserById(id);
-    //   data?.forEach((row) {
-    //     info.add(row['email']);
-    //     info.add(row['username']);
-    //   });
-    //   return info;
-    // }
-    //  print(getUserInfo());
+      final data = await User.retrieveUserById(id);
+      data?.forEach((row) {
+        info.add(row['email']);
+        info.add(row['username']);
+      });
+
+      return info;
+    }
+
+
 
 
     String email = "Email";

@@ -123,11 +123,7 @@ class Logo extends StatelessWidget {
               onPressed: () {
                 // Button click action
                 print("1 2 test test perfectoo");
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => CategoryStart()
-                  )
-                );
+                Navigator.pop(context);
               },
               icon: const Icon(Icons.arrow_back_ios_new_outlined,
                 shadows: [

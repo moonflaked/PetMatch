@@ -67,6 +67,7 @@ class _LoginState extends State<Login> {
   void initState(){
     // TODO: implement initState
     super.initState();
+    PetMatchDatabase.getInstance();
   }
   final petMatchDatabase = PetMatchDatabase.getInstance();
 
