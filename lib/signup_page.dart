@@ -61,11 +61,6 @@ class _SignupState extends State<Signup>{
   TextEditingController username = TextEditingController();
   TextEditingController password = TextEditingController();
 
-  // String? chosenPet;
-  // List<String> listOfPet = <String>[
-  //   "Dog",
-  //   "Cat"
-  // ];
   @override
   void setState(VoidCallback fn) async{
     // TODO: implement setState
@@ -73,12 +68,10 @@ class _SignupState extends State<Signup>{
     await PetMatchDatabase.getInstance();
   }
 
-  late User user;
   @override
   void initState(){
     // TODO: implement initState
     super.initState();
-
   }
   final petMatchDatabase = PetMatchDatabase.getInstance();
 
@@ -132,6 +125,7 @@ class _SignupState extends State<Signup>{
               TextField(
                 style: const TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 20),
                 controller: password,
+                obscureText: true,
                 decoration: InputDecoration(
                     border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(20),),
@@ -144,53 +138,44 @@ class _SignupState extends State<Signup>{
                     fillColor: Colors.orangeAccent,filled: true
                 ),
               ),
-              SizedBox(height: 40),
-
-
-                    // Text("Choose a Pet",style: TextStyle(
-                    //   fontSize: 20,
-                    //   color: Colors.orangeAccent,
-                    //   fontWeight: FontWeight.bold
-                    // )
-                    // ),
-                    // DropdownButton(
-                    //     hint: Text("Select Pet",style: TextStyle(
-                    //         fontSize: 20,
-                    //         color: Colors.red,
-                    //         fontWeight: FontWeight.bold
-                    //     )),
-                    //     value: chosenPet,
-                    //     elevation: 4,
-                    //     icon: Icon(Icons.pets,color: Colors.orangeAccent,),
-                    //     onChanged: (newPet){
-                    //   setState(() {
-                    //     chosenPet = newPet;
-                    //   });
-                    // },
-                    //     items: listOfPet.map((petElement){
-                    //       return DropdownMenuItem(
-                    //           value: petElement,
-                    //           child: Text(petElement,style: TextStyle(fontWeight: FontWeight.bold,color: Colors.orangeAccent,),)
-                    //       );
-                    //     }).toList(),
-                    //
-                    // ),
-
+              // SizedBox(height: 40),
 
 
                SizedBox(height: 40),
               SizedBox(width: 150,height: 40,child:
-              ElevatedButton(onPressed: (){
+              ElevatedButton(onPressed: ()async{
                 if(email.text.isNotEmpty && username.text.isNotEmpty &&  password.text.isNotEmpty) {
-                  print("BEFOREEE");
-                  _insert(email.text, username.text, password.text);
+                  // print("BEFOREEE");
 
+                  Future<bool?> check = _insert(email.text, username.text, password.text);
+                  var booleanCheck = await check;
 
+                  if(booleanCheck!) {
+                    showFlash(
+                      context: context,
+                      duration: const Duration(seconds: 3),
+                      builder: (context, controller) {
+                        return Flash(
+                            controller: controller,
+                            child: FlashBar(
+                              controller: controller,
+                              content: Text(
+                                "We are excited to see you :) Please Login ;)",
+                                style: TextStyle(
+                                    color: Colors.amberAccent, fontSize: 16),),
+                              title: Text("WELCOME TO PETMATCH!",),
+                              elevation: 0,
+                              backgroundColor: Colors.deepPurple,
+                              progressIndicatorBackgroundColor: Colors.white,
+                              indicatorColor: Colors.red,
+                            )
+                        );
+                      },
+                    );
 
-
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Login(),));
-
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Login(),));
+                  }
                 }
 
                 else{
@@ -216,6 +201,27 @@ class _SignupState extends State<Signup>{
                   fontWeight: FontWeight.bold,
                 ),
                 ),
+              ),
+              ),
+
+
+              const SizedBox(height: 20),
+
+
+              SizedBox(width: 150,height: 40,child:
+              ElevatedButton(onPressed: (){
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Login(),));
+              },
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateColor.resolveWith((states) => Colors.orangeAccent),
+                  elevation: MaterialStateProperty.all(10),
+
+                ), child: const Text("Login",style:TextStyle(
+                  color: Colors.black,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),),
               ),
               ),
               const SizedBox(height: 110),
@@ -325,7 +331,7 @@ class _SignupState extends State<Signup>{
   //   );
   // }
 
-   void _insert(email, username, password) async{
+   Future<bool?> _insert(email, username, password) async{
     // print("inside insert function");
     Map<String,dynamic> row = {
        "email": email,
@@ -340,31 +346,29 @@ class _SignupState extends State<Signup>{
         duration: const Duration(seconds: 3),
         builder: (context, controller) {
           return Flash(
-            controller: controller,
-            child: Text(
-              'This is a basic flash',
-            ),
+              controller: controller,
+              child: FlashBar(
+                controller: controller,
+                content: Text("Check if you entered your information correctly!",
+                  style: TextStyle(color: Colors.amberAccent, fontSize: 16),),
+                title: Text("Looks Like Something Went Wrong ?!",),
+                elevation: 0,
+                backgroundColor: Colors.deepPurple,
+                progressIndicatorBackgroundColor: Colors.white,
+                indicatorColor: Colors.red,
+              )
           );
         },
       );
-      print("WRONGGGGGGGGGGGGGGGGGGGGGG");
+      // print("WRONGGGGGGGGGGGGGGGGGGGGGG");
+      return false;
     }
     else {
       print("correctttttttttttt");
-      print("$id");
-      showFlash(
-        context: context,
-        duration: const Duration(seconds: 3),
-        builder: (context, controller) {
-          return Flash(
-            controller: controller,
-            child: Text(
-              'WELCOME',
-            ),
-          );
-        },
-      );
+      // print("$id");
+      return true;
     }
+    return null;
 
   }
 }

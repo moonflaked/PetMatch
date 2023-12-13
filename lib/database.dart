@@ -61,7 +61,7 @@ class PetMatchDatabase {
               
               INSERT INTO USER (email,username,password) VALUES ('conan@gmail.com','conan','conan');
               INSERT INTO USER (email,username,password) VALUES ('logan@gmail.com','logan','logan');
-              INSERT INTO CATEGORY (category_name) VALUES ('Dog'), ('Cat');
+              
         ''');
       }
     );

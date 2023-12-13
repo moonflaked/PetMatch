@@ -32,18 +32,6 @@ class User{
     return await db?.insert("USER", {"email" : user.email, "username" : user.username, "password" : user.password});
   }
 
-  static Future<int?> insertUser(User user) async
-  {
-    Database? databaseInstance = await PetMatchDatabase.getInstance();
-
-    int? insertedId = await databaseInstance?.insert(
-        "USER",
-        user.toMap(),
-        conflictAlgorithm: ConflictAlgorithm.replace
-    );
-
-    return insertedId;
-  }
 
 // all rows are returned as a list of maps, where each map is a key-value list of columns
 //2. View
@@ -54,7 +42,7 @@ class User{
 
 //3. Search
 //search for any rows on the argument received
-  static Future<List<Map<String, dynamic>>?> queryRow(username) async{
+  static Future<List<Map<String, dynamic>>?> searchByUsername(username) async{
     Database? db = await instance;
     return await db?.query("USER",where: "username LIKE '%$username%'");
   }
@@ -78,6 +66,8 @@ class User{
   static Future<bool?> validateLogin(String username, String password) async{
     Database? db = await instance;
     var valid= await db?.query("USER",where: "username LIKE '%$username%' AND password LIKE '%$password%'");
+    print(valid);
+    print("ioeurfvewoirtvbhoewriuthvbeouhigto3urhew");
     if(valid!.isNotEmpty){
       return true;
     }
@@ -85,6 +75,18 @@ class User{
       return false;
     }
   }
+
+  //retrieve user Id
+  // static Future<bool?> retrieveUserId(String username) async{
+  //   Database? db = await instance;
+  //   var valid= await db?.query("USER",where: "username LIKE '%$username%'");
+  //   if(valid!.isNotEmpty){
+  //     return true;
+  //   }
+  //   else {
+  //     return false;
+  //   }
+  // }
 
   // //checks if user exists
   // static Future<List<Map<String, dynamic>>?> validateLogin(String username, String password) async
