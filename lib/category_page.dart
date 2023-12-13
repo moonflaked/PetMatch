@@ -4,6 +4,7 @@ import 'package:petmatch/pet_model.dart';
 import 'package:petmatch/profile_page.dart';
 import 'package:petmatch/settings.dart';
 
+
 import 'add_a_pet_page.dart';
 import 'category_model.dart';
 
@@ -20,13 +21,32 @@ class CategoryStart extends StatefulWidget {
 }
 
 class _CategoryStartState extends State<CategoryStart> {
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setState(() {themeSwitchState; });
+  }
+  @override
+  void setState(VoidCallback fn) {
+    // TODO: implement setState
+    super.setState(fn);
+    setState(() {themeSwitchState;});
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: PetMatchPageSelector(),
-      theme: ThemeData(
-        useMaterial3: false
-      ),
+      theme: ThemeData.light(),
+      darkTheme: ThemeData.dark(),
+      themeMode: themeSwitchState? ThemeMode.dark : ThemeMode.light ,
+
+      // ThemeData(
+      //   useMaterial3: false
+      // ),
       debugShowCheckedModeBanner: false,
     );
   }

@@ -7,19 +7,45 @@ class SettingsPage extends StatefulWidget {
   @override
   State<SettingsPage> createState() => _SettingsPageState();
 }
-
+ bool themeSwitchState = false;
 class _SettingsPageState extends State<SettingsPage> {
   // TextEditingController themeController = TextEditingController();
   String? chosenTheme;
-  List<String> listOfThemes = <String>[
-    "Default",
-    "Dark"
-  ];
+  // List<String> listOfThemes = <String>[
+  //   "Default",
+  //   "Dark"
+  // ];
+
+
+
+
   bool notificationsSwitchState = true;
+
+
+  // @override
+  // void dispose() {
+  //   _themeManager.removeListener(themeListener);
+  //   super.dispose();
+  // }
+  //
+  // @override
+  // void initState() {
+  //   _themeManager.addListener(themeListener);
+  //   super.initState();
+  // }
+  //
+  // themeListener(){
+  //   // if(mounted){
+  //     setState(() {
+  //
+  //     });
+  //   // }
+  // }
+
   // String? selectedString;
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Scaffold( body:Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Center(
@@ -43,25 +69,34 @@ class _SettingsPageState extends State<SettingsPage> {
                           fontSize: 20,
                         )
                     ),
-                    DropdownButton(
-                        hint: Text("Select theme"),
-                        value: chosenTheme,
-                        onChanged: (newTheme) {
-                          setState(() {
-                            chosenTheme = newTheme;
-                          });
-                        },
-                        style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.black
-                        ),
-                        items: listOfThemes.map((themeElement) {
-                          return DropdownMenuItem(
-                              value: themeElement,
-                              child: Text(themeElement)
-                          );
-                        }).toList()
+                    Switch(
+                      value: themeSwitchState,
+                      activeColor: Colors.blueGrey,
+                      onChanged: (bool value) {
+                        setState(() {
+                          themeSwitchState = value;
+                        });
+                      }
                     )
+                    // DropdownButton(
+                    //     hint: Text("Select theme"),
+                    //     value: chosenTheme,
+                    //     onChanged: (newTheme) {
+                    //       setState(() {
+                    //         chosenTheme = newTheme;
+                    //       });
+                    //     },
+                    //     style: TextStyle(
+                    //         fontSize: 20,
+                    //         color: Colors.black
+                    //     ),
+                    //     items: listOfThemes.map((themeElement) {
+                    //       return DropdownMenuItem(
+                    //           value: themeElement,
+                    //           child: Text(themeElement)
+                    //       );
+                    //     }).toList()
+                    // )
                   ]
               ),
             ),
@@ -140,6 +175,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 )
             )
           ]
+    )
     );
   }
 }
