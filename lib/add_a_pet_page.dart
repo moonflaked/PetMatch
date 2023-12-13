@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import "package:petmatch/apiCall.dart";
+import "package:petmatch/pet_model.dart";
 
 
 void main() {
@@ -7,10 +8,11 @@ void main() {
 }
 
 enum AnimalLabel {
-  dog("Dog"),
-  cat("Cat");
-  const AnimalLabel(this.petLabel);
+  dog("Dog", 1),
+  cat("Cat", 2);
+  const AnimalLabel(this.petLabel, this.value);
   final String petLabel;
+  final int value;
 }
 class AddAPet extends StatelessWidget {
   const AddAPet({super.key});
@@ -96,6 +98,34 @@ class _AddAPetBodyState extends State<AddAPetBody> {
       showSnackBar(snackBarText);
     }
     return selectedAnimalLabelIsEmpty;
+  }
+
+  bool checkIsAInteger(TextEditingController textEditingController, {String snackBarText = ""})
+  {
+    bool isAnInteger = false;
+    if(int.tryParse(textEditingController.text) != null)
+    {
+      isAnInteger = true;
+
+    }
+    else {
+      showSnackBar(snackBarText);
+    }
+    return isAnInteger;
+  }
+
+  bool checkIsADouble(TextEditingController textEditingController, {String snackBarText = ""})
+  {
+    bool isADouble = false;
+    if(double.tryParse(textEditingController.text) != null)
+    {
+      isADouble = true;
+
+    }
+    else {
+      showSnackBar(snackBarText);
+    }
+    return isADouble;
   }
   @override
   Widget build(BuildContext context) {
@@ -356,11 +386,36 @@ class _AddAPetBodyState extends State<AddAPetBody> {
             onPressed: () {
               ScaffoldMessenger.of(context).clearSnackBars();
               bool animalLabelIsEmpty = isAnimalLabelEmpty(selectedAnimalLabel, snackBarText: "Choose an animal");
-              isTextEditingControllerEmpty(speciesController, snackBarText: "Species is empty");
-              isTextEditingControllerEmpty(nameController, snackBarText: "Name is empty");
-              isTextEditingControllerEmpty(genderController, snackBarText: "Gender is empty");
-              isTextEditingControllerEmpty(ageController, snackBarText: "Age is empty");
-              isTextEditingControllerEmpty(weightController, snackBarText: "Weight is empty");
+              bool speciesControllerIsEmpty = isTextEditingControllerEmpty(speciesController, snackBarText: "Species is empty");
+              bool nameControllerIsEmpty = isTextEditingControllerEmpty(nameController, snackBarText: "Name is empty");
+              bool genderControllerIsEmpty = isTextEditingControllerEmpty(genderController, snackBarText: "Gender is empty");
+              bool ageControllerIsEmpty = isTextEditingControllerEmpty(ageController, snackBarText: "Age is empty");
+              bool weightControllerIsEmpty = isTextEditingControllerEmpty(weightController, snackBarText: "Weight is empty");
+              bool ageIsAnInteger = checkIsAInteger(ageController, snackBarText: "Age is not a whole number");
+              bool weightIsADouble = checkIsADouble(weightController, snackBarText: "Double is not a decimal number");
+              if(
+                !animalLabelIsEmpty
+                  && !speciesControllerIsEmpty
+                  && !nameControllerIsEmpty
+                  && !genderControllerIsEmpty
+                  && !ageControllerIsEmpty
+                  && !weightControllerIsEmpty
+                  && ageIsAnInteger
+                  && weightIsADouble
+              )
+              {
+                Pet newPetToAdd = Pet(
+                  categoryId: selectedAnimalLabel!.value,
+                  species: speciesController.text,
+                  name: nameController.text,
+                  gender: genderController.text,
+                  age: int.parse(ageController.text),
+                  weight: double.parse(weightController.text),
+                );
+
+                Pet.insertPet(newPetToAdd);
+                Navigator.pop(context);
+              }
             },
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(

@@ -11,13 +11,14 @@ class Pet{
     int? age;
     String? species;
     double? weight;
+    String? petImageLink;
     int? categoryId;
     int? userId;
 
     static const petTableName = "pet";
 
-    Pet(this.petId,this.name,this.gender,this.description,
-    this.age,this.species,this.weight,this.categoryId,this.userId,);
+    Pet({this.petId,this.name,this.gender,this.description,
+    this.age,this.species,this.weight,this.petImageLink,this.categoryId,this.userId});
 
     Pet.fromMap(Map<dynamic,dynamic> map){
        petId = map['petId'];
@@ -27,6 +28,7 @@ class Pet{
        age= map['age'];
        species= map['species'];
        weight= map['weight'];
+       petImageLink = map['pet_image_link'];
        categoryId= map['categoryId'];
        userId= map['userId'];
     }
@@ -40,6 +42,7 @@ class Pet{
         "age" : age,
         "species" : species,
         "weight" : weight,
+        "pet_image_link" : petImageLink,
         "categoryId" : categoryId,
         "userId" : userId
       };
@@ -58,9 +61,13 @@ class Pet{
       return insertedId;
     }
 
-    static Future<List<Pet>?> retrievePetsFromCategoryId(int categoryId)
+    static Future<List<Pet>?> retrievePetsFromCategoryId(int? categoryId)
     async
     {
+      if(categoryId == null)
+      {
+        return [];
+      }
       Database? databaseInstance = await PetMatchDatabase.getInstance();
 
       List<Map<String, Object?>>? listOfPetMaps = await databaseInstance?.query(

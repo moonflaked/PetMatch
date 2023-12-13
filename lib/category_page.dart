@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import "package:collection/collection.dart";
+import 'package:petmatch/pet_model.dart';
 import 'package:petmatch/profile_page.dart';
 import 'package:petmatch/settings.dart';
 
 import 'add_a_pet_page.dart';
+import 'category_model.dart';
 
 
 void main() {
@@ -213,34 +215,9 @@ class CategoryScrollSection extends StatefulWidget {
 
 class _CategoryScrollSectionState extends State<CategoryScrollSection>
     with TickerProviderStateMixin {
-  late TabController categoryTabController;
-  static List<String> listOfCategories = <String>[
-    "Dogs",
-    "Cats",
-    "Hamsters",
-  ];
-
-  static Map<String, List<String>> mapOfSpecies = {
-    "Dogs" : [
-      "Golden Retriever",
-      "Beagle",
-      "Labrador Retriever",
-      "German Shepherd",
-      "Alaskan Malamute",
-      "Dachshund"
-    ],
-    "Cats" : [
-      "Siamese Cat",
-      "British Shorthair",
-      "Maine Coon",
-    ],
-    "Hamsters" : [
-      "Golden Hamster",
-      "Roborovski dwarf hamster",
-      "Winter white dwarf hamster"
-    ]
-  };
-
+  TabController? categoryTabController;
+  static List<Category>? listOfCategories = [];
+  static List<Pet>? listOfPets;
   // This scroll controller is used to control the scrollbar on the category button section
   static ScrollController categoryScrollController = ScrollController();
 
@@ -249,19 +226,39 @@ class _CategoryScrollSectionState extends State<CategoryScrollSection>
   void initState() {
     // TODO: implement initState
     super.initState();
-    categoryTabController = TabController(
-        length: listOfCategories.length, vsync: this, initialIndex: 0);
-    // Add a listener to the tab controller so that it listens for when the user
-    // Scrolls from page to page
-    // When it listens for an event, it changes the color of the tab
-    categoryTabController.addListener(() {
-      setState(() {});
+    initiateCategoryTabController();
+    setState(() {
+
     });
   }
 
+  void initiateCategoryTabController() async {
+    listOfCategories = await Category.retrieveCategories();
+    categoryTabController = TabController(
+        length: listOfCategories!.length, vsync: this, initialIndex: 0);
+    // Add a listener to the tab controller so that it listens for when the user
+    // Scrolls from page to page
+    // When it listens for an event, it changes the color of the tab
+    categoryTabController?.addListener(() {
+      setState(() {});
+    });
+    setState(() {
+    });
+  }
+
+  Future<Map<String, List<Pet>?>> getListOfPets() async {
+    Map<String, List<Pet>?> mapOfPets = {};
+    for(Category category in listOfCategories!)
+    {
+      mapOfPets[category.categoryName!] = await Pet.retrievePetsFromCategoryId(category.categoryId);
+    }
+    return mapOfPets;
+  }
   @override
   Widget build(BuildContext context) {
-    return Column(crossAxisAlignment: CrossAxisAlignment.start,children: [
+    return listOfCategories!.isEmpty? const Center(
+      child: CircularProgressIndicator()
+    ) : Column(crossAxisAlignment: CrossAxisAlignment.start,children: [
       Container(
         margin: const EdgeInsets.only(
           left: 15.0,
@@ -271,78 +268,111 @@ class _CategoryScrollSectionState extends State<CategoryScrollSection>
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
       ),
       DefaultTabController(
-          length: listOfCategories.length,
+          length: listOfCategories!.length,
           initialIndex: 0,
           child: RawScrollbar(
-              controller: categoryScrollController,
-              thumbColor: Colors.black,
-              radius: const Radius.circular(2),
-              // This is wrapped around a list view
-              // To remove the warning that a ScrollController
-              // has no ScrollController attached
-              child: TabBar(
-                  controller: categoryTabController,
-                  isScrollable: true,
-                  // adding padding in between the tabs
-                  labelPadding: const EdgeInsets.only(
-                    left: 8,
-                    right: 2,
-                  ),
-                  // Remove the "splash" when clicking on a tab
-                  overlayColor: MaterialStateProperty.all(Colors.transparent),
-                  // Remove the blue underline under the tabs
-                  indicator: const BoxDecoration(),
-                  tabs: listOfCategories.mapIndexed(
-                          (int pIndex, String pCategoryName) {
-                    // categoryTabController.index == pIndex checks the index
-                    // of the currently selected button to change their color
-                    return getCategoryTab(
-                        pCategoryName, categoryTabController.index == pIndex);
-                  }).toList()
-              )
-          ),
+            controller: categoryScrollController,
+            thumbColor: Colors.black,
+            radius: const Radius.circular(2),
+            // This is wrapped around a list view
+            // To remove the warning that a ScrollController
+            // has no ScrollController attached
+            child: TabBar(
+                controller: categoryTabController,
+                isScrollable: true,
+                // adding padding in between the tabs
+                labelPadding: const EdgeInsets.only(
+                  left: 8,
+                  right: 2,
+                ),
+                // Remove the "splash" when clicking on a tab
+                overlayColor: MaterialStateProperty.all(Colors.transparent),
+                // Remove the blue underline under the tabs
+                indicator: const BoxDecoration(),
+                tabs: listOfCategories!.mapIndexed((int pIndex, Category pCategory) =>
+                    getCategoryTab(
+                        pCategory.categoryName!, categoryTabController?.index == pIndex
+                    )
+                ).toList()
+            ),
+          )
       ),
+
       SizedBox(
           width: MediaQuery.of(context).size.width,
           height: 488,
           child:
           TabBarView(
               controller: categoryTabController,
-              children: listOfCategories.map((String categoryName) {
-                return Container(
-                  padding: const EdgeInsets.all(10),
-                  child: ListView(
-                    controller: speciesScrollController,
-                    shrinkWrap: true,
-                    children: [
-                      GridView.builder(
-                          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                            maxCrossAxisExtent: 200,
-                            crossAxisSpacing: 20,
-                            mainAxisSpacing: 20,
-                          ),
-                          controller: speciesScrollController,
-                          shrinkWrap: true,
-                          itemCount: mapOfSpecies[categoryName]?.length,
-                          itemBuilder: (BuildContext pContext, int pIndex) {
-                            return SpeciesContainer(
-                                speciesName: mapOfSpecies[categoryName]![pIndex]
+              children: [
+                FutureBuilder(
+                  future: getListOfPets(),
+                  builder: (context, categoryPetsSnapshot) {
+                    print(categoryPetsSnapshot);
+                    switch(categoryPetsSnapshot.connectionState) {
+                      case ConnectionState.waiting:
+                        return const CircularProgressIndicator();
+                      default:
+                        if(categoryPetsSnapshot.hasError)
+                        {
+                          return Center(child: Text("Error"));
+                        }
+                        else {
+                          listOfCategories!.map((category) {
+                            return Container(
+                                padding: const EdgeInsets.all(10),
+                                child: ListView(
+                                    controller: speciesScrollController,
+                                    shrinkWrap: true,
+                                    children: [
+                                      GridView.builder(
+                                          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                                            maxCrossAxisExtent: 200,
+                                            crossAxisSpacing: 20,
+                                            mainAxisSpacing: 20,
+                                          ),
+                                          controller: speciesScrollController,
+                                          shrinkWrap: true,
+                                          itemCount: categoryPetsSnapshot.data![category.categoryName]!.length,
+                                          itemBuilder: (BuildContext pContext,
+                                              int pIndex) {
+                                            return SpeciesContainer(
+                                              petId: categoryPetsSnapshot.data![listOfCategories![pIndex].categoryName]![pIndex].petId!,
+                                              speciesName: categoryPetsSnapshot
+                                                  .data![listOfCategories![pIndex].categoryName]![pIndex].name!,
+                                              petImageLink: categoryPetsSnapshot.data![listOfCategories![pIndex].categoryName]![pIndex].petImageLink,
+                                            );
+                                          }
+                                      )
+                                    ]
+                                )
                             );
-                          }
-                      )
-                    ],
-                  ),
-                );
-              }).toList()
-          )
-      ),
-    ]);
+                          });
+                        }
+
+                    }
+                    return Center(child: Text("Error"));
+
+
+                  }
+                )
+              ]
+            )
+          ),
+        ]
+    );
   }
 }
 
 class SpeciesContainer extends StatefulWidget {
   final String speciesName;
-  const SpeciesContainer({super.key, required this.speciesName});
+  final int petId;
+  final String? petImageLink;
+  const SpeciesContainer({
+    super.key,
+    required this.speciesName,
+    required this.petId,
+    this.petImageLink});
 
   @override
   State<SpeciesContainer> createState() => _SpeciesContainerState();
@@ -370,20 +400,20 @@ class _SpeciesContainerState extends State<SpeciesContainer> {
           child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                /*Container(
+                Container(
                   height: 128.5,
                   // Decoration borderRadius is used here for limiting the container so the
                   // black border of the container has space to display
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(29),
                           topRight: Radius.circular(29)
+                      ),
+                      image: DecorationImage(
+                          image: widget.petImageLink!.isEmpty ? AssetImage("assets/images/no-image.png") : NetworkImage(widget.petImageLink!) as ImageProvider
                       )
                   ),
-                  child: const Center(
-
-                  )
-                ),*/
+                ),
                 // Bottom part of the container
                 Container(
                   width: MediaQuery.of(context).size.width,
