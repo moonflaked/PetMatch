@@ -17,8 +17,8 @@ class Pet{
 
     static const petTableName = "pet";
 
-    Pet(this.petId,this.name,this.gender,this.description,
-    this.age,this.species,this.weight,this.petImageLink,this.categoryId,this.userId,);
+    Pet({this.petId,this.name,this.gender,this.description,
+    this.age,this.species,this.weight,this.petImageLink,this.categoryId,this.userId});
 
     Pet.fromMap(Map<dynamic,dynamic> map){
        petId = map['petId'];

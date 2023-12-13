@@ -222,7 +222,6 @@ class _CategoryScrollSectionState extends State<CategoryScrollSection>
   static ScrollController categoryScrollController = ScrollController();
 
   static ScrollController speciesScrollController = ScrollController();
-  bool gotData = false;
   @override
   void initState() {
     // TODO: implement initState
@@ -257,7 +256,7 @@ class _CategoryScrollSectionState extends State<CategoryScrollSection>
   }
   @override
   Widget build(BuildContext context) {
-    return listOfCategories!.isEmpty? Center(
+    return listOfCategories!.isEmpty? const Center(
       child: CircularProgressIndicator()
     ) : Column(crossAxisAlignment: CrossAxisAlignment.start,children: [
       Container(
@@ -268,7 +267,6 @@ class _CategoryScrollSectionState extends State<CategoryScrollSection>
         child: const Text("Categories",
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
       ),
-
       DefaultTabController(
           length: listOfCategories!.length,
           initialIndex: 0,
@@ -302,7 +300,7 @@ class _CategoryScrollSectionState extends State<CategoryScrollSection>
 
       SizedBox(
           width: MediaQuery.of(context).size.width,
-          height: gotData? 488 : 240,
+          height: 488,
           child:
           TabBarView(
               controller: categoryTabController,
@@ -310,41 +308,52 @@ class _CategoryScrollSectionState extends State<CategoryScrollSection>
                 FutureBuilder(
                   future: getListOfPets(),
                   builder: (context, categoryPetsSnapshot) {
-                    if(categoryPetsSnapshot.hasData)
-                      {
-                        listOfCategories!.map((category) {
-                          return Container(
-                              padding: const EdgeInsets.all(10),
-                              child: ListView(
-                                  controller: speciesScrollController,
-                                  shrinkWrap: true,
-                                  children: [
-                                    GridView.builder(
-                                        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                                          maxCrossAxisExtent: 200,
-                                          crossAxisSpacing: 20,
-                                          mainAxisSpacing: 20,
-                                        ),
-                                        controller: speciesScrollController,
-                                        shrinkWrap: true,
-                                        itemCount: categoryPetsSnapshot.data![category.categoryName]!.length,
-                                        itemBuilder: (BuildContext pContext,
-                                            int pIndex) {
-                                          return SpeciesContainer(
+                    print(categoryPetsSnapshot);
+                    switch(categoryPetsSnapshot.connectionState) {
+                      case ConnectionState.waiting:
+                        return const CircularProgressIndicator();
+                      default:
+                        if(categoryPetsSnapshot.hasError)
+                        {
+                          return Center(child: Text("Error"));
+                        }
+                        else {
+                          listOfCategories!.map((category) {
+                            return Container(
+                                padding: const EdgeInsets.all(10),
+                                child: ListView(
+                                    controller: speciesScrollController,
+                                    shrinkWrap: true,
+                                    children: [
+                                      GridView.builder(
+                                          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                                            maxCrossAxisExtent: 200,
+                                            crossAxisSpacing: 20,
+                                            mainAxisSpacing: 20,
+                                          ),
+                                          controller: speciesScrollController,
+                                          shrinkWrap: true,
+                                          itemCount: categoryPetsSnapshot.data![category.categoryName]!.length,
+                                          itemBuilder: (BuildContext pContext,
+                                              int pIndex) {
+                                            return SpeciesContainer(
                                               petId: categoryPetsSnapshot.data![listOfCategories![pIndex].categoryName]![pIndex].petId!,
                                               speciesName: categoryPetsSnapshot
                                                   .data![listOfCategories![pIndex].categoryName]![pIndex].name!,
                                               petImageLink: categoryPetsSnapshot.data![listOfCategories![pIndex].categoryName]![pIndex].petImageLink,
-                                          );
-                                        }
-                                    )
-                                  ]
-                              )
-                          );
-                        });
+                                            );
+                                          }
+                                      )
+                                    ]
+                                )
+                            );
+                          });
+                        }
 
-                      }
-                       return const Center(child:Text("Loading..."));
+                    }
+                    return Center(child: Text("Error"));
+
+
                   }
                 )
               ]
