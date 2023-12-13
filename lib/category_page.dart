@@ -61,6 +61,7 @@ class PetMatchPageSelector extends StatefulWidget {
 }
 
 class _PetMatchPageSelectorState extends State<PetMatchPageSelector> {
+
   PageController petMatchPageViewController = PageController(
       initialPage: _PetMatchPageSelectorState.currentDestinationIndex,
       keepPage: true
@@ -129,18 +130,20 @@ class _PetMatchPageSelectorState extends State<PetMatchPageSelector> {
         body: PageView(
           controller: petMatchPageViewController,
           physics: const NeverScrollableScrollPhysics(),
-          children: const [
+          children: [
             CategoryBody(),
-            SettingsPage(),
-            ProfilePage()
+            const SettingsPage(),
+            const ProfilePage()
           ],
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
-            Navigator.push(
+            await Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => AddAPet())
             );
+
+            CategoryBody.categoryScrollSectionKey.currentState!.refreshPetsInCategories();
           },
           backgroundColor: Colors.blueGrey,
           child: Icon(
@@ -157,7 +160,8 @@ class _PetMatchPageSelectorState extends State<PetMatchPageSelector> {
 
 // Creates the body of the category page
 class CategoryBody extends StatefulWidget {
-  const CategoryBody({super.key});
+  static final categoryScrollSectionKey = GlobalKey<_CategoryScrollSectionState>();
+  CategoryBody({super.key});
 
   @override
   State<CategoryBody> createState() => _CategoryBodyState();
@@ -166,11 +170,11 @@ class CategoryBody extends StatefulWidget {
 class _CategoryBodyState extends State<CategoryBody> {
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          LocationSection(),
-          CategoryScrollSection(),
+          const LocationSection(),
+          CategoryScrollSection(key: CategoryBody.categoryScrollSectionKey),
           //CategoryButton(categoryName: "hello")
         ]);
   }
@@ -227,7 +231,8 @@ class _LocationSectionState extends State<LocationSection> {
 }
 
 class CategoryScrollSection extends StatefulWidget {
-  const CategoryScrollSection({super.key});
+
+  const CategoryScrollSection({Key? key}) : super(key: key);
 
   @override
   State<CategoryScrollSection> createState() => _CategoryScrollSectionState();
@@ -253,6 +258,12 @@ class _CategoryScrollSectionState extends State<CategoryScrollSection>
     });
   }
 
+  void refreshPetsInCategories()
+  {
+    initiateCategoryTabController();
+    mapOfPets = getListOfPets();
+    setState(() {});
+  }
   void initiateCategoryTabController() async {
     listOfCategories = await Category.retrieveCategories();
 
@@ -471,7 +482,6 @@ class _SpeciesContainerState extends State<SpeciesContainer> {
           ),
         ),
     );
-
   }
 }
 
