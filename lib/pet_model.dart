@@ -21,15 +21,15 @@ class Pet{
     this.age,this.species,this.weight,this.petImageLink,this.categoryId,this.userId});
 
     Pet.fromMap(Map<dynamic,dynamic> map){
-       petId = map['petId'];
+       petId = map['pet_id'];
        name= map['name'];
-       gender= map['gender'];
-       description= map['description'];
-       age= map['age'];
-       species= map['species'];
-       weight= map['weight'];
+       gender = map['gender'];
+       description = map['description'];
+       age = map['age'];
+       species = map['species'];
+       weight = map['weight'].toDouble();
        petImageLink = map['pet_image_link'];
-       categoryId= map['categoryId'];
+       categoryId= map['category_id'];
        userId= map['userId'];
     }
 
@@ -43,8 +43,8 @@ class Pet{
         "species" : species,
         "weight" : weight,
         "pet_image_link" : petImageLink,
-        "categoryId" : categoryId,
-        "userId" : userId
+        "category_id" : categoryId,
+        "user_id" : userId
       };
     }
 
@@ -58,6 +58,7 @@ class Pet{
         conflictAlgorithm: ConflictAlgorithm.replace
       );
 
+      print(insertedId);
       return insertedId;
     }
 

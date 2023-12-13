@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import "package:petmatch/apiCall.dart";
 import "package:petmatch/pet_model.dart";
+import "package:petmatch/session.dart";
 
 
 void main() {
@@ -404,13 +405,17 @@ class _AddAPetBodyState extends State<AddAPetBody> {
                   && weightIsADouble
               )
               {
+                print(double.parse(weightController.text));
                 Pet newPetToAdd = Pet(
+                  userId: Session.getUser(),
                   categoryId: selectedAnimalLabel!.value,
                   species: speciesController.text,
                   name: nameController.text,
                   gender: genderController.text,
                   age: int.parse(ageController.text),
                   weight: double.parse(weightController.text),
+                  description: descriptionController.text,
+                  petImageLink: animalImageUrl
                 );
 
                 Pet.insertPet(newPetToAdd);
