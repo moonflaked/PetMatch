@@ -55,7 +55,7 @@ class PetMatchDatabase {
     String petMatchDatabasePath = await getDatabasesPath();
     const categoryTable = '''
       CREATE TABLE CATEGORY (
-        category_id int AUTO_INCREMENT,
+        category_id INTEGER,
         category_name varchar(16) NOT NULL,
         CONSTRAINT CATEGORY_CATEGORY_ID_PK PRIMARY KEY (category_id)
       );
@@ -63,7 +63,7 @@ class PetMatchDatabase {
 
     const userTable = '''
       CREATE TABLE USER (
-        user_id int AUTO_INCREMENT,
+        user_id INTEGER,
         email varchar(256) NOT NULL,
         username varchar(32) NOT NULL,
         password varchar(32) NOT NULL,
@@ -73,7 +73,7 @@ class PetMatchDatabase {
 
     const petTable = '''
       CREATE TABLE PET (
-        pet_id int AUTO_INCREMENT,
+        pet_id INTEGER,
         name varchar(32) NOT NULL,
         gender varchar(8) NOT NULL,
         description varchar(128),
@@ -91,7 +91,7 @@ class PetMatchDatabase {
 
     const adoptedPetTable = '''
       CREATE TABLE ADOPTED_PET (
-        adopted_pet_id int AUTO_INCREMENT,
+        adopted_pet_id INTEGER,
         pet_id int,
         user_id int,
         CONSTRAINT ADOPTED_PET_ADOPTED_PET_ID_PK PRIMARY KEY (adopted_pet_id),

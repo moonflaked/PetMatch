@@ -76,16 +76,20 @@ class User{
     }
   }
 
-  //retrieve user Id
-  // static Future<bool?> retrieveUserId(String username) async{
+  // Gets user info by id
+  static Future<List<Map<String, dynamic>>?> retrieveUserById(pUserId) async{
+    Database? db = await instance;
+    return await db?.query("USER",where: " user_id = $pUserId");
+  }
+
+  // retrieve user Id
+  // static Future<Map<String, dynamic>> retrieveUserId(String username) async{
   //   Database? db = await instance;
   //   var valid= await db?.query("USER",where: "username LIKE '%$username%'");
   //   if(valid!.isNotEmpty){
-  //     return true;
   //   }
-  //   else {
-  //     return false;
-  //   }
+  //   return valid.first;
+  //
   // }
 
   // //checks if user exists

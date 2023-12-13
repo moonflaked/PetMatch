@@ -108,7 +108,7 @@ class _LoginState extends State<Login> {
                   TextField(
                     style: const TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 20),
                     controller: password,
-                    obscureText: true,
+                    // obscureText: true,
                     decoration: InputDecoration(
                         border: const OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(20),),
@@ -129,13 +129,11 @@ class _LoginState extends State<Login> {
                         Future<bool?> check = _validate(username.text, password.text);
                         var booleanCheck = await check;
 
-                        // var data = User.searchByUsername(username.text);
-                        // print(data);
-
                           if(booleanCheck!) {
-
-                            // Session session;
-                            // session.userId();
+                            final data = await User.searchByUsername(username.text);
+                            late int id;
+                            data?.forEach((row) => id=row['user_id']);
+                            Session.setUser(id);
 
                             Navigator.push(context,
                                 MaterialPageRoute(builder: (context) =>

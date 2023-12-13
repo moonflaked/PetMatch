@@ -1,13 +1,11 @@
 class Session{
-  late int _userId;
+  static late int _userId;
 
-  int get userId => _userId;
 
-  set userId(int value) {
-    _userId = value;
+   static setUser(pSetUser){
+    _userId = pSetUser;
   }
-
-   getUser(){
-    userId;
+  static int getUser(){
+     return _userId;
   }
 }

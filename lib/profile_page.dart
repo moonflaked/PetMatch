@@ -1,4 +1,6 @@
 import "package:flutter/material.dart";
+import 'package:petmatch/session.dart';
+import 'package:petmatch/user_model.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -19,10 +21,29 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    String usernameFieldTitle = "Username";
+
+    // List info = [];
+    //  getUserInfo() async{
+      int id = Session.getUser();
+      print(id);
+
+    //   final data = await User.retrieveUserById(id);
+    //   data?.forEach((row) {
+    //     info.add(row['email']);
+    //     info.add(row['username']);
+    //   });
+    //   return info;
+    // }
+    //  print(getUserInfo());
+
+
+    String email = "Email";
+    String username = "Username";
+
+    String usernameFieldTitle = "$username";
     FocusNode usernameFocusNode = FocusNode();
 
-    String emailFieldTitle = "Email";
+    String emailFieldTitle = "$email";
     FocusNode emailFocusNode = FocusNode();
 
     ScrollController adoptedPetScrollController = ScrollController();
