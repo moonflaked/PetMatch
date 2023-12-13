@@ -40,6 +40,7 @@ dependencies:
   sqflite: ^2.3.0
   path: ^1.8.3
   http: any
+  flash: any
 
 dev_dependencies:
 

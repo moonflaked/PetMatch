@@ -6,6 +6,7 @@ import 'package:petmatch/landing_page.dart';
 import 'package:petmatch/login_page.dart';
 import 'package:petmatch/database.dart';
 import 'package:petmatch/user_model.dart';
+import 'package:flash/flash.dart';
 
 void main(){
   runApp(const SignUp());
@@ -39,7 +40,6 @@ class _SignUpState extends State<SignUp> {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         home:Scaffold(
-          // resizeToAvoidBottomInset: false,
 
           body: Signup()
         )
@@ -82,30 +82,7 @@ class _SignupState extends State<Signup>{
   }
   final petMatchDatabase = PetMatchDatabase.getInstance();
 
-  void showSnackBar(String? snackBarText)
-  {
-    ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          duration: Duration(
-              seconds: 2
-          ),
-          behavior: SnackBarBehavior.floating,
-          elevation: 0,
-          backgroundColor: Colors.grey.shade600,
-          content: Text(
-            snackBarText ?? "",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 18,
-            ),
-          ),
-          width: 200,
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20)
-          ),
-        )
-    );
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -205,10 +182,17 @@ class _SignupState extends State<Signup>{
               SizedBox(width: 150,height: 40,child:
               ElevatedButton(onPressed: (){
                 if(email.text.isNotEmpty && username.text.isNotEmpty &&  password.text.isNotEmpty) {
+                  print("BEFOREEE");
                   _insert(email.text, username.text, password.text);
+
+
+
+
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => Login(),));
+
                 }
+
                 else{
                   if(email.text.trim().isEmpty) {
                     // print("hello inside ");
@@ -220,8 +204,6 @@ class _SignupState extends State<Signup>{
                   else if(password.text.trim().isEmpty){
                     _dialogBuilderPassword(context);
                   }
-
-
                 }
               },
                 style: ButtonStyle(
@@ -318,31 +300,33 @@ class _SignupState extends State<Signup>{
     );
   }
 
-  Future<void> _dialogBuilderPet(BuildContext context) {
-    return showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text("You didn't choose a PET!! ~(>_<。)＼ "),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text("Close"),
-                style: TextButton.styleFrom(
-                  textStyle: Theme
-                      .of(context)
-                      .textTheme
-                      .labelLarge,
-                ),
-              )
-            ],
-          );
-        }
-    );
-  }
-  void _insert(email, username, password) async{
+  // Future<void> _dialogBuilderPet(BuildContext context) {
+  //   return showDialog(
+  //       context: context,
+  //       builder: (BuildContext context) {
+  //         return AlertDialog(
+  //           title: Text("You didn't choose a PET!! ~(>_<。)＼ "),
+  //           actions: <Widget>[
+  //             TextButton(
+  //               onPressed: () {
+  //                 Navigator.pop(context);
+  //               },
+  //               child: Text("Close"),
+  //               style: TextButton.styleFrom(
+  //                 textStyle: Theme
+  //                     .of(context)
+  //                     .textTheme
+  //                     .labelLarge,
+  //               ),
+  //             )
+  //           ],
+  //         );
+  //       }
+  //   );
+  // }
+
+   void _insert(email, username, password) async{
+    // print("inside insert function");
     Map<String,dynamic> row = {
        "email": email,
        "username" : username,
@@ -350,7 +334,38 @@ class _SignupState extends State<Signup>{
     };
     User user = User.fromMap(row);
     final id = await User.insert(user);
-    showSnackBar("Welcome to PetMatch!");
+    if(id == 0) {
+      showFlash(
+        context: context,
+        duration: const Duration(seconds: 3),
+        builder: (context, controller) {
+          return Flash(
+            controller: controller,
+            child: Text(
+              'This is a basic flash',
+            ),
+          );
+        },
+      );
+      print("WRONGGGGGGGGGGGGGGGGGGGGGG");
+    }
+    else {
+      print("correctttttttttttt");
+      print("$id");
+      showFlash(
+        context: context,
+        duration: const Duration(seconds: 3),
+        builder: (context, controller) {
+          return Flash(
+            controller: controller,
+            child: Text(
+              'WELCOME',
+            ),
+          );
+        },
+      );
+    }
+
   }
 }
 

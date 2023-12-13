@@ -21,7 +21,7 @@ class PetMatchDatabase {
       {
         await pDatabase.execute('''
               CREATE TABLE USER (
-                user_id int AUTOINCREMENT,
+                user_id int AUTO_INCREMENT,
                 email varchar(256) NOT NULL,
                 username varchar(32) NOT NULL,
                 password varchar(32) NOT NULL,
@@ -29,13 +29,13 @@ class PetMatchDatabase {
               );
               
               CREATE TABLE CATEGORY (
-                category_id int AUTOINCREMENT,
+                category_id int AUTO_INCREMENT,
                 category_name varchar(16),
                 CONSTRAINT CATEGORY_CATEGORY_ID_PK PRIMARY KEY (category_id)
               );
               
               CREATE TABLE PET (
-                pet_id int AUTOINCREMENT,
+                pet_id int AUTO_INCREMENT,
                 name varchar(32) NOT NULL,
                 gender varchar(8) NOT NULL,
                 description varchar(128),
@@ -51,7 +51,7 @@ class PetMatchDatabase {
               );
               
               CREATE TABLE ADOPTED_PET (
-                adopted_pet_id int AUTOINCREMENT,
+                adopted_pet_id int AUTO_INCREMENT,
                 pet_id int,
                 user_id int,
                 CONSTRAINT ADOPTED_PET_ADOPTED_PET_ID_PK PRIMARY KEY (adopted_pet_id),
