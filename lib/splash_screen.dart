@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:petmatch/login_page.dart';
 import 'package:provider/provider.dart';
 
@@ -26,10 +27,23 @@ void main() async{
         )
       ]
     );
+
+    Future<void> requestNotificationPermissions() async {
+      final PermissionStatus status = await Permission.notification.request();
+      if (status.isGranted) {
+      } else if (status.isDenied || status.isRestricted || status.isLimited || status.isPermanentlyDenied) {
+         AwesomeNotifications().requestPermissionToSendNotifications();
+        print("Permission DeniedWHYYYYYYYYYYYYY inside splash screen");
+      }
+
+    }
     bool isAllowedToSendNotification = await AwesomeNotifications().isNotificationAllowed();
     if(!isAllowedToSendNotification){
       AwesomeNotifications().requestPermissionToSendNotifications();
+      print("ASKING?????????????????");
+      requestNotificationPermissions();
     }
+
     runApp(
         ChangeNotifierProvider(
         child: Splash(),
@@ -37,6 +51,7 @@ void main() async{
         )
     );
 }
+
 
 class Splash extends StatelessWidget {
   const Splash({super.key});

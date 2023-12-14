@@ -44,6 +44,7 @@ dependencies:
   provider: any
   shared_preferences: any
   awesome_notifications: ^0.8.2
+  permission_handler: any
 
 dev_dependencies:
 

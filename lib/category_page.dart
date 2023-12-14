@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import "package:collection/collection.dart";
 
 import 'package:petmatch/Themes/theme.dart';
+import 'package:petmatch/info_page.dart';
 import 'package:petmatch/notification_controller.dart';
 
 import 'package:petmatch/pet_model.dart';
@@ -34,19 +35,6 @@ class CategoryStart extends StatefulWidget {
 
 class _CategoryStartState extends State<CategoryStart> {
 
-
-  // @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //   setState(() {themeSwitchState; });
-  // }
-  // @override
-  // void setState(VoidCallback fn) {
-  //   // TODO: implement setState
-  //   super.setState(fn);
-  //   setState(() {themeSwitchState;});
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -458,7 +446,12 @@ class _SpeciesContainerState extends State<SpeciesContainer> {
         // Indicate the border radius of the InkWell
         borderRadius: BorderRadius.circular(30.5),
         onTap: () {
-
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => InfoPage(petId: widget.petId,petImageLink: widget.petImageLink,)
+              )
+          );
         },
         // Whole grid container with black border
         child: Container(

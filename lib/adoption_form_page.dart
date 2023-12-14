@@ -15,7 +15,7 @@ class AdoptionForm extends StatefulWidget {
 
 enum Answers { yes, no, own, rent }
 class _AdoptionFormState extends State<AdoptionForm> {
-  Answers? _question1 = Answers.no;
+  Answers? _question1 = Answers.yes;
   Answers? _question2 = Answers.own;
   Answers? _question3 = Answers.yes;
   @override
@@ -48,8 +48,7 @@ class _AdoptionFormState extends State<AdoptionForm> {
                       left: 16.0, // Adjust the left position as needed
                       child: IconButton(
                         onPressed: () {
-                          // Button click action
-                          // print("1 2 test test perfectoo");
+                          Navigator.pop(context);
                         },
                         icon: const Icon(Icons.arrow_back_ios_new_outlined,
                           shadows: [

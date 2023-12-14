@@ -20,7 +20,7 @@ class _LandingPageState extends State<LandingPage> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        resizeToAvoidBottomInset: true,
+        resizeToAvoidBottomInset: false,
         body: Container(
           color: Colors.blueGrey,
           padding: const EdgeInsets.all(10),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:petmatch/adoption_form_page.dart';
 
 void main(){
   runApp(const InfoPage());
@@ -6,7 +7,13 @@ void main(){
 
 
 class InfoPage extends StatefulWidget {
-  const InfoPage({super.key});
+  final int? petId;
+  final String? petImageLink;
+  const InfoPage({
+    super.key,
+     this.petId,
+      this.petImageLink,
+  });
 
   @override
   State<InfoPage> createState() => _InfoPageState();
@@ -37,8 +44,7 @@ class _InfoPageState extends State<InfoPage> {
                     left: 16.0, // Adjust the left position as needed
                     child: IconButton(
                       onPressed: () {
-                        // Button click action
-                        // print("1 2 test test perfectoo");
+                        Navigator.pop(context);
                       },
                       icon: const Icon(Icons.arrow_back_ios_new_outlined,
                         shadows: [
@@ -163,12 +169,24 @@ class _InfoPageState extends State<InfoPage> {
                 width: 250,
                 child:
               ElevatedButton(onPressed: (){
-
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (BuildContext context) => const AdoptionForm()));
                   }
-                  ,child: const Text("Adopt",style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                    ),),
+                  ,child: const Text("Adopt",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Colors.orangeAccent),
+                    elevation: MaterialStateProperty.all(10),
+                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20)
+                      )
+                    )
+                  )
+
                   ),
                 )
 

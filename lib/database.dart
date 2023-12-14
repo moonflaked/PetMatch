@@ -49,6 +49,7 @@ class PetMatchDatabase {
 
       txn.batch().commit();
     });*/
+
   }
   static Future<Database> _initializeDB() async
   {

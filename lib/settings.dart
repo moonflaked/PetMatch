@@ -1,7 +1,11 @@
+
+import "package:awesome_notifications/awesome_notifications.dart";
 import "package:flutter/material.dart";
+import "package:permission_handler/permission_handler.dart";
 import "package:petmatch/Themes/theme.dart";
 import "package:petmatch/about_page.dart";
 import "package:provider/provider.dart";
+import"package:petmatch/splash_screen.dart";
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -10,39 +14,42 @@ class SettingsPage extends StatefulWidget {
   State<SettingsPage> createState() => _SettingsPageState();
 }
 bool themeSwitchState = false;
-class _SettingsPageState extends State<SettingsPage> {
-  // TextEditingController themeController = TextEditingController();
-  String? chosenTheme;
-  // List<String> listOfThemes = <String>[
-  //   "Default",
-  //   "Dark"
-  // ];
+
+class _SettingsPageState extends State<SettingsPage>{
 
 
+     isNotificationOn() async{
+       late bool notificationsSwitchState;
+       await AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
+        return notificationsSwitchState = isAllowed;
+        print(isAllowed ? "Alloweddddddddddddddd" : "Not allowedddddddddddddddd");
+      });
+      return notificationsSwitchState;
+    }
 
+     Future<bool> _notificationsEnabled = AwesomeNotifications().isNotificationAllowed();
+     bool isOn = true;
+  @override
+  void setState(VoidCallback fn) {
+    // TODO: implement setState
+    super.setState(fn);
+    if(_notificationsEnabled == true){
+      isOn = true;
+      Icon(Icons.notifications_active);
+    }
+    else{
+      isOn = false;
+      Icon(Icons.notifications_off);
+    }
+    _notificationsEnabled;
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _notificationsEnabled;
+  }
 
-  bool notificationsSwitchState = true;
-
-
-  // @override
-  // void dispose() {
-  //   _themeManager.removeListener(themeListener);
-  //   super.dispose();
-  // }
-  //
-  // @override
-  // void initState() {
-  //   _themeManager.addListener(themeListener);
-  //   super.initState();
-  // }
-  //
-  // themeListener(){
-  //   // if(mounted){
-  //     setState(() {
-  //
-  //     });
-  //   // }
-  // }
 
   // String? selectedString;
   @override
@@ -82,25 +89,6 @@ class _SettingsPageState extends State<SettingsPage> {
                         });
                       }
                     )
-                    // DropdownButton(
-                    //     hint: Text("Select theme"),
-                    //     value: chosenTheme,
-                    //     onChanged: (newTheme) {
-                    //       setState(() {
-                    //         chosenTheme = newTheme;
-                    //       });
-                    //     },
-                    //     style: TextStyle(
-                    //         fontSize: 20,
-                    //         color: Colors.black
-                    //     ),
-                    //     items: listOfThemes.map((themeElement) {
-                    //       return DropdownMenuItem(
-                    //           value: themeElement,
-                    //           child: Text(themeElement)
-                    //       );
-                    //     }).toList()
-                    // )
                   ]
               ),
             ),
@@ -117,15 +105,30 @@ class _SettingsPageState extends State<SettingsPage> {
                           fontSize: 20,
                         )
                     ),
-                    Switch(
-                      value: notificationsSwitchState,
-                      activeColor: Colors.lightBlueAccent,
-                      onChanged: (bool value) {
-                        setState(() {
-                          notificationsSwitchState = value;
-                        });
-                      },
+                    // write me a code that controls the device's notification settings with a switch
+
+
+                    FutureBuilder<bool>(
+                        future: AwesomeNotifications().isNotificationAllowed(),
+                        builder: (context, snapshot){
+                          if (snapshot.hasData) {
+                            return //button
+                              FloatingActionButton(onPressed: ()async{
+                                  requestNotificationPermissions();
+                                  setState(() {
+                                    snapshot.data!;
+                                  });
+                              },
+                                child:  snapshot.data! ?
+                                Icon(Icons.notifications_active) : Icon(Icons.notifications_off),
+                            );
+                          } else if (snapshot.hasError) {
+                            return Text("${snapshot.error}");
+                          }
+                          return const CircularProgressIndicator();
+                        }
                     )
+
                   ]
               ),
             ),
@@ -182,4 +185,22 @@ class _SettingsPageState extends State<SettingsPage> {
     )
     );
   }
+
+  Future<bool?> requestNotificationPermissions() async {
+    final PermissionStatus status = await Permission.notification.request();
+    if (status.isGranted) {
+      AwesomeNotifications().requestPermissionToSendNotifications();
+      await openAppSettings();
+      return true;
+      print("Permission Granted Inside requestNotificationPermissions()");
+    } else if (status.isDenied || status.isRestricted || status.isLimited || status.isPermanentlyDenied) {
+      AwesomeNotifications().requestPermissionToSendNotifications();
+      await openAppSettings();
+      print("Permission DeniedWHYYYYYYYYYYYYY Inside requestNotificationPermissions()");
+      return false;
+    }
+  }
+
+
+
 }
