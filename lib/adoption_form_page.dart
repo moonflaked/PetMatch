@@ -1,13 +1,25 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:flash/flash.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:petmatch/category_page.dart';
 
 
 void main(){
-    runApp( const AdoptionForm());
+    runApp(  AdoptionForm());
 }
 
 class AdoptionForm extends StatefulWidget {
-  const AdoptionForm({super.key});
+  String? name;
+  int? age;
+  double? weight;
+
+   AdoptionForm({
+    super.key,
+    this.name,
+    this.age,
+    this.weight
+  });
 
   @override
   State<AdoptionForm> createState() => _AdoptionFormState();
@@ -18,6 +30,10 @@ class _AdoptionFormState extends State<AdoptionForm> {
   Answers? _question1 = Answers.yes;
   Answers? _question2 = Answers.own;
   Answers? _question3 = Answers.yes;
+
+
+  TextEditingController initials = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -69,7 +85,7 @@ class _AdoptionFormState extends State<AdoptionForm> {
                   child: const Text("Adoption Application, Contract",
                   style: TextStyle(
                     color: Colors.deepOrange,
-                    fontSize: 20,
+                    fontSize: 25,
                     fontWeight: FontWeight.bold
                   ),),
                 ),
@@ -87,7 +103,7 @@ class _AdoptionFormState extends State<AdoptionForm> {
                         width: MediaQuery.of(context).size.width,
                         // decoration: BoxDecoration(border: Border.all(color: Colors.black)),
                         margin: const EdgeInsets.only(top: 10, left: 10),
-                        child: const Text("Name: Rocco",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17),),
+                        child:  Text("Name: ${widget.name}",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17),),
                       ),
 
                       //Age
@@ -95,7 +111,7 @@ class _AdoptionFormState extends State<AdoptionForm> {
                         width: MediaQuery.of(context).size.width,
                         // decoration: BoxDecoration(border: Border.all(color: Colors.black)),
                         margin: const EdgeInsets.only(top: 10, left: 10),
-                        child: const Text("Age: 23",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17),),
+                        child:  Text("Age: ${widget.age}",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17),),
                       ),
 
                       // Weight
@@ -103,7 +119,7 @@ class _AdoptionFormState extends State<AdoptionForm> {
                         width: MediaQuery.of(context).size.width,
                         // decoration: BoxDecoration(border: Border.all(color: Colors.black)),
                         margin: const EdgeInsets.only(top: 10, left: 10),
-                        child: const Text("Weight(kg): 5",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17),),
+                        child:  Text("Weight(kg): ${widget.weight}",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17),),
                       ),
                     ],
                   ),
@@ -111,7 +127,7 @@ class _AdoptionFormState extends State<AdoptionForm> {
 
                 SizedBox(height: 20,),
 
-                Text("Required:",style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold,fontSize: 20),),
+                Text("*Required:",style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold,fontSize: 20),),
 
                 //required section
                 Container(
@@ -130,7 +146,9 @@ class _AdoptionFormState extends State<AdoptionForm> {
                         margin: EdgeInsets.only(left: 140,top: 10),
                         width: 100,
                       child: TextField(
-                        decoration: InputDecoration(border: OutlineInputBorder(borderSide: BorderSide(width: 34))),
+                        controller: initials,
+                        decoration: InputDecoration(
+                            border: OutlineInputBorder(borderSide: BorderSide(width: 34))),
                         textAlign: TextAlign.center,
                         maxLength: 2,
                       ),
@@ -272,19 +290,47 @@ class _AdoptionFormState extends State<AdoptionForm> {
                   width: 150,
                   child:
                   ElevatedButton(onPressed: (){
-                    AwesomeNotifications().createNotification(
-                        content:NotificationContent(
-                            id: 1,
-                            channelKey: "channel_key",
-                            title: "New Pet!",
-                            body: "WHAT AN ADORABLE PET! Welcome Home!"
-                        )
-                    );
-
+                    if(initials.text.trim().isNotEmpty && int.tryParse(initials.text.trim()) == null){
+                      AwesomeNotifications().createNotification(
+                          content:NotificationContent(
+                              id: 1,
+                              channelKey: "channel_key",
+                              title: "CONGRATS!",
+                              body: "WHAT AN ADORABLE PET You Choose!"
+                          )
+                      );
+                      Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => CategoryStart(),));
+                    }
+                    else{
+                      showFlash(
+                        context: context,
+                        duration: const Duration(seconds: 3),
+                        builder: (context, controller) {
+                          return Flash(
+                              controller: controller,
+                              child: FlashBar(
+                                controller: controller,
+                                content: Text(
+                                  "Come on, your pet is waiting for *YOU*!",
+                                  style: TextStyle(
+                                      color: Colors.amberAccent, fontSize: 16,fontWeight: FontWeight.bold),),
+                                title: Text("Required Field Is Empty!!",style: TextStyle(
+                                  color: Colors.black
+                                ),),
+                                elevation: 0,
+                                backgroundColor: Colors.blueGrey,
+                                progressIndicatorBackgroundColor: Colors.white,
+                                indicatorColor: Colors.red,
+                              )
+                          );
+                        },
+                      );
+                    }
 
                   }
                     ,
-                    style: ElevatedButton.styleFrom(backgroundColor: Colors.pink),child: const Text("Submit",style: TextStyle(
+                    style: ElevatedButton.styleFrom(backgroundColor: Colors.pink),
+                    child: const Text("Submit",style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
                     ),),

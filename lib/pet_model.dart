@@ -83,4 +83,14 @@ class Pet{
 
       return listOfPets;
     }
+
+    static Future<List<Map<String,dynamic>>?> retrievePetData(pPetId) async{
+      Database? db = await PetMatchDatabase.getInstance();
+      List<Map<String,dynamic>>? petDetails = await db?.query(
+        petTableName,
+        where: "pet_id = ?",
+        whereArgs: pPetId
+      );
+      return petDetails;
+    }
 }

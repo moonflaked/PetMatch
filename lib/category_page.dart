@@ -284,9 +284,7 @@ class _CategoryScrollSectionState extends State<CategoryScrollSection>
       setState(() {});
 
     });
-    setState(() {
-
-    });
+    setState(() {    });
 
 
   }
@@ -321,7 +319,7 @@ class _CategoryScrollSectionState extends State<CategoryScrollSection>
             initialIndex: 0,
             child: RawScrollbar(
               controller: categoryScrollController,
-              thumbColor: Colors.black,
+              thumbColor: Colors.amberAccent,
               radius: const Radius.circular(2),
               // This is wrapped around a list view
               // To remove the warning that a ScrollController
@@ -380,11 +378,17 @@ class _CategoryScrollSectionState extends State<CategoryScrollSection>
                                                   int pIndex) {
                                                 return SpeciesContainer(
                                                   petId: categoryPetsSnapshot.data![category.categoryName]![pIndex].petId!,
-                                                  speciesName: categoryPetsSnapshot
-                                                      .data![category.categoryName]![pIndex].name!,
+                                                  speciesName: categoryPetsSnapshot.data![category.categoryName]![pIndex].name!,
                                                   petImageLink: categoryPetsSnapshot.data![category.categoryName]![pIndex].petImageLink,
+                                                  name: categoryPetsSnapshot.data![category.categoryName]![pIndex].name,
+                                                  gender: categoryPetsSnapshot.data![category.categoryName]![pIndex].gender,
+                                                  description: categoryPetsSnapshot.data![category.categoryName]![pIndex].description,
+                                                  age: categoryPetsSnapshot.data![category.categoryName]![pIndex].age,
+                                                  weight: categoryPetsSnapshot.data![category.categoryName]![pIndex].weight,
                                                 );
+
                                               }
+
                                           )
                                         ]
                                     )
@@ -422,11 +426,25 @@ class SpeciesContainer extends StatefulWidget {
   final String speciesName;
   final int petId;
   final String? petImageLink;
+
+  final String? name;
+  final String? gender;
+  final String? description;
+  final int? age;
+  final double? weight;
+
   const SpeciesContainer({
     super.key,
     required this.speciesName,
     required this.petId,
-    this.petImageLink});
+    this.petImageLink,
+
+    this.name,
+    this.gender,
+    this.description,
+    this.age,
+    this.weight
+  });
 
   @override
   State<SpeciesContainer> createState() => _SpeciesContainerState();
@@ -443,7 +461,15 @@ class _SpeciesContainerState extends State<SpeciesContainer> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => InfoPage(petId: widget.petId,petImageLink: widget.petImageLink,)
+                  builder: (context) => InfoPage(
+                    petId: widget.petId,
+                    petImageLink: widget.petImageLink,
+                    name: widget.name,
+                    age: widget.age,
+                    gender: widget.gender,
+                    description: widget.description,
+                    weight: widget.weight,
+                  )
               )
           );
         },

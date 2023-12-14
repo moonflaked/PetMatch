@@ -2,18 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:petmatch/adoption_form_page.dart';
 
 void main(){
-  runApp(const InfoPage());
+  runApp( InfoPage());
 }
 
 
 class InfoPage extends StatefulWidget {
   final int? petId;
   final String? petImageLink;
+
+  final String? name;
+  final String? gender;
+  final String? description;
+  final int? age;
+  final double? weight;
+
   const InfoPage({
     super.key,
-     this.petId,
-      this.petImageLink,
+    this.petId,
+    this.petImageLink,
+    this.name,
+    this.gender,
+    this.description,
+    this.age,
+    this.weight
   });
+
+
 
   @override
   State<InfoPage> createState() => _InfoPageState();
@@ -33,10 +47,13 @@ class _InfoPageState extends State<InfoPage> {
               Stack(
                 children: [
                   // Display the image
-                  Image.asset( 'assets/images/test.jpg', // Replace with your image file path
+                  Expanded(child:
+
+                  Image.network( widget.petImageLink ?? 'https://www.heart.org/-/media/Healthy-Living-Images/Healthy-Lifestyle/Pets/puppy-kitten-heart.jpg', // Replace with your image file path
                     fit: BoxFit.cover,
                     height: 300,
                     width: MediaQuery.of(context).size.width,
+                  ),
                   ),
                   // Positioned button at the top left
                   Positioned(
@@ -70,8 +87,8 @@ class _InfoPageState extends State<InfoPage> {
               //Pet Name
               Container(
                 margin: const EdgeInsets.only(right: 250),
-                width: 100,
-                child:const Text("Name",style: TextStyle(
+                // width: 100,
+                child: Text(widget.name ?? "PetName" ,style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 30,
                 ),
@@ -89,9 +106,9 @@ class _InfoPageState extends State<InfoPage> {
                       borderRadius: BorderRadius.circular(20),
                       color: Colors.orangeAccent[100],
                     ),
-                    child: const Column(
+                    child: Column(
                       children: [
-                        Text("Male",style: TextStyle(
+                        Text(widget.gender ?? "Male?",style: TextStyle(
                           fontSize: 25,
                           fontWeight: FontWeight.bold
                         ),),
@@ -111,9 +128,9 @@ class _InfoPageState extends State<InfoPage> {
                       borderRadius: BorderRadius.circular(20),
                       color: Colors.orangeAccent[100],
                     ),
-                    child: const Column(
+                    child: Column(
                       children: [
-                        Text("23",style: TextStyle(
+                        Text( widget.age.toString() ?? "age?",style: TextStyle(
                             fontSize: 25,
                             fontWeight: FontWeight.bold
                         ),),
@@ -133,9 +150,9 @@ class _InfoPageState extends State<InfoPage> {
                       borderRadius: BorderRadius.circular(20),
                       color: Colors.orangeAccent[100],
                     ),
-                    child: const Column(
+                    child: Column(
                       children: [
-                        Text("5",style: TextStyle(
+                        Text( widget.weight.toString() ?? "5",style: TextStyle(
                             fontSize: 25,
                             fontWeight: FontWeight.bold
                         ),),
@@ -155,7 +172,7 @@ class _InfoPageState extends State<InfoPage> {
                 width: MediaQuery.of(context).size.width,
                 height: 170,
                 padding: const EdgeInsets.all(15),
-                child: const Text("It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.",
+                child:  Text(widget.description ?? "Description",
                     style:TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
@@ -170,7 +187,8 @@ class _InfoPageState extends State<InfoPage> {
                 child:
               ElevatedButton(onPressed: (){
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (BuildContext context) => const AdoptionForm()));
+                    MaterialPageRoute(builder: (BuildContext context) =>
+                        AdoptionForm(name: widget.name,age: widget.age,weight: widget.weight,)));
                   }
                   ,child: const Text("Adopt",
                     style: TextStyle(
