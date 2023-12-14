@@ -1,10 +1,19 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:petmatch/login_page.dart';
+import 'package:provider/provider.dart';
+
+import 'Themes/theme.dart';
 
 
 void main(){
-    runApp(const Splash());
+    runApp(
+        ChangeNotifierProvider(
+        child: Splash(),
+        create: (BuildContext context) => ThemeProvider(isDarkMode: false),
+
+        )
+    );
 }
 
 class Splash extends StatelessWidget {
@@ -12,14 +21,22 @@ class Splash extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: const SplashScreen(),
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        useMaterial3: false
-      ),
-    );
+    return Consumer<ThemeProvider>(
+        builder: (context,themeProvider, child){
+          return MaterialApp(
+            home: const SplashScreen(),
+            debugShowCheckedModeBanner: false,
+            theme: themeProvider.getTheme,
+            // ThemeData(
+            //     useMaterial3: false
+            // ),
+          );
+        }
+    ) ;
+
   }
+
+
 }
 
 class SplashScreen extends StatefulWidget {

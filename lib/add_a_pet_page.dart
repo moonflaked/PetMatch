@@ -393,7 +393,7 @@ class _AddAPetBodyState extends State<AddAPetBody> {
               bool ageControllerIsEmpty = isTextEditingControllerEmpty(ageController, snackBarText: "Age is empty");
               bool weightControllerIsEmpty = isTextEditingControllerEmpty(weightController, snackBarText: "Weight is empty");
               bool ageIsAnInteger = checkIsAInteger(ageController, snackBarText: "Age is not a whole number");
-              bool weightIsADouble = checkIsADouble(weightController, snackBarText: "Double is not a decimal number");
+              bool weightIsADouble = checkIsADouble(weightController, snackBarText: "Weight is a decimal number");
               if(
                 !animalLabelIsEmpty
                   && !speciesControllerIsEmpty

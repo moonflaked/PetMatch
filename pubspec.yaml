@@ -41,6 +41,8 @@ dependencies:
   path: ^1.8.3
   http: any
   flash: ^3.0.5+2
+  provider: any
+  shared_preferences: any
 
 dev_dependencies:
 

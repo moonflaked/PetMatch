@@ -1,5 +1,7 @@
 import "package:flutter/material.dart";
+import "package:petmatch/Themes/theme.dart";
 import "package:petmatch/about_page.dart";
+import "package:provider/provider.dart";
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -7,7 +9,7 @@ class SettingsPage extends StatefulWidget {
   @override
   State<SettingsPage> createState() => _SettingsPageState();
 }
- bool themeSwitchState = false;
+bool themeSwitchState = false;
 class _SettingsPageState extends State<SettingsPage> {
   // TextEditingController themeController = TextEditingController();
   String? chosenTheme;
@@ -74,6 +76,8 @@ class _SettingsPageState extends State<SettingsPage> {
                       activeColor: Colors.blueGrey,
                       onChanged: (bool value) {
                         setState(() {
+                          ThemeProvider themeProvider = Provider.of<ThemeProvider>(context,listen: false);
+                          themeProvider.swapTheme();
                           themeSwitchState = value;
                         });
                       }

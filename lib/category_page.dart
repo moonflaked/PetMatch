@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import "package:collection/collection.dart";
+
+import 'package:petmatch/Themes/theme.dart';
+
 import 'package:petmatch/pet_model.dart';
 import 'package:petmatch/profile_page.dart';
 import 'package:petmatch/settings.dart';
+import 'package:provider/provider.dart';
 
 
 import 'add_a_pet_page.dart';
@@ -10,7 +14,13 @@ import 'category_model.dart';
 
 
 void main() {
-  runApp(const CategoryStart());
+  runApp(
+      ChangeNotifierProvider(
+          child: CategoryStart(),
+        create: (BuildContext context) => ThemeProvider(isDarkMode: true),
+
+      )
+  );
 }
 
 class CategoryStart extends StatefulWidget {
@@ -23,31 +33,35 @@ class CategoryStart extends StatefulWidget {
 class _CategoryStartState extends State<CategoryStart> {
 
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    setState(() {themeSwitchState; });
-  }
-  @override
-  void setState(VoidCallback fn) {
-    // TODO: implement setState
-    super.setState(fn);
-    setState(() {themeSwitchState;});
-  }
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   setState(() {themeSwitchState; });
+  // }
+  // @override
+  // void setState(VoidCallback fn) {
+  //   // TODO: implement setState
+  //   super.setState(fn);
+  //   setState(() {themeSwitchState;});
+  // }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: PetMatchPageSelector(),
-      theme: ThemeData.light(),
-      darkTheme: ThemeData.dark(),
-      themeMode: themeSwitchState?  ThemeMode.light:ThemeMode.dark  ,
+    return Consumer<ThemeProvider>(
+      builder:(context, themeProvider, child) {
+        return MaterialApp(
+          theme: themeProvider.getTheme,
+          home: PetMatchPageSelector(),
+          // darkTheme: ThemeData.dark(),
+          // themeMode:   ,
 
-      // ThemeData(
-      //   useMaterial3: false
-      // ),
-      debugShowCheckedModeBanner: false,
+          // ThemeData(
+          //   useMaterial3: false
+          // ),
+          debugShowCheckedModeBanner: false,
+        );
+      },
     );
   }
 }
