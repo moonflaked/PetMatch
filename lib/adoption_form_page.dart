@@ -1,3 +1,4 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 
 
@@ -272,6 +273,15 @@ class _AdoptionFormState extends State<AdoptionForm> {
                   width: 150,
                   child:
                   ElevatedButton(onPressed: (){
+                    AwesomeNotifications().createNotification(
+                        content:NotificationContent(
+                            id: 1,
+                            channelKey: "channel_key",
+                            title: "New Pet!",
+                            body: "WHAT AN ADORABLE PET! Welcome Home!"
+                        )
+                    );
+
 
                   }
                     ,

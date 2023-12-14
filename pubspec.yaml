@@ -43,6 +43,7 @@ dependencies:
   flash: ^3.0.5+2
   provider: any
   shared_preferences: any
+  awesome_notifications: ^0.8.2
 
 dev_dependencies:
 

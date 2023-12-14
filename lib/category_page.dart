@@ -1,7 +1,9 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import "package:collection/collection.dart";
 
 import 'package:petmatch/Themes/theme.dart';
+import 'package:petmatch/notification_controller.dart';
 
 import 'package:petmatch/pet_model.dart';
 import 'package:petmatch/profile_page.dart';
@@ -53,8 +55,6 @@ class _CategoryStartState extends State<CategoryStart> {
         return MaterialApp(
           theme: themeProvider.getTheme,
           home: PetMatchPageSelector(),
-          // darkTheme: ThemeData.dark(),
-          // themeMode:   ,
 
           // ThemeData(
           //   useMaterial3: false
@@ -75,6 +75,18 @@ class PetMatchPageSelector extends StatefulWidget {
 }
 
 class _PetMatchPageSelectorState extends State<PetMatchPageSelector> {
+
+  @override
+  void initState() {
+    AwesomeNotifications().setListeners(
+        onActionReceivedMethod: NotificationController.onActionReceivedMethod,
+        onNotificationCreatedMethod: NotificationController.onNotificationCreatedMethod,
+        onNotificationDisplayedMethod: NotificationController.onNotificationDisplayedMethod,
+        onDismissActionReceivedMethod: NotificationController.onDismissActionReceivedMethod
+    );
+    super.initState();
+  }
+
 
   PageController petMatchPageViewController = PageController(
       initialPage: _PetMatchPageSelectorState.currentDestinationIndex,

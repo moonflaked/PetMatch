@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:petmatch/login_page.dart';
 import 'package:provider/provider.dart';
@@ -6,12 +7,33 @@ import 'package:provider/provider.dart';
 import 'Themes/theme.dart';
 
 
-void main(){
+void main() async{
+    await AwesomeNotifications().initialize(
+        null, // the how will the icon look like in the notification
+        [
+          NotificationChannel(
+              channelGroupKey: "channel_group_key",
+              channelKey: "channel_key",
+              channelName: "PetMatch Notifications",
+              channelDescription: "Testing notification channels",
+            ledColor: Colors.amberAccent
+          )
+        ],
+      channelGroups: [
+        NotificationChannelGroup(
+            channelGroupKey: "channel_group_key",
+            channelGroupName: "Basic Group",
+        )
+      ]
+    );
+    bool isAllowedToSendNotification = await AwesomeNotifications().isNotificationAllowed();
+    if(!isAllowedToSendNotification){
+      AwesomeNotifications().requestPermissionToSendNotifications();
+    }
     runApp(
         ChangeNotifierProvider(
         child: Splash(),
         create: (BuildContext context) => ThemeProvider(isDarkMode: false),
-
         )
     );
 }
