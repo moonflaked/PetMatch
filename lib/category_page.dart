@@ -17,13 +17,7 @@ import 'category_model.dart';
 
 
 void main() {
-  runApp(
-      ChangeNotifierProvider(
-          child: CategoryStart(),
-        create: (BuildContext context) => ThemeProvider(isDarkMode: true),
-
-      )
-  );
+  runApp( CategoryStart(), );
 }
 
 class CategoryStart extends StatefulWidget {
@@ -94,15 +88,15 @@ class _PetMatchPageSelectorState extends State<PetMatchPageSelector> {
             backgroundColor: Colors.blueGrey,
             leading: Image.asset("assets/images/logo.png"),
             leadingWidth: 80,
-            actions: [
-              IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.notifications_sharp,
-                    color: Colors.black,
-                  )
-              )
-            ]
+            // actions: [
+            //   IconButton(
+            //       onPressed: () {},
+            //       icon: const Icon(
+            //         Icons.notifications_sharp,
+            //         color: Colors.black,
+            //       )
+            //   )
+            // ]
         ),
         bottomNavigationBar: BottomNavigationBar(
           backgroundColor: Colors.blueGrey,
