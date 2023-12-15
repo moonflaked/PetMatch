@@ -48,8 +48,9 @@ class _InfoPageState extends State<InfoPage> {
                 children: [
                   // Display the image
                   // Expanded(child:
-
-                  Image.network( widget.petImageLink ?? 'https://www.heart.org/-/media/Healthy-Living-Images/Healthy-Lifestyle/Pets/puppy-kitten-heart.jpg', // Replace with your image file path
+                  widget.petImageLink!.isEmpty?
+                      Image.asset("assets/images/no-image.png") :
+                  Image.network( widget.petImageLink!, // Replace with your image file path
                     fit: BoxFit.cover,
                     height: 300,
                     width: MediaQuery.of(context).size.width,

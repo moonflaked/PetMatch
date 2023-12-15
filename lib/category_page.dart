@@ -205,7 +205,38 @@ class LocationSection extends StatefulWidget {
 }
 
 class _LocationSectionState extends State<LocationSection> {
+  Future<String?>? currentAddress;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    currentAddress = returnCurrentPosition();
+  }
 
+  Future<String?> _getAddressFromLatLong(Position pPosition) async
+  {
+    String? address;
+    await placemarkFromCoordinates(pPosition.latitude, pPosition.longitude).then((List<Placemark> placemarks) {
+      Placemark place = placemarks[0];
+      setState(() {
+        address = '${place.street}, ${place.subLocality}, ${place.subAdministrativeArea}, ${place.postalCode}';
+      });
+    }).catchError((e) {
+      debugPrint(e);
+    });
+    return address;
+  }
+  Future<String?> returnCurrentPosition()
+  async {
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high
+    );
+    String? addressToReturn = await _getAddressFromLatLong(position);
+    CategoryBody.locationSectionKey.currentState!.setState(() {
+
+    });
+    return addressToReturn;
+  }
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -235,7 +266,7 @@ class _LocationSectionState extends State<LocationSection> {
                           child: const Text("Your location",
                               style: TextStyle(color: Colors.black54))),
                       FutureBuilder(
-                        future: _CategoryScrollSectionState.currentAddress,
+                        future: currentAddress,
                         builder: (context, snapshot) {
                           if(snapshot.hasData && snapshot.data!.isNotEmpty) {
                             return Row(
@@ -312,43 +343,20 @@ class _CategoryScrollSectionState extends State<CategoryScrollSection>
   late Future<Map<String, List<Pet>?>> mapOfPets;
 
 
-  static Future<String?>? currentAddress;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     initiateCategoryTabController();
-    currentAddress = returnCurrentPosition();
+
 
     setState(() {
       mapOfPets = getListOfPets();
     });
   }
 
-  Future<String?> getAddressFromLatLong(Position pPosition) async
-  {
-    String? address;
-    await placemarkFromCoordinates(pPosition.latitude, pPosition.longitude).then((List<Placemark> placemarks) {
-      Placemark place = placemarks[0];
-      setState(() {
-        address = '${place.street}, ${place.subLocality}, ${place.subAdministrativeArea}, ${place.postalCode}';
-      });
-    }).catchError((e) {
-      debugPrint(e);
-    });
-    return address;
-  }
-  Future<String?> returnCurrentPosition()
-  async {
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high
-    );
-    String? addressToReturn = await getAddressFromLatLong(position);
-    CategoryBody.locationSectionKey.currentState!.setState(() {
 
-    });
-    return addressToReturn;
-  }
   void refreshPetsInCategories()
   {
     initiateCategoryTabController();
@@ -428,7 +436,6 @@ class _CategoryScrollSectionState extends State<CategoryScrollSection>
               ),
             )
         ),
-
         Expanded(
           child:
             TabBarView(
