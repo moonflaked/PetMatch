@@ -102,6 +102,13 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
 
+  bool checkTextControllerIsEmpty(TextEditingController textEditingController) {
+    bool textControllerIsEmpty = false;
+    if(textEditingController.text.isEmpty) {
+      textControllerIsEmpty = true;
+    }
+    return textControllerIsEmpty;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -163,14 +170,28 @@ class _ProfilePageState extends State<ProfilePage> {
 
                 child: ElevatedButton(
                     onPressed: () async {
+                      ScaffoldMessenger.of(context).clearSnackBars();
                       bool usernameIsUnique = await User.isUsernameUnique(usernameController.text, userId: Session.getUserId());
-                      if(usernameIsUnique) {
+                      bool usernameIsEmpty = checkTextControllerIsEmpty(usernameController);
+                      bool emailIsEmpty = checkTextControllerIsEmpty(emailController);
+
+                      if(!usernameIsUnique){
+                        showSnackBar("Username is not unique. Please type another username");
+                      }
+                      if(usernameIsEmpty) {
+                        showSnackBar("Username is empty");
+                      }
+
+                      if(emailIsEmpty) {
+                        showSnackBar("Email is empty");
+                      }
+
+                      if(usernameIsUnique && !usernameIsEmpty && !emailIsEmpty) {
                         User.updateUsernameAndEmail(Session.getUserId(), usernameController.text, emailController.text);
                         showSnackBar("Saved changes!");
                       }
-                      else {
-                        showSnackBar("Username is not unique. Please type another username");
-                      }
+
+
                     },
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(

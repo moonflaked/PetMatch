@@ -617,6 +617,9 @@ class _SpeciesContainerState extends State<SpeciesContainer> {
                     child: Text(
                         widget.speciesName,
                         textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        color: Colors.white
+                      ),
                     ),
                   )
                 )
