@@ -85,7 +85,7 @@ class User{
 
   // update user username and email
   static Future<int?> updateUsernameAndEmail(pUserId, pUsername, pEmail) async {
-    Database? db = await PetMatchDatabase.getInstance();
+    Database? db = await instance;
     return await db?.rawUpdate(
         "UPDATE USER SET username = ?, email = ? WHERE user_id = ?",
         [pUsername,pEmail,pUserId]
@@ -97,6 +97,11 @@ class User{
     Database? db = await instance;
     return await db?.rawInsert("INSERT INTO ADOPTED_PET (pet_id, user_id) VALUES (?,?)", [pPetId,pUserId]);
   }
-  //fetching all user's Pets
+
+
+
+
 
 }
+
+
