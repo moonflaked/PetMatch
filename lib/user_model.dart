@@ -78,9 +78,13 @@ class User{
   }
 
   // Gets user info by id
-  static Future<List<Map<String, dynamic>>?> retrieveUserInfoById(pUserId) async{
+  static Future<List<User>?> retrieveUserInfoById(pUserId) async{
     Database? db = await instance;
-    return await db?.query("USER",where: " user_id = $pUserId");
+    List<Map<String, Object?>>? listOfUserMaps = await db?.query("USER",where: " user_id = $pUserId");
+
+    List<User>? listOfUsers = listOfUserMaps?.map((userMap) => User.fromMap(userMap)).toList();
+
+    return listOfUsers;
   }
 
   // update user username and email

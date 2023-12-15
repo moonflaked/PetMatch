@@ -19,25 +19,21 @@ class _ProfilePageState extends State<ProfilePage> {
     "Daisy" : "Beagle",
   };
 
-  List info = [];
+  late Future<List<User>?> info;
 
-  getUserInfo() async{
+  Future<List<User>?> getUserInfo() async{
     int id = Session.getUserId();
-    print(id);
 
     final data = await User.retrieveUserInfoById(id);
-    data?.forEach((row) {
-      info.add(row['email']);
-      info.add(row['username']);
-    });
 
-    return info;
+    return data;
   }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    info = getUserInfo();
   }
 
 
@@ -65,7 +61,7 @@ class _ProfilePageState extends State<ProfilePage> {
           children: [
             const ProfilePicture(),
             FutureBuilder(
-                future: getUserInfo(),
+                future: info,
                 builder: (context, snapshot) {
                   return Container(
                     margin: const EdgeInsets.only(
@@ -76,14 +72,15 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: SettingsFormField(
                       fieldFocusNode: usernameFocusNode,
                       textFieldController: usernameController,
-                      textFieldTitle: usernameFieldTitle ,
+                      textFieldTitle: usernameFieldTitle,
+                      textFieldValue: snapshot.data![0].username
                     ),
                   );
                 },
             ),
 
             FutureBuilder(
-                future: getUserInfo(),
+                future: info,
                 builder: (context, snapshot) => Container(
                     margin: const EdgeInsets.only(
                       left: 10,
@@ -94,6 +91,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       fieldFocusNode: emailFocusNode,
                       textFieldController: emailController,
                       textFieldTitle: emailFieldTitle,
+                      textFieldValue: snapshot.data![0].email
                     )
                 ),
             ),
@@ -196,10 +194,12 @@ class SettingsFormField extends StatefulWidget {
   final FocusNode fieldFocusNode;
   final TextEditingController textFieldController;
   final String textFieldTitle;
+  final String? textFieldValue;
   const SettingsFormField({super.key,
     required this.fieldFocusNode,
     required this.textFieldController,
     required this.textFieldTitle,
+    required this.textFieldValue
   });
 
   @override
@@ -233,6 +233,7 @@ class _SettingsFormFieldState extends State<SettingsFormField> {
   }
   @override
   Widget build(BuildContext context) {
+    widget.textFieldController.text = widget.textFieldValue ?? "";
     return Row(
         children: [
           Flexible(
