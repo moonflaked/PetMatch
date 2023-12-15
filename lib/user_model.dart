@@ -1,5 +1,4 @@
 import 'package:petmatch/database.dart';
-import 'package:petmatch/pet_model.dart';
 import 'package:sqflite/sqflite.dart';
 class User{
   int? userId;
@@ -66,7 +65,7 @@ class User{
   //checks if user exists
   static Future<bool?> validateLogin(String username, String password) async{
     Database? db = await instance;
-    var valid= await db?.query("USER",where: "username LIKE '%$username%' AND password LIKE '%$password%'");
+    var valid= await db?.query("USER",where: "username LIKE ? AND password LIKE ?", whereArgs: [username,password]);
     print(valid);
     print("ioeurfvewoirtvbhoewriuthvbeouhigto3urhew");
     if(valid!.isNotEmpty){
