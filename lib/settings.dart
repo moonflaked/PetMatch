@@ -48,6 +48,7 @@ class _SettingsPageState extends State<SettingsPage>{
     // TODO: implement initState
     super.initState();
     _notificationsEnabled;
+    isOn;
   }
 
 
@@ -70,7 +71,7 @@ class _SettingsPageState extends State<SettingsPage>{
                   bottom: 20
               ),
               child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Text(
                         "Theme",
@@ -106,7 +107,7 @@ class _SettingsPageState extends State<SettingsPage>{
                         )
                     ),
                     // write me a code that controls the device's notification settings with a switch
-
+                    SizedBox(width: 0,),
 
                     FutureBuilder<bool>(
                         future: AwesomeNotifications().isNotificationAllowed(),
@@ -120,8 +121,9 @@ class _SettingsPageState extends State<SettingsPage>{
                                   });
                               },
                                 child:  snapshot.data! ?
-                                Icon(Icons.notifications_active) : Icon(Icons.notifications_off),
-                            );
+                                Icon(Icons.notifications_active,color: Colors.green,) : Icon(Icons.notifications_off,color: Colors.orange),
+                              backgroundColor: Colors.blueGrey,
+                              );
                           } else if (snapshot.hasError) {
                             return Text("${snapshot.error}");
                           }
@@ -132,6 +134,54 @@ class _SettingsPageState extends State<SettingsPage>{
                   ]
               ),
             ),
+
+            Container(
+              margin: const EdgeInsets.only(
+                bottom: 20,
+              ),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(
+                        "Location",
+                        style: TextStyle(
+                          fontSize: 20,
+                        )
+                    ),
+                    // write me a code that controls the device's notification settings with a switch
+
+                    // FutureBuilder<bool>(
+                    //     future: AwesomeNotifications().isNotificationAllowed(),
+                    //     builder: (context, snapshot){
+                    //       if (snapshot.hasData) {
+                    //         return //button
+                    //           FloatingActionButton(onPressed: ()async{
+                    //             requestNotificationPermissions();
+                    //             setState(() {
+                    //               snapshot.data!;
+                    //             });
+                    //           },
+                    //             child:  snapshot.data! ?
+                    //             Icon(Icons.notifications_active) : Icon(Icons.notifications_off),
+                    //           );
+                    //       } else if (snapshot.hasError) {
+                    //         return Text("${snapshot.error}");
+                    //       }
+                    //       return const CircularProgressIndicator();
+                    //     }
+                    // )
+                    SizedBox(width: 30,),
+                      FloatingActionButton(onPressed: ()async{
+                            await openAppSettings();
+
+                        },
+                        child:Icon(Icons.location_pin,color: Colors.green),
+                        backgroundColor: Colors.blueGrey,
+                      ),
+                  ]
+              ),
+            ),
+
             Center(
                 child: Container(
                     padding: const EdgeInsets.symmetric(
