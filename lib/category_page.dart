@@ -4,6 +4,7 @@ import "package:collection/collection.dart";
 
 import 'package:petmatch/Themes/theme.dart';
 import 'package:petmatch/info_page.dart';
+import 'package:petmatch/login_page.dart';
 import 'package:petmatch/notification_controller.dart';
 
 import 'package:petmatch/pet_model.dart';
@@ -88,15 +89,17 @@ class _PetMatchPageSelectorState extends State<PetMatchPageSelector> {
             backgroundColor: Colors.blueGrey,
             leading: Image.asset("assets/images/logo.png"),
             leadingWidth: 80,
-            // actions: [
-            //   IconButton(
-            //       onPressed: () {},
-            //       icon: const Icon(
-            //         Icons.notifications_sharp,
-            //         color: Colors.black,
-            //       )
-            //   )
-            // ]
+            actions: [
+              IconButton(
+                  onPressed: () {
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage(),));
+                  },
+                  icon: const Icon(
+                    Icons.logout_sharp,
+                    color: Colors.redAccent,
+                  )
+              )
+            ]
         ),
         bottomNavigationBar: BottomNavigationBar(
           backgroundColor: Colors.blueGrey,
