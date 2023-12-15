@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:petmatch/pet_model.dart';
 import 'package:petmatch/session.dart';
 import 'package:petmatch/user_model.dart';
 
@@ -7,6 +8,23 @@ class ProfilePage extends StatefulWidget {
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
+}
+
+//getting list of adopted pets
+// i put it outside so it could be accessed from other classes (mainly adopted pet class)
+late Future<List<Pet>?> listOfPets;
+
+Future<List<Pet>?> getAllUserPets() async{
+  int id = Session.getUserId();
+
+  final data = await Pet.retrievePetsList(id);
+
+  if(data == null) {
+    return data;
+  }
+  else{
+    return Future.error("error");
+  }
 }
 
 class _ProfilePageState extends State<ProfilePage> {
@@ -25,15 +43,18 @@ class _ProfilePageState extends State<ProfilePage> {
     int id = Session.getUserId();
 
     final data = await User.retrieveUserInfoById(id);
-
+    print(data);
     return data;
   }
+
+
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     info = getUserInfo();
+    listOfPets = getAllUserPets();
   }
 
 
@@ -179,14 +200,30 @@ class AdoptedPetCard extends StatefulWidget {
 class _AdoptedPetCardState extends State<AdoptedPetCard> {
   @override
   Widget build(BuildContext context) {
+    // return FutureBuilder(
+    //     future: listOfPets,
+    //     builder: (context, snapshot) {
+    //       return Card(
+    //           color: Colors.orangeAccent,
+    //           child: ListTile(
+    //             leading: const Icon(Icons.pets_sharp),
+    //             title: Text(snapshot.data![0].name ?? "Name"),
+    //             subtitle: Text(snapshot.data![0].species ?? "Species"),
+    //           )
+    //       );
+    //     },
+    // );
+
+    /////////////
+
     return Card(
-      color: Colors.orangeAccent,
-      child: ListTile(
-        leading: const Icon(Icons.pets_sharp),
-        title: Text(widget.petName),
-        subtitle: Text(widget.speciesName),
-      )
-    );
+                  color: Colors.orangeAccent,
+                  child: ListTile(
+                    leading: const Icon(Icons.pets_sharp),
+                    title: Text(widget.petName),
+                    subtitle: Text(widget.speciesName),
+                  )
+              );
   }
 }
 

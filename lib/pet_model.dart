@@ -109,7 +109,7 @@ class Pet{
     //1 get all the pet id-s
     //2 fetch name and species of each pet
     //3 display them
-    static Future<List<Pet>?> retrievePetsNameAndSpecies (int? pUserId) async{
+    static Future<List<Pet>?> retrievePetsList (int? pUserId) async{
 
       Database? db = await PetMatchDatabase.getInstance();
 
@@ -119,11 +119,16 @@ class Pet{
           whereArgs: [pUserId]
       );
 
-      List<Pet>? listOfPets = listOfPetMaps?.map((pets) =>
-        Pet.fromMap(pets)
-      ).toList();
+      if(listOfPetMaps == null) {
+        return null;
+      }
+      else {
+        List<Pet>? listOfPets = listOfPetMaps?.map((pets) =>
+            Pet.fromMap(pets)
+        ).toList();
 
-      return listOfPets;
+        return listOfPets;
+      }
     }
 
 
