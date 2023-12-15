@@ -227,11 +227,11 @@ class _ProfilePageState extends State<ProfilePage> {
                       );
                     }
                     else{
-                      return Center(child: Text("Not yet adoptedddd"));
+                      return Center(child: Text("DONT HAVE ANY YET ;/"));
                     }
                   }
                   else{
-                    return Center(child: Text("Not yet adopted"));
+                    return Center(child: Text("DONT HAVE ANY YET ;/"));
                   }
                 },
               )
