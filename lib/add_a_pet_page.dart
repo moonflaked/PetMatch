@@ -407,7 +407,7 @@ class _AddAPetBodyState extends State<AddAPetBody> {
               {
                 print(double.parse(weightController.text));
                 Pet newPetToAdd = Pet(
-                  userId: Session.getUser(),
+                  userId: Session.getUserId(),
                   categoryId: selectedAnimalLabel!.value,
                   species: speciesController.text,
                   name: nameController.text,

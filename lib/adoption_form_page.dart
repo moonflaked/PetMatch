@@ -3,6 +3,8 @@ import 'package:flash/flash.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:petmatch/category_page.dart';
+import 'package:petmatch/session.dart';
+import 'package:petmatch/user_model.dart';
 
 
 void main(){
@@ -14,11 +16,14 @@ class AdoptionForm extends StatefulWidget {
   int? age;
   double? weight;
 
+  int? petId;
+
    AdoptionForm({
     super.key,
     this.name,
     this.age,
-    this.weight
+    this.weight,
+    this.petId
   });
 
   @override
@@ -299,7 +304,16 @@ class _AdoptionFormState extends State<AdoptionForm> {
                               body: "WHAT AN ADORABLE PET You Choose!"
                           )
                       );
-                      Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => CategoryStart(),));
+
+                       Session.setPetId(widget.petId);
+                      int petId = widget.petId!;
+                      int userId = Session.getUserId();
+                      User.insertUserAndPet(userId, petId);
+                      print("PPPPEEEEEETTTTTT IIIIIDDDDDDDDDDD$petId ");
+                      print("UUUUUUUUSSSSSSSSSEEEEEEEERRRRRRRRR IIIIIDDDDDDDDDDD   $userId ");
+
+                      Navigator.push(context,MaterialPageRoute(builder:
+                          (BuildContext context) { return  CategoryStart();},));
                     }
                     else{
                       showFlash(

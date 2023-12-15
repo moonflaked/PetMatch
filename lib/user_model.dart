@@ -1,4 +1,5 @@
 import 'package:petmatch/database.dart';
+import 'package:petmatch/pet_model.dart';
 import 'package:sqflite/sqflite.dart';
 class User{
   int? userId;
@@ -77,28 +78,25 @@ class User{
   }
 
   // Gets user info by id
-  static Future<List<Map<String, dynamic>>?> retrieveUserById(pUserId) async{
+  static Future<List<Map<String, dynamic>>?> retrieveUserInfoById(pUserId) async{
     Database? db = await instance;
     return await db?.query("USER",where: " user_id = $pUserId");
   }
 
-  // retrieve user Id
-  // static Future<Map<String, dynamic>> retrieveUserId(String username) async{
-  //   Database? db = await instance;
-  //   var valid= await db?.query("USER",where: "username LIKE '%$username%'");
-  //   if(valid!.isNotEmpty){
-  //   }
-  //   return valid.first;
-  //
-  // }
+  // update user username and email
+  static Future<int?> updateUsernameAndEmail(pUserId, pUsername, pEmail) async {
+    Database? db = await PetMatchDatabase.getInstance();
+    return await db?.rawUpdate(
+        "UPDATE USER SET username = ?, email = ? WHERE user_id = ?",
+        [pUsername,pEmail,pUserId]
+    );
+  }
 
-  // //checks if user exists
-  // static Future<List<Map<String, dynamic>>?> validateLogin(String username, String password) async
-  // {
-  //   Database? databaseInstance = await PetMatchDatabase.getInstance();
-  //   return await databaseInstance?.query(
-  //       "USER",where: "username LIKE '%$username%' AND password LIKE '%$password%'"
-  //   );
-  // }
+  //insert into adopted pets table
+  static Future <int?> insertUserAndPet(int pUserId, int pPetId) async{
+    Database? db = await instance;
+    return await db?.rawInsert("INSERT INTO ADOPTED_PET (pet_id, user_id) VALUES (?,?)", [pPetId,pUserId]);
+  }
+  //fetching all user's Pets
 
 }

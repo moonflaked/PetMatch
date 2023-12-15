@@ -134,7 +134,7 @@ class _LoginState extends State<Login> {
                             final data = await User.searchByUsername(username.text);
                             late int id;
                             data?.forEach((row) => id=row['user_id']);
-                            Session.setUser(id);
+                            Session.setUserId(id);
 
                             Navigator.push(context,
                                 MaterialPageRoute(builder: (context) =>

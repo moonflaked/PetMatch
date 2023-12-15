@@ -47,14 +47,14 @@ class _InfoPageState extends State<InfoPage> {
               Stack(
                 children: [
                   // Display the image
-                  Expanded(child:
+                  // Expanded(child:
 
                   Image.network( widget.petImageLink ?? 'https://www.heart.org/-/media/Healthy-Living-Images/Healthy-Lifestyle/Pets/puppy-kitten-heart.jpg', // Replace with your image file path
                     fit: BoxFit.cover,
                     height: 300,
                     width: MediaQuery.of(context).size.width,
                   ),
-                  ),
+                  // ),
                   // Positioned button at the top left
                   Positioned(
                     top: 16.0, // Adjust the top position as needed
@@ -188,7 +188,7 @@ class _InfoPageState extends State<InfoPage> {
               ElevatedButton(onPressed: (){
                 Navigator.push(context,
                     MaterialPageRoute(builder: (BuildContext context) =>
-                        AdoptionForm(name: widget.name,age: widget.age,weight: widget.weight,)));
+                        AdoptionForm(name: widget.name,age: widget.age,weight: widget.weight,petId: widget.petId,)));
                   }
                   ,child: const Text("Adopt",
                     style: TextStyle(

@@ -19,42 +19,43 @@ class _ProfilePageState extends State<ProfilePage> {
     "Daisy" : "Beagle",
   };
 
-  late Future<List> userInfo;
+  List info = [];
+
+  getUserInfo() async{
+    int id = Session.getUserId();
+    print(id);
+
+    final data = await User.retrieveUserInfoById(id);
+    data?.forEach((row) {
+      info.add(row['email']);
+      info.add(row['username']);
+    });
+
+    return info;
+  }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
   }
+
+
 
   @override
   Widget build(BuildContext context) {
 
-    List info = [];
-     getUserInfo() async{
-      int id = Session.getUser();
-      print(id);
+    // String email = "Email";
+    // String username = "Username";
 
-      final data = await User.retrieveUserById(id);
-      data?.forEach((row) {
-        info.add(row['email']);
-        info.add(row['username']);
-      });
-
-      return info;
-    }
+    // late Future<List> userInfo;
 
 
 
-
-    String email = "Email";
-    String username = "Username";
-
-    String usernameFieldTitle = "$username";
+    String usernameFieldTitle = "Username";
     FocusNode usernameFocusNode = FocusNode();
 
-    String emailFieldTitle = "$email";
+    String emailFieldTitle = "Email";
     FocusNode emailFocusNode = FocusNode();
 
     ScrollController adoptedPetScrollController = ScrollController();
@@ -63,30 +64,40 @@ class _ProfilePageState extends State<ProfilePage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const ProfilePicture(),
-            Container(
-                margin: const EdgeInsets.only(
-                  left: 10,
-                  top: 30,
-                ),
-                width: 350,
-                child: SettingsFormField(
-                  fieldFocusNode: usernameFocusNode,
-                  textFieldController: usernameController,
-                  textFieldTitle: usernameFieldTitle,
-                )
+            FutureBuilder(
+                future: getUserInfo(),
+                builder: (context, snapshot) {
+                  return Container(
+                    margin: const EdgeInsets.only(
+                      left: 10,
+                      top: 30,
+                    ),
+                    width: 350,
+                    child: SettingsFormField(
+                      fieldFocusNode: usernameFocusNode,
+                      textFieldController: usernameController,
+                      textFieldTitle: usernameFieldTitle ,
+                    ),
+                  );
+                },
             ),
-            Container(
-                margin: const EdgeInsets.only(
-                  left: 10,
-                  top: 10,
+
+            FutureBuilder(
+                future: getUserInfo(),
+                builder: (context, snapshot) => Container(
+                    margin: const EdgeInsets.only(
+                      left: 10,
+                      top: 10,
+                    ),
+                    width: 350,
+                    child: SettingsFormField(
+                      fieldFocusNode: emailFocusNode,
+                      textFieldController: emailController,
+                      textFieldTitle: emailFieldTitle,
+                    )
                 ),
-                width: 350,
-                child: SettingsFormField(
-                  fieldFocusNode: emailFocusNode,
-                  textFieldController: emailController,
-                  textFieldTitle: emailFieldTitle,
-                )
             ),
+
             Container(
                 alignment: Alignment.center,
                 margin: const EdgeInsets.only(
@@ -95,7 +106,8 @@ class _ProfilePageState extends State<ProfilePage> {
 
                 child: ElevatedButton(
                     onPressed: () {
-
+                      print(usernameController.text);
+                      print(emailController.text);
                     },
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(
