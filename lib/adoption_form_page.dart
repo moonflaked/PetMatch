@@ -153,7 +153,8 @@ class _AdoptionFormState extends State<AdoptionForm> {
                       child: TextField(
                         controller: initials,
                         decoration: InputDecoration(
-                            border: OutlineInputBorder(borderSide: BorderSide(width: 34))),
+                            border: OutlineInputBorder(borderSide: BorderSide(width: 34))
+                        ),
                         textAlign: TextAlign.center,
                         maxLength: 2,
                       ),

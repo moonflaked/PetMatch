@@ -107,7 +107,6 @@ class _AddAPetBodyState extends State<AddAPetBody> {
     if(int.tryParse(textEditingController.text) != null)
     {
       isAnInteger = true;
-
     }
     else {
       showSnackBar(snackBarText);
@@ -277,6 +276,7 @@ class _AddAPetBodyState extends State<AddAPetBody> {
                         borderRadius: BorderRadius.circular(5)
                     )
                 ),
+                maxLength: 6,
               ),
             ),
             TextLabel(labelText: "Age", textFieldRequired: true,),
@@ -299,6 +299,7 @@ class _AddAPetBodyState extends State<AddAPetBody> {
                         borderRadius: BorderRadius.circular(5)
                     )
                 ),
+                maxLength: 2,
               ),
             ),
             TextLabel(labelText: "Weight", textFieldRequired: true,),
@@ -321,6 +322,7 @@ class _AddAPetBodyState extends State<AddAPetBody> {
                         borderRadius: BorderRadius.circular(5)
                     )
                 ),
+                maxLength: 3,
               ),
             ),
             TextLabel(labelText: "Description", textFieldRequired: false),
