@@ -59,11 +59,10 @@ class Pet{
         conflictAlgorithm: ConflictAlgorithm.replace
       );
 
-      print(insertedId);
       return insertedId;
     }
 
-    static Future<List<Pet>?> retrievePetsFromCategoryId(int? categoryId)
+    static Future<List<Pet>?> retrieveNonAdoptedPetsFromCategoryId(int? categoryId)
     async
     {
       if(categoryId == null)
@@ -72,11 +71,22 @@ class Pet{
       }
       Database? databaseInstance = await PetMatchDatabase.getInstance();
 
-      List<Map<String, Object?>>? listOfPetMaps = await databaseInstance?.query(
-        petTableName,
-        where: "category_id = ?",
-        whereArgs: [categoryId]
+      List<Map<String, Object?>>? listOfPetMaps = await databaseInstance?.rawQuery(
+        '''
+          SELECT PET.PET_ID, PET.NAME, PET.GENDER, PET.DESCRIPTION, PET.AGE, PET.SPECIES, PET.WEIGHT, PET.PET_IMAGE_LINK, PET.CATEGORY_ID, PET.USER_ID FROM PET 
+          LEFT JOIN ADOPTED_PET
+          ON PET.PET_ID = ADOPTED_PET.PET_ID
+          WHERE PET.CATEGORY_ID = $categoryId AND
+          ADOPTED_PET.PET_ID IS NULL;
+        '''
       );
+
+      // List<Map<String, Object?>>? listOfPetMaps = await databaseInstance?.query(
+      //   "pet",
+      //   where: "category_id = ?",
+      //   whereArgs: [categoryId]
+      // );
+
 
       List<Pet>? listOfPets = listOfPetMaps?.map((petMap) =>
         Pet.fromMap(petMap)
