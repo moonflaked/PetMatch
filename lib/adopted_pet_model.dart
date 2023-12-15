@@ -42,7 +42,7 @@ class AdoptedPet{
 
     print("LIST OF PETTS INDAAAAATAAAABAAASSSSSEEEE");
     print(listOfPetMaps);
-    if(listOfPetMaps == null) {
+    if(listOfPetMaps!.isEmpty) {
       print("NULLLL?????????????????? HOWW");
       return null;
     }
