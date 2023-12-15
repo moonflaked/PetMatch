@@ -210,7 +210,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 builder: (context, snapshot) {
                   print(snapshot.data);
                   print("SNAPSHOOOOOOOOOOOOOOOOOOOOOOOOOOOOT");
-                  // print(listOfPets.then((value) => print(value)));
+
                   if (snapshot.connectionState == ConnectionState.done) {
                     if (snapshot.hasData) {
                       return ListView.builder(
