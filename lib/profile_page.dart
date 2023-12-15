@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:petmatch/adopted_pet_model.dart';
 import 'package:petmatch/pet_model.dart';
 import 'package:petmatch/session.dart';
 import 'package:petmatch/user_model.dart';
@@ -10,32 +11,17 @@ class ProfilePage extends StatefulWidget {
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
-//getting list of adopted pets
-// i put it outside so it could be accessed from other classes (mainly adopted pet class)
-late Future<List<Pet>?> listOfPets;
 
-Future<List<Pet>?> getAllUserPets() async{
-  int id = Session.getUserId();
-
-  final data = await Pet.retrievePetsList(id);
-
-  if(data == null) {
-    return data;
-  }
-  else{
-    return Future.error("error");
-  }
-}
 
 class _ProfilePageState extends State<ProfilePage> {
   TextEditingController usernameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
 
-  Map<String, String> mapOfPets = {
-    "Angel" : "Golden Retriever",
-    "Bella" : "Labrador Retriever",
-    "Daisy" : "Beagle",
-  };
+  // Map<String, String> mapOfPets = {
+  //   "Angel" : "Golden Retriever",
+  //   "Bella" : "Labrador Retriever",
+  //   "Daisy" : "Beagle",
+  // };
 
   late Future<List<User>?> info;
 
@@ -43,8 +29,29 @@ class _ProfilePageState extends State<ProfilePage> {
     int id = Session.getUserId();
 
     final data = await User.retrieveUserInfoById(id);
-    print(data);
+
     return data;
+  }
+
+
+  //getting list of adopted pets
+// i put it outside so it could be accessed from other classes (mainly adopted pet class)
+   late Future<List<Pet>?> listOfPets;
+
+  Future<List<Pet>?> getAllUserPets() async{
+    int id = Session.getUserId();
+    print("inside funnnnnnnnnnnnn");
+    final data = await AdoptedPet.retrievePetsList(id);
+    // print(data);
+    print("after printing dDATATATA");
+    if(data != null) {
+      print("dDATATATA NOT NULULULLULU");
+      return data;
+    }
+    else{
+      print("DATA NULLLL BULL ");
+      return null;
+    }
   }
 
 
@@ -55,6 +62,18 @@ class _ProfilePageState extends State<ProfilePage> {
     super.initState();
     info = getUserInfo();
     listOfPets = getAllUserPets();
+
+    // getAllUserPets();
+    print("After initializing allllllllllllllllllllllllll");
+    if(listOfPets == null) print("Nulllllll;/");
+    else print("NOT NULL LESSGOOOO");
+    setState(() { });
+  }
+  @override
+  void setState(VoidCallback fn) {
+    // TODO: implement setState
+    super.setState(fn);
+    getAllUserPets();
   }
 
   void showSnackBar(String? snackBarText)
@@ -84,12 +103,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-
-    // String email = "Email";
-    // String username = "Username";
-
-    // late Future<List> userInfo;
-
 
 
     String usernameFieldTitle = "Username";
@@ -192,18 +205,40 @@ class _ProfilePageState extends State<ProfilePage> {
               width: 350,
               height: 181.2,
               alignment: Alignment.centerLeft,
-              child: ListView.builder(
-                scrollDirection: Axis.vertical,
-                controller: adoptedPetScrollController,
-                shrinkWrap: true,
-                itemCount: mapOfPets.length,
-                itemBuilder: (BuildContext pContext, int pIndex) {
-                  return AdoptedPetCard(
-                      petName: mapOfPets.keys.elementAt(pIndex),
-                      speciesName: mapOfPets.values.elementAt(pIndex)
-                  );
+              child: FutureBuilder(
+                future: listOfPets,
+                builder: (context, snapshot) {
+                  print(snapshot.data);
+                  print("SNAPSHOOOOOOOOOOOOOOOOOOOOOOOOOOOOT");
+                  // print(listOfPets.then((value) => print(value)));
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    if (snapshot.hasData) {
+                      return ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        controller: adoptedPetScrollController,
+                        shrinkWrap: true,
+                        itemCount: snapshot.data?.length,
+                        itemBuilder: (BuildContext pContext, int pIndex) {
+                          return AdoptedPetCard(
+                              petName: snapshot.data![pIndex].name!,
+                              speciesName: snapshot.data![pIndex].species!
+                          );
+                        },
+                      );
+                    }
+                    else{
+                      return Center(child: Text("Not yet adoptedddd"));
+                    }
+                  }
+                  else{
+                    return Center(child: Text("Not yet adopted"));
+                  }
                 },
-              ),
+              )
+
+
+
+
             )
           ]
       )
@@ -223,30 +258,38 @@ class AdoptedPetCard extends StatefulWidget {
 class _AdoptedPetCardState extends State<AdoptedPetCard> {
   @override
   Widget build(BuildContext context) {
-    // return FutureBuilder(
-    //     future: listOfPets,
-    //     builder: (context, snapshot) {
-    //       return Card(
-    //           color: Colors.orangeAccent,
-    //           child: ListTile(
-    //             leading: const Icon(Icons.pets_sharp),
-    //             title: Text(snapshot.data![0].name ?? "Name"),
-    //             subtitle: Text(snapshot.data![0].species ?? "Species"),
-    //           )
-    //       );
-    //     },
+    return
+      // FutureBuilder(
+      //   future: listOfPets,
+      //   builder: (context, snapshot) {
+      //     if(snapshot.hasData) {
+             Card(
+                color: Colors.orangeAccent,
+                child: ListTile(
+                  leading: const Icon(Icons.pets_sharp),
+                  title: Text(widget.petName ?? "Name"),
+                  subtitle: Text(widget.speciesName ?? "Species"),
+                )
+            );
+        //   }
+        //   else{
+        //     return Center(
+        //       child: Text("Didn't Adopt any pet yet ;/"),
+        //     );
+        //   }
+        // },
     // );
 
     /////////////
 
-    return Card(
-                  color: Colors.orangeAccent,
-                  child: ListTile(
-                    leading: const Icon(Icons.pets_sharp),
-                    title: Text(widget.petName),
-                    subtitle: Text(widget.speciesName),
-                  )
-              );
+    // return Card(
+    //               color: Colors.orangeAccent,
+    //               child: ListTile(
+    //                 leading: const Icon(Icons.pets_sharp),
+    //                 title: Text(widget.petName),
+    //                 subtitle: Text(widget.speciesName),
+    //               )
+    //           );
   }
 }
 

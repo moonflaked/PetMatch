@@ -1,6 +1,4 @@
-
 import 'package:sqflite/sqflite.dart';
-import 'package:petmatch/user_model.dart';
 
 import 'database.dart';
 
@@ -18,8 +16,8 @@ class Pet{
 
     static const petTableName = "pet";
 
-    Pet({this.petId,this.name,this.gender,this.description,
-    this.age,this.species,this.weight,this.petImageLink,this.categoryId,this.userId});
+    Pet({this.petId,this.name,this.gender,this.description,this.age,
+      this.species,this.weight,this.petImageLink,this.categoryId,this.userId});
 
     Pet.fromMap(Map<dynamic,dynamic> map){
        petId = map['pet_id'];
@@ -87,7 +85,6 @@ class Pet{
       //   whereArgs: [categoryId]
       // );
 
-
       List<Pet>? listOfPets = listOfPetMaps?.map((petMap) =>
         Pet.fromMap(petMap)
       ).toList();
@@ -109,25 +106,5 @@ class Pet{
     //1 get all the pet id-s
     //2 fetch name and species of each pet
     //3 display them
-    static Future<List<Pet>?> retrievePetsList (int? pUserId) async{
 
-      Database? db = await PetMatchDatabase.getInstance();
-
-      List<Map<String, dynamic>>? listOfPetMaps = await db?.query(
-          "ADOPTED_PET",
-          where: "user_id = ?",
-          whereArgs: [pUserId]
-      );
-
-      if(listOfPetMaps == null) {
-        return null;
-      }
-      else {
-        List<Pet>? listOfPets = listOfPetMaps?.map((pets) =>
-            Pet.fromMap(pets)
-        ).toList();
-
-        return listOfPets;
-      }
-    }
 }
