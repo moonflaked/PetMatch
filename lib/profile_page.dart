@@ -256,11 +256,11 @@ class _ProfilePageState extends State<ProfilePage> {
                       );
                     }
                     else{
-                      return Center(child: Text("DONT HAVE ANY YET ;/"));
+                      return Center(child: Text("DONT HAVE ANY YET!",style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold,fontSize: 20)));
                     }
                   }
                   else{
-                    return Center(child: Text("DONT HAVE ANY YET ;/"));
+                    return Center(child: Text("DONT HAVE ANY YET!",style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold,fontSize: 20),));
                   }
                 },
               )
