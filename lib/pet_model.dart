@@ -130,8 +130,4 @@ class Pet{
         return listOfPets;
       }
     }
-
-
-
-
 }

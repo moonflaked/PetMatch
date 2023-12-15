@@ -45,6 +45,8 @@ dependencies:
   shared_preferences: any
   awesome_notifications: ^0.8.2
   permission_handler: any
+  geolocator: ^10.1.0
+  geocoding: ^2.1.1
 
 dev_dependencies:
 

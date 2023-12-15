@@ -57,7 +57,30 @@ class _ProfilePageState extends State<ProfilePage> {
     listOfPets = getAllUserPets();
   }
 
-
+  void showSnackBar(String? snackBarText)
+  {
+    ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          duration: Duration(
+              seconds: 2
+          ),
+          behavior: SnackBarBehavior.floating,
+          elevation: 0,
+          backgroundColor: Colors.grey.shade600,
+          content: Text(
+            snackBarText ?? "",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 18,
+            ),
+          ),
+          width: 200,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20)
+          ),
+        )
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -125,8 +148,8 @@ class _ProfilePageState extends State<ProfilePage> {
 
                 child: ElevatedButton(
                     onPressed: () {
-                      print(usernameController.text);
-                      print(emailController.text);
+                      User.updateUsernameAndEmail(Session.getUserId(), usernameController.text, emailController.text);
+                      showSnackBar("Saved changes!");
                     },
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(
@@ -249,6 +272,7 @@ class _SettingsFormFieldState extends State<SettingsFormField> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    widget.textFieldController.text = widget.textFieldValue ?? "";
     widget.fieldFocusNode.addListener(() {
       // Listen for the event when the username text field lost focus
       // Then disable the text field because it should only be activated through
@@ -257,9 +281,11 @@ class _SettingsFormFieldState extends State<SettingsFormField> {
         isFieldEnabled = false;
         setState(() {
         });
+
       }
     });
   }
+
 
   @override
   void dispose() {
@@ -270,7 +296,7 @@ class _SettingsFormFieldState extends State<SettingsFormField> {
   }
   @override
   Widget build(BuildContext context) {
-    widget.textFieldController.text = widget.textFieldValue ?? "";
+
     return Row(
         children: [
           Flexible(
