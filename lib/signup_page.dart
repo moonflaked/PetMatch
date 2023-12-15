@@ -144,7 +144,8 @@ class _SignupState extends State<Signup>{
                SizedBox(height: 40),
               SizedBox(width: 150,height: 40,child:
               ElevatedButton(onPressed: ()async{
-                if(email.text.isNotEmpty && username.text.isNotEmpty &&  password.text.isNotEmpty) {
+                bool usernameIsUnique = await User.isUsernameUnique(username.text);
+                if(email.text.isNotEmpty && username.text.isNotEmpty &&  password.text.isNotEmpty && usernameIsUnique) {
                   // print("BEFOREEE");
 
                   Future<bool?> check = _insert(email.text, username.text, password.text);
@@ -188,6 +189,9 @@ class _SignupState extends State<Signup>{
                   }
                   else if(password.text.trim().isEmpty){
                     _dialogBuilderPassword(context);
+                  }
+                  else if(!usernameIsUnique) {
+                    _dialogBuilderUsernameUnique(context);
                   }
                 }
               },
@@ -287,6 +291,31 @@ class _SignupState extends State<Signup>{
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text("Password field is EMPTY!"),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text("Close"),
+                style: TextButton.styleFrom(
+                  textStyle: Theme
+                      .of(context)
+                      .textTheme
+                      .labelLarge,
+                ),
+              )
+            ],
+          );
+        }
+    );
+  }
+
+  Future<void> _dialogBuilderUsernameUnique(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Username must be UNIQUE!"),
             actions: <Widget>[
               TextButton(
                 onPressed: () {

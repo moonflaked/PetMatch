@@ -101,7 +101,31 @@ class User{
     return await db?.rawInsert("INSERT INTO ADOPTED_PET (pet_id, user_id) VALUES (?,?)", [pPetId,pUserId]);
   }
 
+  static Future<bool> isUsernameUnique(String? username, {int? userId = -1}) async {
+    Database? db = await PetMatchDatabase.getInstance();
+    List<Map<String, Object?>>? listOfUserMaps;
+    if(userId == -1) {
+      listOfUserMaps = await db?.rawQuery(
+          '''SELECT USERNAME FROM `USER`
+      WHERE USERNAME = '$username';'''
+      );
+    }
+    else {
+      listOfUserMaps = await db?.rawQuery(
+          '''SELECT USERNAME FROM `USER`
+      WHERE USERNAME = '$username' 
+      AND user_id != $userId;'''
+      );
+    }
 
+
+    bool usernameIsUnique = false;
+    if(listOfUserMaps!.isEmpty) {
+      usernameIsUnique = true;
+    }
+
+    return usernameIsUnique;
+  }
 
 
 

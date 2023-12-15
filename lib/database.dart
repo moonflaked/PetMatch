@@ -66,7 +66,7 @@ class PetMatchDatabase {
       CREATE TABLE USER (
         user_id INTEGER,
         email varchar(256) NOT NULL,
-        username varchar(32) NOT NULL,
+        username varchar(32) UNIQUE NOT NULL,
         password varchar(32) NOT NULL,
         CONSTRAINT USER_USER_ID_PK PRIMARY KEY (user_id)
       );

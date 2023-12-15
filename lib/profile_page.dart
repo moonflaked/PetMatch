@@ -101,6 +101,8 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
+
+
   @override
   Widget build(BuildContext context) {
 
@@ -160,9 +162,15 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
 
                 child: ElevatedButton(
-                    onPressed: () {
-                      User.updateUsernameAndEmail(Session.getUserId(), usernameController.text, emailController.text);
-                      showSnackBar("Saved changes!");
+                    onPressed: () async {
+                      bool usernameIsUnique = await User.isUsernameUnique(usernameController.text, userId: Session.getUserId());
+                      if(usernameIsUnique) {
+                        User.updateUsernameAndEmail(Session.getUserId(), usernameController.text, emailController.text);
+                        showSnackBar("Saved changes!");
+                      }
+                      else {
+                        showSnackBar("Username is not unique. Please type another username");
+                      }
                     },
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(
