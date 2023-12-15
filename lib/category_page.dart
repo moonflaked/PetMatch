@@ -1,6 +1,8 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import "package:collection/collection.dart";
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 
 import 'package:petmatch/Themes/theme.dart';
 import 'package:petmatch/info_page.dart';
@@ -172,6 +174,7 @@ class _PetMatchPageSelectorState extends State<PetMatchPageSelector> {
 // Creates the body of the category page
 class CategoryBody extends StatefulWidget {
   static final categoryScrollSectionKey = GlobalKey<_CategoryScrollSectionState>();
+  static final locationSectionKey = GlobalKey<_LocationSectionState>();
   CategoryBody({super.key});
 
   @override
@@ -184,7 +187,7 @@ class _CategoryBodyState extends State<CategoryBody> {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const LocationSection(),
+          LocationSection(key: CategoryBody.locationSectionKey),
           CategoryScrollSection(key: CategoryBody.categoryScrollSectionKey),
           //CategoryButton(categoryName: "hello")
         ]);
@@ -195,13 +198,14 @@ class _CategoryBodyState extends State<CategoryBody> {
 class LocationSection extends StatefulWidget {
   final String currentLocation = "135 Saint-Croix,Montreal,QC";
 
-  const LocationSection({super.key});
+  const LocationSection({Key? key}) : super(key: key);
 
   @override
   State<LocationSection> createState() => _LocationSectionState();
 }
 
 class _LocationSectionState extends State<LocationSection> {
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -219,26 +223,73 @@ class _LocationSectionState extends State<LocationSection> {
               ),
             ),
             Padding(
-              padding:
-              const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-              child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Container(
-                    padding: const EdgeInsets.only(
-                      left: 6.5,
-                      bottom: 4.0,
-                    ),
-                    child: const Text("Your location",
-                        style: TextStyle(color: Colors.black54))),
-                Row(children: [
-                  const Icon(Icons.location_on_sharp),
-                  Text(widget.currentLocation)
-                ])
-              ]),
-            )
-          ])
-    );
-  }
+                    padding:
+                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                    child:
+                    Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                      Container(
+                          padding: const EdgeInsets.only(
+                            left: 6.5,
+                            bottom: 4.0,
+                          ),
+                          child: const Text("Your location",
+                              style: TextStyle(color: Colors.black54))),
+                      FutureBuilder(
+                        future: _CategoryScrollSectionState.currentAddress,
+                        builder: (context, snapshot) {
+                          if(snapshot.hasData && snapshot.data!.isNotEmpty) {
+                            return Row(
+                                children: [
+                                  const Icon(Icons.location_on_sharp),
+                                  Container(
+                                      width: MediaQuery.of(context).size.width * 0.6,
+                                      child: Text(
+                                        snapshot.data! ?? "",
+                                        style: TextStyle(
+                                          fontSize: 13,
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 2,
+                                      )
+                                  )
+                                ]);
+                          }
+                          else if(snapshot.hasData && snapshot.data!.isEmpty) {
+                            return Row(
+                                children: [
+                                  const Icon(Icons.location_on_sharp),
+                                  Container(
+                                      width: MediaQuery.of(context).size.width * 0.6,
+                                      child: Text(
+                                        "Location not available",
+                                        style: TextStyle(
+                                          fontSize: 13,
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 2,
+                                      )
+                                  )
+                                ]);
+                          }
+                          return Row(
+                            children: [
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.6,
+                                child: const Center(
+                                  child: CircularProgressIndicator()
+                                )
+                              )
+                            ]
+                          );
+                        }
+                      )
+
+                    ]),
+                  )
+                ]
+              )
+            );
+      }
 }
 
 class CategoryScrollSection extends StatefulWidget {
@@ -259,16 +310,45 @@ class _CategoryScrollSectionState extends State<CategoryScrollSection>
   static ScrollController speciesScrollController = ScrollController();
 
   late Future<Map<String, List<Pet>?>> mapOfPets;
+
+
+  static Future<String?>? currentAddress;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     initiateCategoryTabController();
+    currentAddress = returnCurrentPosition();
+
     setState(() {
       mapOfPets = getListOfPets();
     });
   }
 
+  Future<String?> getAddressFromLatLong(Position pPosition) async
+  {
+    String? address;
+    await placemarkFromCoordinates(pPosition.latitude, pPosition.longitude).then((List<Placemark> placemarks) {
+      Placemark place = placemarks[0];
+      setState(() {
+        address = '${place.street}, ${place.subLocality}, ${place.subAdministrativeArea}, ${place.postalCode}';
+      });
+    }).catchError((e) {
+      debugPrint(e);
+    });
+    return address;
+  }
+  Future<String?> returnCurrentPosition()
+  async {
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high
+    );
+    String? addressToReturn = await getAddressFromLatLong(position);
+    CategoryBody.locationSectionKey.currentState!.setState(() {
+
+    });
+    return addressToReturn;
+  }
   void refreshPetsInCategories()
   {
     initiateCategoryTabController();
@@ -362,7 +442,7 @@ class _CategoryScrollSectionState extends State<CategoryScrollSection>
                             case ConnectionState.waiting:
                               return const CircularProgressIndicator();
                             default:
-                              if(categoryPetsSnapshot.hasData){
+                              if(categoryPetsSnapshot.hasData && categoryPetsSnapshot.data![category.categoryName]!.isNotEmpty){
                                 return Container(
                                     padding: const EdgeInsets.all(10),
                                     child: ListView(
@@ -396,6 +476,16 @@ class _CategoryScrollSectionState extends State<CategoryScrollSection>
                                           )
                                         ]
                                     )
+                                );
+                              }
+                              else if(categoryPetsSnapshot.data![category.categoryName]!.isEmpty) {
+                                return Center(
+                                  child: Text(
+                                    "No pets in this category",
+                                    style: TextStyle(
+                                      fontSize: 20
+                                    ),
+                                  ),
                                 );
                               }
                           }
