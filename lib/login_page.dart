@@ -109,7 +109,7 @@ class _LoginState extends State<Login> {
                   TextField(
                     style: const TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 20),
                     controller: password,
-                    // obscureText: true,
+                    obscureText: true,
                     decoration: InputDecoration(
                         border: const OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(20),),
@@ -145,11 +145,6 @@ class _LoginState extends State<Login> {
                                     LandingPage(),));
                           }
 
-
-
-                          // else{
-                          //     print("NAHHH NAHHH NAHHH NAHHHH");
-                          // }
                       }
 
                       else{
