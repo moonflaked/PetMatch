@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import "package:collection/collection.dart";
@@ -228,14 +230,30 @@ class _LocationSectionState extends State<LocationSection> {
   }
   Future<String?> returnCurrentPosition()
   async {
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high
-    );
-    String? addressToReturn = await _getAddressFromLatLong(position);
-    CategoryBody.locationSectionKey.currentState!.setState(() {
+    LocationPermission locationPermission = await Geolocator.checkPermission();
+    if(locationPermission == LocationPermission.denied || locationPermission == LocationPermission.deniedForever) {
+      return "";
+    }
+    else {
+      String? addressToReturn;
+      try {
+        Position position = await Geolocator.getCurrentPosition(
+            desiredAccuracy: LocationAccuracy.best,
+            timeLimit: const Duration(seconds: 25)
+        );
+        addressToReturn = await _getAddressFromLatLong(position);
+        CategoryBody.locationSectionKey.currentState!.setState(() {
 
-    });
-    return addressToReturn;
+        });
+      }
+      on TimeoutException {
+        return "";
+      }
+      on LocationServiceDisabledException {
+        return "";
+      }
+      return addressToReturn;
+    }
   }
   @override
   Widget build(BuildContext context) {
@@ -275,7 +293,7 @@ class _LocationSectionState extends State<LocationSection> {
                                   Container(
                                       width: MediaQuery.of(context).size.width * 0.6,
                                       child: Text(
-                                        snapshot.data! ?? "",
+                                        snapshot.data!,
                                         style: TextStyle(
                                           fontSize: 13,
                                         ),
@@ -292,7 +310,7 @@ class _LocationSectionState extends State<LocationSection> {
                                   Container(
                                       width: MediaQuery.of(context).size.width * 0.6,
                                       child: Text(
-                                        "Location not available",
+                                        "Location not available. Enable location permissions.",
                                         style: TextStyle(
                                           fontSize: 13,
                                         ),
