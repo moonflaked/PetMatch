@@ -312,8 +312,8 @@ class _AdoptionFormState extends State<AdoptionForm> {
                       print("PPPPEEEEEETTTTTT IIIIIDDDDDDDDDDD$petId ");
                       print("UUUUUUUUSSSSSSSSSEEEEEEEERRRRRRRRR IIIIIDDDDDDDDDDD   $userId ");
 
-                      Navigator.push(context,MaterialPageRoute(builder:
-                          (BuildContext context) { return  CategoryStart();},));
+                      Navigator.pop(context);
+                      Navigator.pop(context);
                     }
                     else{
                       showFlash(

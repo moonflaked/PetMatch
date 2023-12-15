@@ -297,8 +297,9 @@ class _CategoryScrollSectionState extends State<CategoryScrollSection>
     listOfCategories = await Category.retrieveCategories();
     for(Category category in listOfCategories!)
     {
-      mapOfPets[category.categoryName!] = await Pet.retrievePetsFromCategoryId(category.categoryId);
+      mapOfPets[category.categoryName!] = await Pet.retrieveNonAdoptedPetsFromCategoryId(category.categoryId);
     }
+
     return mapOfPets;
   }
   @override
@@ -460,8 +461,8 @@ class _SpeciesContainerState extends State<SpeciesContainer> {
     return InkWell(
         // Indicate the border radius of the InkWell
         borderRadius: BorderRadius.circular(30.5),
-        onTap: () {
-          Navigator.push(
+        onTap: () async {
+          await Navigator.push(
               context,
               MaterialPageRoute(
                   builder: (context) => InfoPage(
@@ -475,6 +476,8 @@ class _SpeciesContainerState extends State<SpeciesContainer> {
                   )
               )
           );
+          CategoryBody.categoryScrollSectionKey.currentState!.refreshPetsInCategories();
+
         },
         // Whole grid container with black border
         child: Container(
