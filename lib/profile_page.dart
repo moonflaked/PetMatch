@@ -113,12 +113,12 @@ class _ProfilePageState extends State<ProfilePage> {
                       top: 30,
                     ),
                     width: 350,
-                    child: SettingsFormField(
+                    child: snapshot.hasData ? SettingsFormField(
                       fieldFocusNode: usernameFocusNode,
                       textFieldController: usernameController,
                       textFieldTitle: usernameFieldTitle,
-                      textFieldValue: snapshot.data![0].username
-                    ),
+                      textFieldValue: snapshot.data![0].username ?? "unknown"
+                    ) : CircularProgressIndicator()
                   );
                 },
             ),
@@ -131,12 +131,12 @@ class _ProfilePageState extends State<ProfilePage> {
                       top: 10,
                     ),
                     width: 350,
-                    child: SettingsFormField(
+                    child: snapshot.hasData ? SettingsFormField(
                       fieldFocusNode: emailFocusNode,
                       textFieldController: emailController,
                       textFieldTitle: emailFieldTitle,
-                      textFieldValue: snapshot.data![0].email
-                    )
+                      textFieldValue: snapshot.data![0].email ?? "unknown"
+                    )  : CircularProgressIndicator()
                 ),
             ),
 
