@@ -37,7 +37,7 @@ class User{
 //2. View
   static Future<List<Map<String, dynamic>>?> queryAllRows() async{
     Database? db = await instance;
-    return await db?.query("User");
+    return await db?.query("USER");
   }
 
 //3. Search
@@ -66,8 +66,8 @@ class User{
   static Future<bool?> validateLogin(String username, String password) async{
     Database? db = await instance;
     var valid= await db?.query("USER",where: "username LIKE ? AND password LIKE ?", whereArgs: [username,password]);
-    print(valid);
-    print("ioeurfvewoirtvbhoewriuthvbeouhigto3urhew");
+    // print(valid);
+    // print("ioeurfvewoirtvbhoewriuthvbeouhigto3urhew");
     if(valid!.isNotEmpty){
       return true;
     }

@@ -8,9 +8,7 @@ import 'package:petmatch/database.dart';
 import 'package:petmatch/user_model.dart';
 import 'package:flash/flash.dart';
 
-void main(){
-  runApp(const SignUp());
-}
+
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -393,7 +391,7 @@ class _SignupState extends State<Signup>{
       return false;
     }
     else {
-      print("correctttttttttttt");
+      // print("correctttttttttttt");
       // print("$id");
       return true;
     }

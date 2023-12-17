@@ -33,14 +33,14 @@ void main() async{
       if (status.isGranted) {
       } else if (status.isDenied || status.isRestricted || status.isLimited || status.isPermanentlyDenied) {
          AwesomeNotifications().requestPermissionToSendNotifications();
-        print("Permission DeniedWHYYYYYYYYYYYYY inside splash screen");
+        // print("Permission DeniedWHYYYYYYYYYYYYY inside splash screen");
       }
 
     }
     bool isAllowedToSendNotification = await AwesomeNotifications().isNotificationAllowed();
     if(!isAllowedToSendNotification){
       AwesomeNotifications().requestPermissionToSendNotifications();
-      print("ASKING?????????????????");
+      // print("ASKING?????????????????");
       requestNotificationPermissions();
     }
 

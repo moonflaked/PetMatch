@@ -4,9 +4,6 @@ import "package:petmatch/pet_model.dart";
 import "package:petmatch/session.dart";
 
 
-void main() {
-  runApp(AddAPet());
-}
 
 enum AnimalLabel {
   dog("Dog", 1),
@@ -407,7 +404,7 @@ class _AddAPetBodyState extends State<AddAPetBody> {
                   && weightIsADouble
               )
               {
-                print(double.parse(weightController.text));
+                // print(double.parse(weightController.text));
                 Pet newPetToAdd = Pet(
                   userId: Session.getUserId(),
                   categoryId: selectedAnimalLabel!.value,

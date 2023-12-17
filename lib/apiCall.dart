@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 
 import 'add_a_pet_page.dart';
 
-void main() => runApp(APICall(selectedAnimalLabel: AnimalLabel.dog));
+// void main() => runApp(APICall(selectedAnimalLabel: AnimalLabel.dog));
 
 
 class APICall extends StatefulWidget {

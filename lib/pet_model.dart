@@ -79,11 +79,6 @@ class Pet{
         '''
       );
 
-      // List<Map<String, Object?>>? listOfPetMaps = await databaseInstance?.query(
-      //   "pet",
-      //   where: "category_id = ?",
-      //   whereArgs: [categoryId]
-      // );
 
       List<Pet>? listOfPets = listOfPetMaps?.map((petMap) =>
         Pet.fromMap(petMap)
@@ -102,9 +97,5 @@ class Pet{
       return petDetails;
     }
 
-    //fetching all user's Pets
-    //1 get all the pet id-s
-    //2 fetch name and species of each pet
-    //3 display them
 
 }

@@ -22,7 +22,7 @@ class _SettingsPageState extends State<SettingsPage>{
        late bool notificationsSwitchState;
        await AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
         return notificationsSwitchState = isAllowed;
-        print(isAllowed ? "Alloweddddddddddddddd" : "Not allowedddddddddddddddd");
+        // print(isAllowed ? "Alloweddddddddddddddd" : "Not allowedddddddddddddddd");
       });
       return notificationsSwitchState;
     }
@@ -150,26 +150,6 @@ class _SettingsPageState extends State<SettingsPage>{
                     ),
                     // write me a code that controls the device's notification settings with a switch
 
-                    // FutureBuilder<bool>(
-                    //     future: AwesomeNotifications().isNotificationAllowed(),
-                    //     builder: (context, snapshot){
-                    //       if (snapshot.hasData) {
-                    //         return //button
-                    //           FloatingActionButton(onPressed: ()async{
-                    //             requestNotificationPermissions();
-                    //             setState(() {
-                    //               snapshot.data!;
-                    //             });
-                    //           },
-                    //             child:  snapshot.data! ?
-                    //             Icon(Icons.notifications_active) : Icon(Icons.notifications_off),
-                    //           );
-                    //       } else if (snapshot.hasError) {
-                    //         return Text("${snapshot.error}");
-                    //       }
-                    //       return const CircularProgressIndicator();
-                    //     }
-                    // )
                     SizedBox(width: 30,),
                       FloatingActionButton(onPressed: ()async{
                             await openAppSettings();
@@ -242,11 +222,11 @@ class _SettingsPageState extends State<SettingsPage>{
       AwesomeNotifications().requestPermissionToSendNotifications();
       await openAppSettings();
       return true;
-      print("Permission Granted Inside requestNotificationPermissions()");
+      // print("Permission Granted Inside requestNotificationPermissions()");
     } else if (status.isDenied || status.isRestricted || status.isLimited || status.isPermanentlyDenied) {
       AwesomeNotifications().requestPermissionToSendNotifications();
       await openAppSettings();
-      print("Permission DeniedWHYYYYYYYYYYYYY Inside requestNotificationPermissions()");
+      // print("Permission DeniedWHYYYYYYYYYYYYY Inside requestNotificationPermissions()");
       return false;
     }
   }

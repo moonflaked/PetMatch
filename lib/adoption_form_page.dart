@@ -7,9 +7,7 @@ import 'package:petmatch/session.dart';
 import 'package:petmatch/user_model.dart';
 
 
-void main(){
-    runApp(  AdoptionForm());
-}
+
 
 class AdoptionForm extends StatefulWidget {
   String? name;
@@ -310,8 +308,8 @@ class _AdoptionFormState extends State<AdoptionForm> {
                       int petId = widget.petId!;
                       int userId = Session.getUserId();
                       User.insertUserAndPet(userId, petId);
-                      print("PPPPEEEEEETTTTTT IIIIIDDDDDDDDDDD$petId ");
-                      print("UUUUUUUUSSSSSSSSSEEEEEEEERRRRRRRRR IIIIIDDDDDDDDDDD   $userId ");
+                      // print("PPPPEEEEEETTTTTT IIIIIDDDDDDDDDDD$petId ");
+                      // print("UUUUUUUUSSSSSSSSSEEEEEEEERRRRRRRRR IIIIIDDDDDDDDDDD   $userId ");
 
                       Navigator.pop(context);
                       Navigator.pop(context);

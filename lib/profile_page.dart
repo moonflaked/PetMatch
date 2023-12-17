@@ -11,17 +11,10 @@ class ProfilePage extends StatefulWidget {
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
-
-
 class _ProfilePageState extends State<ProfilePage> {
   TextEditingController usernameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
 
-  // Map<String, String> mapOfPets = {
-  //   "Angel" : "Golden Retriever",
-  //   "Bella" : "Labrador Retriever",
-  //   "Daisy" : "Beagle",
-  // };
 
   late Future<List<User>?> info;
 
@@ -40,16 +33,16 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Future<List<Pet>?> getAllUserPets() async{
     int id = Session.getUserId();
-    print("inside funnnnnnnnnnnnn");
+    // print("inside funnnnnnnnnnnnn");
     final data = await AdoptedPet.retrievePetsList(id);
     // print(data);
-    print("after printing dDATATATA");
+    // print("after printing dDATATATA");
     if(data != null) {
-      print("dDATATATA NOT NULULULLULU");
+      // print("dDATATATA NOT NULULULLULU");
       return data;
     }
     else{
-      print("DATA NULLLL BULL ");
+      // print("DATA NULLLL BULL ");
       return null;
     }
   }
@@ -64,9 +57,9 @@ class _ProfilePageState extends State<ProfilePage> {
     listOfPets = getAllUserPets();
 
     // getAllUserPets();
-    print("After initializing allllllllllllllllllllllllll");
-    if(listOfPets == null) print("Nulllllll;/");
-    else print("NOT NULL LESSGOOOO");
+    // print("After initializing allllllllllllllllllllllllll");
+    // if(listOfPets == null) print("Nulllllll;/");
+    // else print("NOT NULL LESSGOOOO");
     setState(() { });
   }
   @override
@@ -237,8 +230,8 @@ class _ProfilePageState extends State<ProfilePage> {
               child: FutureBuilder(
                 future: listOfPets,
                 builder: (context, snapshot) {
-                  print(snapshot.data);
-                  print("SNAPSHOOOOOOOOOOOOOOOOOOOOOOOOOOOOT");
+                  // print(snapshot.data);
+                  // print("SNAPSHOOOOOOOOOOOOOOOOOOOOOOOOOOOOT");
 
                   if (snapshot.connectionState == ConnectionState.done) {
                     if (snapshot.hasData) {

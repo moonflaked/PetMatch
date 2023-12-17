@@ -77,8 +77,8 @@ class _InfoState extends State<Info> {
             actions: <Widget>[
               TextButton(
                 onPressed: () {
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => AboutPage())
-                  );
+                  Navigator.pop(context);
+
                 },
                 child: Text("Close"),
                 style: TextButton.styleFrom(
@@ -122,7 +122,7 @@ class Logo extends StatelessWidget {
             child: IconButton(
               onPressed: () {
                 // Button click action
-                print("1 2 test test perfectoo");
+                // print("1 2 test test perfectoo");
                 Navigator.pop(context);
               },
               icon: const Icon(Icons.arrow_back_ios_new_outlined,

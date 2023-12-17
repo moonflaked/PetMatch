@@ -21,10 +21,6 @@ import 'add_a_pet_page.dart';
 import 'category_model.dart';
 
 
-void main() {
-  runApp( CategoryStart(), );
-}
-
 class CategoryStart extends StatefulWidget {
   const CategoryStart({super.key});
 

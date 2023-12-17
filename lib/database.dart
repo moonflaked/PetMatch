@@ -23,33 +23,6 @@ class PetMatchDatabase {
       conflictAlgorithm: ConflictAlgorithm.replace
     );
 
-    // await databaseInstance.insert(
-    //     "category",
-    //     {
-    //       "category_name" : "Cat"
-    //     },
-    //     conflictAlgorithm: ConflictAlgorithm.replace
-    // );
-    /*
-    await databaseInstance?.transaction((txn) async {
-      await txn.insert(
-        "Category",
-          {
-            "category_name": "Dog"
-          },
-          conflictAlgorithm: ConflictAlgorithm.replace
-      );
-      await txn.insert(
-        "Category",
-        {
-          "category_name" : "Cat"
-        },
-        conflictAlgorithm: ConflictAlgorithm.replace
-      );
-
-      txn.batch().commit();
-    });*/
-
   }
   static Future<Database> _initializeDB() async
   {

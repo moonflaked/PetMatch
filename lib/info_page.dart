@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:petmatch/adoption_form_page.dart';
 
-void main(){
-  runApp( InfoPage());
-}
 
 
 class InfoPage extends StatefulWidget {

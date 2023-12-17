@@ -35,15 +35,12 @@ class AdoptedPet{
           ON PET.PET_ID = ADOPTED_PET.PET_ID
           WHERE PET.CATEGORY_ID = $pUserId
         '''
-      // "ADOPTED_PET",
-      // where: "user_id = ?",
-      // whereArgs: [pUserId]
     );
 
-    print("LIST OF PETTS INDAAAAATAAAABAAASSSSSEEEE");
+    // print("LIST OF PETTS INDAAAAATAAAABAAASSSSSEEEE");
     print(listOfPetMaps);
     if(listOfPetMaps!.isEmpty) {
-      print("NULLLL?????????????????? HOWW");
+      // print("NULLLL?????????????????? HOWW");
       return null;
     }
     else {
@@ -51,9 +48,9 @@ class AdoptedPet{
           Pet.fromMap(pets)
       ).toList();
 
-      print("HHHHHHHHuuuuuuuuHHHHHHHHHHHHHH");
-      print(listOfPets);
-      print("AFterrrrrrrrrrrrrrrrrrrr lsitin gpetss ");
+      // print("HHHHHHHHuuuuuuuuHHHHHHHHHHHHHH");
+      // print(listOfPets);
+      // print("AFterrrrrrrrrrrrrrrrrrrr lsitin gpetss ");
       return listOfPets;
     }
   }
