@@ -1,9 +1,7 @@
 # PetMatch
 
 PetMatch is a **Flutter** mobile application which allows users to adopt pets and put up pets for adoption for other users to adopt.
-<p align="center">
-  <img src="https://github.com/moonflaked/PetMatch/assets/38088616/32921d05-d4c8-49f5-8153-dd800ce10531"></img>
-</p>
+
 
 
 ## Getting Started
